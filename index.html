@@ -31,14 +31,7 @@
 
   // REPLACE these with your real Firebase config — same values your React app uses.
   // Public-by-design (Firestore security rules protect the actual data).
-  const firebaseConfig = {
-    apiKey:            "REPLACE_WITH_YOUR_FIREBASE_API_KEY",
-    authDomain:        "REPLACE_WITH_YOUR_AUTH_DOMAIN",
-    projectId:         "REPLACE_WITH_YOUR_PROJECT_ID",
-    storageBucket:     "REPLACE_WITH_YOUR_STORAGE_BUCKET",
-    messagingSenderId: "REPLACE_WITH_YOUR_SENDER_ID",
-    appId:             "REPLACE_WITH_YOUR_APP_ID",
-  };
+ 
 
   const app = initializeApp(firebaseConfig);
   const db  = getFirestore(app);
