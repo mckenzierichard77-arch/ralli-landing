@@ -4,103 +4,173 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Terms of Service — Ralli by GoodSisters</title>
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180x180.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#111827">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@900&display=swap" rel="stylesheet">
+
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap');
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --navy: #111827;
-    --sage: #2C7A5C;
-    --rose: #AA4F57;
-    --ice: #CFE8FF;
-    --text: #111827;
-    --mid: #4A5568;
-    --light: #9AACBC;
-    --border: #E6E8EC;
-    --bg: #F8F9FB;
+    --navy:     #111827;
+    --sage:     #2C7A5C;
+    --rose:     #AA4F57;
+    --ice:      #CFE8FF;
+    --slate:    #9AACBC;
+    --mid:      #4A5568;
+    --border:   #E6E8EC;
+    --cloud:    #F8F9FB;
+    --surface:  #FFFFFF;
+    --sans:     'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --logo:     'Poppins', sans-serif;
   }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
+    font-family: var(--sans);
+    background: var(--cloud);
+    color: var(--navy);
     line-height: 1.7;
     font-size: 16px;
-    font-weight: 300;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
-  header {
-    padding: 2rem 1.5rem 1.5rem;
+  nav.top {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(248,249,251,0.85);
+    backdrop-filter: saturate(180%) blur(12px);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
     border-bottom: 1px solid var(--border);
-    background: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: 720px;
-    margin: 0 auto;
   }
-  .logo { font-family: 'DM Serif Display', serif; font-size: 1.4rem; color: var(--navy); text-decoration: none; }
-  .logo span { display: block; font-family: 'DM Sans', sans-serif; font-size: 0.65rem; font-weight: 400; letter-spacing: 0.15em; text-transform: uppercase; color: var(--light); margin-top: -2px; }
-  main { max-width: 720px; margin: 0 auto; padding: 3rem 1.5rem 6rem; background: #fff; border-left: 1px solid var(--border); border-right: 1px solid var(--border); min-height: 100vh; }
-  .page-title { font-family: 'DM Serif Display', serif; font-size: 2.2rem; color: var(--navy); margin-bottom: 0.4rem; }
-  .updated { font-size: 0.8rem; color: var(--light); margin-bottom: 3rem; }
-  .intro { font-size: 1.05rem; color: var(--mid); line-height: 1.8; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
-  h2 { font-family: 'DM Serif Display', serif; font-size: 1.3rem; color: var(--navy); margin: 2.5rem 0 0.75rem; }
-  p { color: var(--mid); margin-bottom: 1rem; }
-  ul, ol { color: var(--mid); padding-left: 1.25rem; margin-bottom: 1rem; }
-  li { margin-bottom: 0.4rem; }
-  a { color: var(--sage); text-decoration: none; }
+  .nav-inner {
+    max-width: 760px; margin: 0 auto;
+    padding: 1.1rem 1.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .wordmark {
+    font-family: var(--logo);
+    font-weight: 900;
+    font-size: 1.55rem;
+    letter-spacing: -0.04em;
+    color: var(--navy);
+    text-decoration: none;
+    line-height: 1;
+  }
+  .nav-back {
+    font-size: 0.82rem;
+    color: var(--mid);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .nav-back:hover { color: var(--navy); }
+
+  main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 3.5rem 1.5rem 6rem;
+  }
+  .page-title {
+    font-family: var(--sans);
+    font-weight: 800;
+    font-size: clamp(2rem, 5vw, 2.8rem);
+    letter-spacing: -0.035em;
+    color: var(--navy);
+    line-height: 1.05;
+    margin-bottom: 0.5rem;
+  }
+  .updated {
+    font-size: 0.78rem;
+    color: var(--slate);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 600;
+    margin-bottom: 2.5rem;
+  }
+  .intro {
+    font-size: 1.1rem;
+    color: var(--mid);
+    line-height: 1.7;
+    margin-bottom: 3rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border);
+    font-weight: 400;
+  }
+  h2 {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 1.35rem;
+    letter-spacing: -0.02em;
+    color: var(--navy);
+    margin: 3rem 0 0.85rem;
+    line-height: 1.25;
+  }
+  p { color: var(--mid); margin-bottom: 1rem; font-size: 0.97rem; }
+  ul, ol { color: var(--mid); padding-left: 1.4rem; margin-bottom: 1rem; }
+  li { margin-bottom: 0.45rem; font-size: 0.97rem; }
+  a { color: var(--sage); text-decoration: none; font-weight: 500; }
   a:hover { text-decoration: underline; }
-  .contact-box { background: var(--bg); border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin-top: 3rem; border: 1px solid var(--border); }
-  .contact-box p { margin: 0; }
-  strong { font-weight: 500; color: var(--navy); }
+  strong { font-weight: 600; color: var(--navy); }
+
   .toc {
-    background: var(--bg);
+    background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 0.75rem;
-    padding: 1.25rem 1.5rem;
+    border-radius: 0.85rem;
+    padding: 1.5rem 1.75rem;
     margin-bottom: 3rem;
   }
   .toc-label {
-    font-size: 0.65rem;
-    font-weight: 500;
-    letter-spacing: 0.15em;
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--light);
-    margin-bottom: 0.75rem;
+    color: var(--slate);
+    margin-bottom: 1rem;
   }
   .toc ul {
     list-style: none;
     padding: 0;
     margin: 0;
     columns: 2;
-    column-gap: 1.5rem;
-    font-size: 0.9rem;
+    column-gap: 2rem;
+    font-size: 0.88rem;
   }
-  .toc li { margin-bottom: 0.3rem; break-inside: avoid; }
-  .toc a { color: var(--mid); }
+  .toc li { margin-bottom: 0.4rem; break-inside: avoid; }
+  .toc a { color: var(--mid); font-weight: 400; }
   .toc a:hover { color: var(--navy); text-decoration: none; }
   @media (max-width: 540px) { .toc ul { columns: 1; } }
+
   .callout {
-    background: var(--bg);
+    background: var(--surface);
     border: 1px solid var(--border);
     border-left: 3px solid var(--rose);
     border-radius: 0.5rem;
     padding: 1rem 1.25rem;
     margin: 1.25rem 0;
   }
-  .callout p { margin: 0; color: var(--navy); font-weight: 400; }
+  .callout p { margin: 0; color: var(--navy); font-weight: 500; }
+
   .legal-details {
-    margin-top: 1.5rem;
-    padding: 1.1rem 1.5rem;
-    background: var(--bg);
-    border-radius: 0.75rem;
+    margin-top: 1.75rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--surface);
+    border-radius: 0.85rem;
     border: 1px solid var(--border);
   }
   .legal-details summary {
     cursor: pointer;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--navy);
     font-size: 0.95rem;
     list-style: none;
     user-select: none;
+    font-family: var(--sans);
   }
   .legal-details summary::-webkit-details-marker { display: none; }
   .legal-details summary::after {
@@ -117,19 +187,31 @@
     font-size: 0.92rem;
     line-height: 1.75;
   }
-  .legal-details-body p { color: var(--mid); margin-bottom: 0.9rem; }
+  .legal-details-body p { color: var(--mid); margin-bottom: 0.9rem; font-size: 0.92rem; }
   .legal-details-body strong { color: var(--navy); }
+
+  .contact-box {
+    background: var(--surface);
+    border-radius: 0.85rem;
+    padding: 1.5rem 1.75rem;
+    margin-top: 3rem;
+    border: 1px solid var(--border);
+  }
+  .contact-box p { margin: 0; color: var(--mid); }
 </style>
 </head>
 <body>
 
-<header>
-  <a href="https://ralli.app" class="logo">Ralli <span>by GoodSisters</span></a>
-</header>
+<nav class="top">
+  <div class="nav-inner">
+    <a href="/" class="wordmark">Ralli</a>
+    <a href="/" class="nav-back">← Home</a>
+  </div>
+</nav>
 
 <main>
   <h1 class="page-title">Terms of Service</h1>
-  <p class="updated">Last updated: May 2026</p>
+  <div class="updated">Last updated · May 2026</div>
 
   <p class="intro">By using Ralli, you agree to these terms. We've written them to be readable, not deliberately confusing. If something isn't clear, email us and we'll explain it.</p>
 
@@ -218,7 +300,6 @@
   <details class="legal-details">
     <summary>Read the full legal disclaimer</summary>
     <div class="legal-details-body">
-
       <p><strong>No medical advice.</strong> The information provided through Ralli, including but not limited to pore scores, comedogenic ratings, routine scores, ingredient analyses, ingredient glossary entries, product reviews, community ratings, friend signals, editorial picks, and any other content (collectively, the "Content"), is provided for general informational and educational purposes only. The Content is not intended to be, and should not be construed as, medical advice, dermatological advice, diagnosis, treatment, or a recommendation of any kind. Ralli is not a substitute for professional medical advice, diagnosis, or treatment.</p>
 
       <p><strong>No professional relationship.</strong> Use of Ralli does not create any professional, medical, dermatological, doctor-patient, or fiduciary relationship between you and GoodSisters, its founders, employees, contractors, contributors, or any other person associated with Ralli. We are not licensed medical professionals, and nothing in Ralli should be interpreted as a clinical evaluation of any product, ingredient, or your skin.</p>
@@ -244,7 +325,6 @@
       <p><strong>Assumption of risk.</strong> You acknowledge that you use Ralli and any products discovered through Ralli at your own risk. To the maximum extent permitted by law, GoodSisters and its founders, employees, contractors, partners, and affiliates disclaim all liability for any direct, indirect, incidental, consequential, special, exemplary, or punitive damages — including but not limited to physical injury, allergic reactions, breakouts, scarring, emotional distress, medical expenses, lost income, or any other harm — arising out of or relating to your use of Ralli or any product you choose to use based on information from Ralli, whether or not GoodSisters has been advised of the possibility of such damages.</p>
 
       <p>This disclaimer is in addition to, and does not limit, the <a href="#warranties">Disclaimer of Warranties</a> and <a href="#liability">Limitation of Liability</a> sections elsewhere in these Terms of Service.</p>
-
     </div>
   </details>
 
