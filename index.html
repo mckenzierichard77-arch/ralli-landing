@@ -7,7 +7,6 @@
 <meta name="description" content="Ralli analyses every ingredient in your skincare, gives you a pore-clogging score, and shows what people with your skin type actually think. Join the waitlist.">
 <meta name="theme-color" content="#111827">
 
-<!-- OG / Twitter -->
 <meta property="og:title" content="Ralli by GoodSisters">
 <meta property="og:description" content="Know exactly what's in your skincare. Instant pore scores, ingredient analysis, and honest reviews from people you trust.">
 <meta property="og:url" content="https://theralliapp.com">
@@ -15,27 +14,23 @@
 <meta property="og:image" content="https://theralliapp.com/favicon-512x512.png">
 <meta name="twitter:card" content="summary_large_image">
 
-<!-- Favicons -->
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="iamage/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180x180.png">
 <link rel="manifest" href="/site.webmanifest">
 
-<!-- Fonts: Inter for everything, Poppins Black 900 reserved for the wordmark -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@900&display=swap" rel="stylesheet">
 
-<!-- Firebase: matches the SDK version used in app.theralliapp.com -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
   import { getFirestore, collection, addDoc, query, where, getDocs, serverTimestamp }
     from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 
-  // NOTE: Replace this with your real Firebase config from Vercel env vars
-  // (or paste the values directly — these are public-by-design Firebase keys,
-  // safe to ship in client code; Firestore rules are what protect the data).
+  // REPLACE these with your real Firebase config — same values your React app uses.
+  // Public-by-design (Firestore security rules protect the actual data).
   const firebaseConfig = {
     apiKey:            "REPLACE_WITH_YOUR_FIREBASE_API_KEY",
     authDomain:        "REPLACE_WITH_YOUR_AUTH_DOMAIN",
@@ -48,14 +43,12 @@
   const app = initializeApp(firebaseConfig);
   const db  = getFirestore(app);
 
-  // Expose a single waitlist submitter on window for the form below.
   window.__ralliWaitlist = async function(email) {
     const clean = String(email || "").trim().toLowerCase();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clean)) {
       return { ok: false, error: "Please enter a valid email address." };
     }
     try {
-      // Check for duplicates so the same person can't spam the form.
       const dupSnap = await getDocs(query(
         collection(db, "waitlist"),
         where("email", "==", clean)
@@ -81,7 +74,6 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    /* Core */
     --navy:        #111827;
     --cloud:       #F8F9FB;
     --ice:         #CFE8FF;
@@ -90,21 +82,14 @@
     --rose:        #AA4F57;
     --amber:       #8B6914;
     --border:      #E6E8EC;
-
-    /* Derived */
     --surface:     #FFFFFF;
     --mid:         #4A5568;
     --hairline:    #EEF0F3;
-
-    /* Type */
-    --serif-logo:  'Poppins', sans-serif; /* logo only */
+    --serif-logo:  'Poppins', sans-serif;
     --sans:        'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
-  html {
-    scroll-behavior: smooth;
-    -webkit-text-size-adjust: 100%;
-  }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
   body {
     font-family: var(--sans);
@@ -120,21 +105,16 @@
 
   /* ---------- NAV ---------- */
   nav.top {
-    position: sticky;
-    top: 0;
-    z-index: 50;
+    position: sticky; top: 0; z-index: 50;
     background: rgba(248, 249, 251, 0.85);
     backdrop-filter: saturate(180%) blur(12px);
     -webkit-backdrop-filter: saturate(180%) blur(12px);
     border-bottom: 1px solid var(--border);
   }
   .nav-inner {
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: 1200px; margin: 0 auto;
     padding: 1.1rem 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display: flex; align-items: center; justify-content: space-between;
   }
   .wordmark {
     font-family: var(--serif-logo);
@@ -146,15 +126,11 @@
     line-height: 1;
   }
   .nav-links {
-    display: flex;
-    gap: 2rem;
-    align-items: center;
-    font-size: 0.86rem;
-    font-weight: 500;
+    display: flex; gap: 2rem; align-items: center;
+    font-size: 0.86rem; font-weight: 500;
   }
   .nav-links a {
-    color: var(--mid);
-    text-decoration: none;
+    color: var(--mid); text-decoration: none;
     transition: color 0.15s ease;
   }
   .nav-links a:hover { color: var(--navy); }
@@ -163,100 +139,69 @@
     background: var(--navy);
     color: #fff !important;
     border-radius: 999px;
-    font-weight: 600;
-    font-size: 0.82rem;
+    font-weight: 600; font-size: 0.82rem;
   }
   .nav-cta:hover { background: #1F2937; }
-  @media (max-width: 640px) {
-    .nav-links .hide-mobile { display: none; }
-  }
+  @media (max-width: 640px) { .nav-links .hide-mobile { display: none; } }
 
   /* ---------- HERO ---------- */
   .hero {
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: 1200px; margin: 0 auto;
     padding: 4.5rem 1.5rem 5rem;
     display: grid;
     grid-template-columns: 1.15fr 1fr;
-    gap: 4rem;
-    align-items: center;
+    gap: 4rem; align-items: center;
   }
 
   .hero-eyebrow {
-    font-size: 0.72rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: var(--slate);
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    opacity: 0;
-    animation: rise 0.7s ease-out 0.1s forwards;
+    font-size: 0.72rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.18em;
+    color: var(--slate); margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.6rem;
+    opacity: 0; animation: rise 0.7s ease-out 0.1s forwards;
   }
   .hero-eyebrow::before {
-    content: "";
-    display: inline-block;
-    width: 28px;
-    height: 1px;
-    background: var(--slate);
+    content: ""; display: inline-block;
+    width: 28px; height: 1px; background: var(--slate);
   }
 
   h1.hero-title {
-    font-family: var(--sans);
-    font-weight: 800;
+    font-family: var(--sans); font-weight: 800;
     font-size: clamp(2.6rem, 6vw, 4.5rem);
-    line-height: 1.02;
-    letter-spacing: -0.035em;
-    color: var(--navy);
-    margin-bottom: 1.5rem;
-    opacity: 0;
-    animation: rise 0.8s ease-out 0.2s forwards;
+    line-height: 1.02; letter-spacing: -0.035em;
+    color: var(--navy); margin-bottom: 1.5rem;
+    opacity: 0; animation: rise 0.8s ease-out 0.2s forwards;
   }
   h1.hero-title em {
-    font-style: normal;
-    color: var(--navy);
-    position: relative;
-    display: inline-block;
+    font-style: normal; color: var(--navy);
+    position: relative; display: inline-block;
   }
   h1.hero-title em::after {
     content: "";
-    position: absolute;
-    left: 0; right: 0; bottom: 0.1em;
-    height: 0.35em;
-    background: var(--ice);
-    z-index: -1;
-    border-radius: 0.1em;
+    position: absolute; left: 0; right: 0; bottom: 0.1em;
+    height: 0.35em; background: var(--ice);
+    z-index: -1; border-radius: 0.1em;
   }
 
   .hero-lede {
-    font-size: 1.13rem;
-    line-height: 1.6;
-    color: var(--mid);
-    margin-bottom: 2.5rem;
+    font-size: 1.13rem; line-height: 1.6;
+    color: var(--mid); margin-bottom: 2.5rem;
     max-width: 30rem;
-    opacity: 0;
-    animation: rise 0.8s ease-out 0.35s forwards;
+    opacity: 0; animation: rise 0.8s ease-out 0.35s forwards;
   }
 
   /* ---------- WAITLIST FORM ---------- */
   .waitlist {
-    opacity: 0;
-    animation: rise 0.8s ease-out 0.5s forwards;
+    opacity: 0; animation: rise 0.8s ease-out 0.5s forwards;
     max-width: 30rem;
   }
   .waitlist-label {
-    font-size: 0.7rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--slate);
-    margin-bottom: 0.65rem;
+    font-size: 0.7rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--slate); margin-bottom: 0.65rem;
   }
   .waitlist-form {
-    display: flex;
-    gap: 0.5rem;
+    display: flex; gap: 0.5rem;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 999px;
@@ -268,48 +213,31 @@
     box-shadow: 0 0 0 4px rgba(17, 24, 39, 0.06);
   }
   .waitlist-input {
-    flex: 1;
-    border: none;
-    background: transparent;
-    font-family: var(--sans);
-    font-size: 0.95rem;
-    color: var(--navy);
-    outline: none;
-    min-width: 0;
-    padding: 0.5rem 0;
+    flex: 1; border: none; background: transparent;
+    font-family: var(--sans); font-size: 0.95rem;
+    color: var(--navy); outline: none;
+    min-width: 0; padding: 0.5rem 0;
   }
   .waitlist-input::placeholder { color: var(--slate); }
   .waitlist-button {
-    border: none;
-    background: var(--navy);
-    color: #fff;
-    font-family: var(--sans);
-    font-weight: 600;
-    font-size: 0.85rem;
-    padding: 0.7rem 1.5rem;
-    border-radius: 999px;
-    cursor: pointer;
-    transition: background 0.15s ease, transform 0.15s ease;
+    border: none; background: var(--navy); color: #fff;
+    font-family: var(--sans); font-weight: 600; font-size: 0.85rem;
+    padding: 0.7rem 1.5rem; border-radius: 999px;
+    cursor: pointer; transition: background 0.15s ease, transform 0.15s ease;
     white-space: nowrap;
   }
   .waitlist-button:hover { background: #1F2937; }
   .waitlist-button:active { transform: scale(0.98); }
   .waitlist-button:disabled { opacity: 0.55; cursor: default; }
   .waitlist-microcopy {
-    margin-top: 0.85rem;
-    font-size: 0.78rem;
-    color: var(--slate);
-    line-height: 1.5;
+    margin-top: 0.85rem; font-size: 0.78rem;
+    color: var(--slate); line-height: 1.5;
   }
   .waitlist-status {
-    margin-top: 1rem;
-    padding: 0.8rem 1rem;
-    border-radius: 0.6rem;
-    font-size: 0.85rem;
-    line-height: 1.5;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    display: none;
+    margin-top: 1rem; padding: 0.8rem 1rem;
+    border-radius: 0.6rem; font-size: 0.85rem;
+    line-height: 1.5; border: 1px solid var(--border);
+    background: var(--surface); display: none;
   }
   .waitlist-status.success {
     display: block;
@@ -325,28 +253,19 @@
   }
   .waitlist-status strong { color: inherit; font-weight: 600; }
 
-  /* Social proof under form */
   .proof {
     margin-top: 2.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
-    opacity: 0;
-    animation: rise 0.8s ease-out 0.65s forwards;
+    display: flex; align-items: center; gap: 0.85rem;
+    opacity: 0; animation: rise 0.8s ease-out 0.65s forwards;
   }
-  .proof-avatars {
-    display: flex;
-  }
+  .proof-avatars { display: flex; }
   .proof-avatars .av {
     width: 28px; height: 28px;
     border-radius: 999px;
     border: 2px solid var(--cloud);
     background: var(--ice);
-    display: inline-flex;
-    align-items: center; justify-content: center;
-    font-size: 0.65rem;
-    font-weight: 600;
-    color: var(--navy);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.65rem; font-weight: 600; color: var(--navy);
     margin-left: -8px;
   }
   .proof-avatars .av:first-child { margin-left: 0; }
@@ -358,12 +277,9 @@
 
   /* ---------- HERO MOCKUP COLUMN ---------- */
   .mockup-column {
-    position: relative;
-    height: 540px;
-    opacity: 0;
-    animation: rise 1s ease-out 0.4s forwards;
+    position: relative; height: 540px;
+    opacity: 0; animation: rise 1s ease-out 0.4s forwards;
   }
-
   .mock-card {
     position: absolute;
     background: var(--surface);
@@ -373,20 +289,13 @@
       0 20px 50px -10px rgba(17, 24, 39, 0.12);
     border: 1px solid var(--hairline);
   }
-
-  /* Big product card */
   .mock-product {
-    top: 30px;
-    left: 0;
-    width: 78%;
-    padding: 1.5rem;
-    z-index: 2;
+    top: 30px; left: 0; width: 78%;
+    padding: 1.5rem; z-index: 2;
     animation: floatA 8s ease-in-out infinite;
   }
   .mock-product .row {
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
+    display: flex; align-items: center; gap: 0.85rem;
     margin-bottom: 1.1rem;
   }
   .mock-product .brand-block {
@@ -394,112 +303,68 @@
     border-radius: 0.75rem;
     background: linear-gradient(135deg, var(--ice), #E8F1FB);
     display: flex; align-items: center; justify-content: center;
-    font-family: var(--sans);
-    font-weight: 700;
-    color: var(--navy);
-    font-size: 0.85rem;
-    letter-spacing: -0.02em;
-    flex-shrink: 0;
+    font-family: var(--sans); font-weight: 700;
+    color: var(--navy); font-size: 0.85rem;
+    letter-spacing: -0.02em; flex-shrink: 0;
   }
   .mock-product .brand-name {
-    font-size: 0.72rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--slate);
-    margin-bottom: 0.2rem;
+    font-size: 0.72rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--slate); margin-bottom: 0.2rem;
   }
   .mock-product .product-name {
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: var(--navy);
-    line-height: 1.25;
+    font-size: 1.05rem; font-weight: 600;
+    color: var(--navy); line-height: 1.25;
     letter-spacing: -0.01em;
   }
-
   .mock-score-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--hairline);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    padding-top: 1rem; border-top: 1px solid var(--hairline);
   }
   .mock-stat-label {
-    font-size: 0.62rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--slate);
-    margin-bottom: 0.4rem;
+    font-size: 0.62rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--slate); margin-bottom: 0.4rem;
   }
-  .mock-stat-value {
-    display: flex;
-    align-items: baseline;
-    gap: 0.4rem;
-  }
+  .mock-stat-value { display: flex; align-items: baseline; gap: 0.4rem; }
   .mock-stat-num {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--navy);
-    line-height: 1;
-    letter-spacing: -0.04em;
+    font-size: 2rem; font-weight: 700; color: var(--navy);
+    line-height: 1; letter-spacing: -0.04em;
   }
   .mock-stat-suffix {
-    font-size: 0.85rem;
-    color: var(--slate);
-    font-weight: 500;
+    font-size: 0.85rem; color: var(--slate); font-weight: 500;
   }
   .mock-bar {
-    margin-top: 0.55rem;
-    height: 5px;
-    border-radius: 999px;
-    background: var(--border);
+    margin-top: 0.55rem; height: 5px;
+    border-radius: 999px; background: var(--border);
     overflow: hidden;
   }
   .mock-bar-fill {
-    height: 100%;
-    background: var(--sage);
-    border-radius: 999px;
-    width: 0;
+    height: 100%; background: var(--sage);
+    border-radius: 999px; width: 0;
     animation: fillBar 1.4s ease-out 1s forwards;
   }
-  .mock-bar-fill.amber {
-    background: var(--amber);
-    --target: 60%;
-  }
-
-  /* Ingredient pills bar */
   .mock-pills {
     margin-top: 1.1rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
+    display: flex; flex-wrap: wrap; gap: 0.4rem;
   }
   .mock-pill {
-    font-size: 0.7rem;
-    padding: 0.32rem 0.7rem;
+    font-size: 0.7rem; padding: 0.32rem 0.7rem;
     border-radius: 999px;
-    border: 1px solid var(--border);
-    color: var(--mid);
-    background: var(--cloud);
-    font-weight: 500;
+    border: 1px solid var(--border); color: var(--mid);
+    background: var(--cloud); font-weight: 500;
     display: inline-flex; align-items: center; gap: 0.3rem;
   }
-  .mock-pill.flag { border-color: rgba(170, 79, 87, 0.3); color: var(--rose); background: rgba(170, 79, 87, 0.05); }
-  .mock-pill .dot {
-    width: 5px; height: 5px;
-    border-radius: 999px;
-    background: var(--sage);
+  .mock-pill.flag {
+    border-color: rgba(170, 79, 87, 0.3);
+    color: var(--rose);
+    background: rgba(170, 79, 87, 0.05);
   }
+  .mock-pill .dot { width: 5px; height: 5px; border-radius: 999px; background: var(--sage); }
   .mock-pill.flag .dot { background: var(--rose); }
-
-  /* Friend reaction card */
   .mock-reaction {
-    top: 340px;
-    right: 0;
-    width: 70%;
-    padding: 1rem 1.1rem;
-    z-index: 3;
+    top: 340px; right: 0; width: 70%;
+    padding: 1rem 1.1rem; z-index: 3;
     animation: floatB 9s ease-in-out infinite;
   }
   .reaction-head {
@@ -507,97 +372,46 @@
     margin-bottom: 0.5rem;
   }
   .reaction-avatar {
-    width: 28px; height: 28px;
-    border-radius: 999px;
+    width: 28px; height: 28px; border-radius: 999px;
     background: linear-gradient(135deg, #FBE8E9, var(--rose));
     display: flex; align-items: center; justify-content: center;
-    color: #fff;
-    font-size: 0.7rem;
-    font-weight: 700;
-    flex-shrink: 0;
+    color: #fff; font-size: 0.7rem; font-weight: 700; flex-shrink: 0;
   }
-  .reaction-name {
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: var(--navy);
-  }
-  .reaction-meta {
-    font-size: 0.68rem;
-    color: var(--slate);
-  }
+  .reaction-name { font-size: 0.78rem; font-weight: 600; color: var(--navy); }
+  .reaction-meta { font-size: 0.68rem; color: var(--slate); }
   .reaction-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.22rem 0.55rem;
-    border-radius: 999px;
-    background: rgba(170, 79, 87, 0.08);
-    color: var(--rose);
-    font-size: 0.66rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    padding: 0.22rem 0.55rem; border-radius: 999px;
+    background: rgba(170, 79, 87, 0.08); color: var(--rose);
+    font-size: 0.66rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.06em;
   }
   .reaction-tag::before {
-    content: "";
-    width: 5px; height: 5px;
-    border-radius: 999px;
-    background: var(--rose);
+    content: ""; width: 5px; height: 5px;
+    border-radius: 999px; background: var(--rose);
   }
-
-  /* Decorative scan-loop accent */
   .scan-accent {
-    position: absolute;
-    top: -20px;
-    right: 18%;
-    width: 80px;
-    height: 80px;
+    position: absolute; top: -20px; right: 18%;
+    width: 80px; height: 80px;
     border: 1px dashed var(--border);
-    border-radius: 999px;
-    z-index: 0;
+    border-radius: 999px; z-index: 0;
   }
   .scan-accent::after {
     content: "";
-    position: absolute;
-    top: 50%; left: 50%;
+    position: absolute; top: 50%; left: 50%;
     width: 12px; height: 12px;
     margin: -6px 0 0 -6px;
-    border-radius: 999px;
-    background: var(--ice);
+    border-radius: 999px; background: var(--ice);
   }
 
-  @keyframes floatA {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
-  }
-  @keyframes floatB {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(8px); }
-  }
-  @keyframes fillBar {
-    to { width: var(--target, 40%); }
-  }
-  @keyframes rise {
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes rise {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+  @keyframes floatA { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  @keyframes floatB { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+  @keyframes fillBar { to { width: var(--target, 40%); } }
+  @keyframes rise { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* Responsive hero */
   @media (max-width: 900px) {
-    .hero {
-      grid-template-columns: 1fr;
-      gap: 3rem;
-      padding: 3rem 1.5rem 4rem;
-    }
-    .mockup-column {
-      height: 480px;
-      max-width: 480px;
-      margin: 0 auto;
-      width: 100%;
-    }
+    .hero { grid-template-columns: 1fr; gap: 3rem; padding: 3rem 1.5rem 4rem; }
+    .mockup-column { height: 480px; max-width: 480px; margin: 0 auto; width: 100%; }
     .mock-product { width: 82%; }
     .mock-reaction { width: 70%; }
   }
@@ -609,27 +423,21 @@
     background: var(--surface);
   }
   .strip-inner {
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: 1200px; margin: 0 auto;
     padding: 2.5rem 1.5rem;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 2rem;
   }
   .strip-item .num {
-    font-family: var(--sans);
-    font-weight: 800;
-    font-size: 1.8rem;
-    letter-spacing: -0.03em;
-    color: var(--navy);
-    line-height: 1;
+    font-family: var(--sans); font-weight: 800;
+    font-size: 1.8rem; letter-spacing: -0.03em;
+    color: var(--navy); line-height: 1;
     margin-bottom: 0.4rem;
   }
   .strip-item .label {
-    font-size: 0.75rem;
-    color: var(--slate);
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
+    font-size: 0.75rem; color: var(--slate);
+    text-transform: uppercase; letter-spacing: 0.12em;
     font-weight: 600;
   }
   @media (max-width: 700px) {
@@ -638,22 +446,17 @@
 
   /* ---------- FEATURES ---------- */
   .features {
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: 1200px; margin: 0 auto;
     padding: 7rem 1.5rem 5rem;
   }
   .section-head {
     margin-bottom: 4rem;
-    display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    gap: 3rem;
+    display: grid; grid-template-columns: 1fr 1.5fr; gap: 3rem;
     align-items: end;
   }
   .section-eyebrow {
-    font-size: 0.72rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
+    font-size: 0.72rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.18em;
     color: var(--slate);
     display: flex; align-items: center; gap: 0.6rem;
   }
@@ -662,26 +465,19 @@
   }
   .section-title {
     font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -0.03em;
-    color: var(--navy);
+    font-weight: 800; line-height: 1.1;
+    letter-spacing: -0.03em; color: var(--navy);
     margin-top: 0.6rem;
   }
   .section-deck {
-    font-size: 1.05rem;
-    color: var(--mid);
-    line-height: 1.6;
-    max-width: 32rem;
+    font-size: 1.05rem; color: var(--mid);
+    line-height: 1.6; max-width: 32rem;
   }
   @media (max-width: 800px) {
     .section-head { grid-template-columns: 1fr; gap: 1.5rem; }
   }
-
   .feature-grid {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 1.5rem;
+    display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.5rem;
   }
   .feature-card {
     background: var(--surface);
@@ -689,8 +485,7 @@
     border: 1px solid var(--border);
     padding: 2rem;
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-    position: relative;
-    overflow: hidden;
+    position: relative; overflow: hidden;
   }
   .feature-card:hover {
     transform: translateY(-4px);
@@ -698,85 +493,53 @@
     border-color: var(--navy);
   }
   .feature-card .index {
-    font-size: 0.7rem;
-    font-weight: 600;
-    color: var(--slate);
-    letter-spacing: 0.1em;
+    font-size: 0.7rem; font-weight: 600;
+    color: var(--slate); letter-spacing: 0.1em;
     margin-bottom: 1.5rem;
   }
   .feature-card h3 {
-    font-size: 1.35rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    color: var(--navy);
-    margin-bottom: 0.75rem;
-    line-height: 1.2;
+    font-size: 1.35rem; font-weight: 700;
+    letter-spacing: -0.02em; color: var(--navy);
+    margin-bottom: 0.75rem; line-height: 1.2;
   }
-  .feature-card p {
-    font-size: 0.94rem;
-    color: var(--mid);
-    line-height: 1.6;
+  .feature-card p { font-size: 0.94rem; color: var(--mid); line-height: 1.6; }
+  .feature-card.large {
+    grid-column: span 7; min-height: 320px;
+    display: flex; flex-direction: column; justify-content: space-between;
   }
-  .feature-card.large { grid-column: span 7; min-height: 320px; display: flex; flex-direction: column; justify-content: space-between; }
-  .feature-card.small { grid-column: span 5; min-height: 320px; display: flex; flex-direction: column; justify-content: space-between; }
-  .feature-card.wide  { grid-column: span 12; }
-
-  /* Large card visual — pore score gauge */
+  .feature-card.small {
+    grid-column: span 5; min-height: 320px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .feature-card.wide { grid-column: span 12; }
   .gauge {
     margin-top: 2rem;
-    display: flex;
-    align-items: flex-end;
-    gap: 0.45rem;
+    display: flex; align-items: flex-end; gap: 0.45rem;
   }
   .gauge-bar {
-    flex: 1;
-    height: 8px;
-    border-radius: 999px;
-    background: var(--border);
-    position: relative;
-    overflow: hidden;
+    flex: 1; height: 8px; border-radius: 999px;
+    background: var(--border); position: relative; overflow: hidden;
   }
   .gauge-bar.active::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: var(--sage);
-    border-radius: 999px;
+    content: ""; position: absolute; inset: 0;
+    background: var(--sage); border-radius: 999px;
   }
-  .gauge-bar.active.amber::after { background: var(--amber); }
-  .gauge-bar.active.rose::after  { background: var(--rose); }
   .gauge-numbers {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 0.55rem;
-    font-size: 0.65rem;
-    color: var(--slate);
-    font-weight: 500;
+    display: flex; justify-content: space-between;
+    margin-top: 0.55rem; font-size: 0.65rem;
+    color: var(--slate); font-weight: 500;
   }
-  .gauge-caption {
-    margin-top: 1.5rem;
-    font-size: 0.78rem;
-    color: var(--slate);
-  }
+  .gauge-caption { margin-top: 1.5rem; font-size: 0.78rem; color: var(--slate); }
   .gauge-caption strong { color: var(--navy); font-weight: 600; }
-
-  /* Small card visual — social signal */
   .signal {
-    margin-top: 2rem;
-    padding: 1rem 1.1rem;
-    background: var(--cloud);
-    border-radius: 0.75rem;
+    margin-top: 2rem; padding: 1rem 1.1rem;
+    background: var(--cloud); border-radius: 0.75rem;
     border: 1px solid var(--hairline);
   }
-  .signal .row {
-    display: flex; align-items: center; gap: 0.65rem;
-    margin-bottom: 0.4rem;
-  }
+  .signal .row { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.4rem; }
   .signal .av {
-    width: 22px; height: 22px;
-    border-radius: 999px;
-    margin-left: -6px;
-    border: 2px solid var(--cloud);
+    width: 22px; height: 22px; border-radius: 999px;
+    margin-left: -6px; border: 2px solid var(--cloud);
   }
   .signal .av:first-child { margin-left: 0; }
   .signal .av.a { background: linear-gradient(135deg, var(--ice), #E8F1FB); }
@@ -784,86 +547,174 @@
   .signal .av.c { background: linear-gradient(135deg, #E8F2EC, var(--sage)); }
   .signal .signal-text { font-size: 0.86rem; color: var(--navy); font-weight: 500; }
   .signal .signal-meta { font-size: 0.75rem; color: var(--slate); }
-
-  /* Wide card */
   .wide-row {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: 2.5rem;
-    align-items: center;
+    display: grid; grid-template-columns: 1.5fr 1fr;
+    gap: 2.5rem; align-items: center;
   }
-  .wide-row .right-stack {
-    display: flex;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-  }
+  .wide-row .right-stack { display: flex; gap: 0.75rem; flex-wrap: wrap; }
   .wide-row .ingredient-tag {
-    padding: 0.55rem 1rem;
-    border-radius: 999px;
-    background: var(--cloud);
-    border: 1px solid var(--border);
-    font-size: 0.82rem;
-    color: var(--navy);
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
+    padding: 0.55rem 1rem; border-radius: 999px;
+    background: var(--cloud); border: 1px solid var(--border);
+    font-size: 0.82rem; color: var(--navy); font-weight: 500;
+    display: inline-flex; align-items: center; gap: 0.4rem;
   }
   .wide-row .ingredient-tag .check {
-    width: 14px; height: 14px;
-    border-radius: 999px;
-    background: var(--sage);
-    color: #fff;
+    width: 14px; height: 14px; border-radius: 999px;
+    background: var(--sage); color: #fff;
     display: inline-flex; align-items: center; justify-content: center;
     font-size: 0.55rem; font-weight: 700;
   }
   .wide-row .ingredient-tag.flag .check { background: var(--rose); }
-
   @media (max-width: 800px) {
     .feature-card.large, .feature-card.small, .feature-card.wide { grid-column: span 12; }
     .wide-row { grid-template-columns: 1fr; gap: 1.5rem; }
   }
 
-  /* ---------- QUOTE / EDITORIAL ---------- */
-  .editorial {
+  /* ---------- PROMISE STRIP — replaces former pull-quote ---------- */
+  .promise {
     border-top: 1px solid var(--border);
     background: var(--surface);
   }
-  .editorial-inner {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 6rem 1.5rem;
-    text-align: center;
+  .promise-inner {
+    max-width: 1200px; margin: 0 auto;
+    padding: 5rem 1.5rem;
+    display: grid;
+    grid-template-columns: 0.9fr 1.6fr;
+    gap: 4rem;
+    align-items: start;
   }
-  .editorial-mark {
-    font-size: 3rem;
-    line-height: 1;
-    color: var(--ice);
-    margin-bottom: 1rem;
-    font-weight: 800;
-  }
-  .editorial-text {
-    font-size: clamp(1.4rem, 2.4vw, 1.85rem);
-    font-weight: 500;
-    line-height: 1.4;
-    letter-spacing: -0.015em;
-    color: var(--navy);
-    max-width: 32rem;
-    margin: 0 auto;
-  }
-  .editorial-attr {
-    margin-top: 2rem;
-    font-size: 0.78rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
+  .promise-eyebrow {
+    font-size: 0.72rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.18em;
     color: var(--slate);
-    font-weight: 600;
+    display: flex; align-items: center; gap: 0.6rem;
+    margin-bottom: 0.75rem;
   }
+  .promise-eyebrow::before {
+    content: ""; width: 28px; height: 1px; background: var(--slate);
+  }
+  .promise-title {
+    font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+    font-weight: 800; line-height: 1.1;
+    letter-spacing: -0.03em; color: var(--navy);
+  }
+  .promise-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem 3rem;
+  }
+  .promise-item h4 {
+    font-size: 1rem; font-weight: 700; color: var(--navy);
+    letter-spacing: -0.015em; line-height: 1.2;
+    margin-bottom: 0.5rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .promise-item h4 .bullet {
+    width: 8px; height: 8px; border-radius: 999px;
+    background: var(--sage); display: inline-block; flex-shrink: 0;
+  }
+  .promise-item h4 .bullet.rose { background: var(--rose); }
+  .promise-item h4 .bullet.amber { background: var(--amber); }
+  .promise-item h4 .bullet.navy { background: var(--navy); }
+  .promise-item p { font-size: 0.92rem; color: var(--mid); line-height: 1.55; }
+  @media (max-width: 800px) {
+    .promise-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .promise-list { grid-template-columns: 1fr; gap: 1.75rem; }
+  }
+
+  /* ---------- FOUNDER LETTER ---------- */
+  .founder {
+    border-top: 1px solid var(--border);
+    background: var(--cloud);
+  }
+  .founder-inner {
+    max-width: 760px; margin: 0 auto;
+    padding: 6rem 1.5rem;
+    position: relative;
+    text-align: left;
+  }
+  .founder-accent {
+    position: absolute;
+    bottom: 4.5rem;
+    right: 1.5rem;
+    width: 110px;
+    height: 140px;
+    color: var(--border);
+    opacity: 0.7;
+    pointer-events: none;
+    z-index: 0;
+  }
+  @media (max-width: 640px) {
+    .founder-accent { width: 80px; height: 100px; bottom: 3.5rem; right: 1rem; opacity: 0.5; }
+  }
+  .founder-eyebrow {
+    font-size: 0.72rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.18em;
+    color: var(--slate); margin-bottom: 1.25rem;
+    display: flex; align-items: center; gap: 0.6rem;
+    position: relative; z-index: 1;
+  }
+  .founder-eyebrow::before {
+    content: ""; width: 28px; height: 1px; background: var(--slate);
+  }
+  .founder-headline {
+    font-size: clamp(2rem, 4.5vw, 2.8rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    color: var(--navy);
+    margin-bottom: 2rem;
+    position: relative; z-index: 1;
+  }
+  .founder-letter {
+    font-size: 1.08rem;
+    line-height: 1.7;
+    color: var(--mid);
+    letter-spacing: -0.003em;
+    position: relative; z-index: 1;
+    max-width: 38rem;
+  }
+  .founder-letter p { margin-bottom: 1.25rem; color: var(--mid); }
+  .founder-letter p:last-child { margin-bottom: 0; }
+  .founder-signoff {
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    position: relative; z-index: 1;
+  }
+  .founder-names {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--navy);
+    letter-spacing: -0.01em;
+  }
+  .founder-meta {
+    font-size: 0.78rem;
+    color: var(--slate);
+    margin-top: 0.25rem;
+    letter-spacing: 0.04em;
+  }
+  .founder-cta {
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    margin-top: 2.5rem;
+    padding: 0.95rem 2rem;
+    background: var(--navy);
+    color: #fff;
+    border-radius: 999px;
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: background 0.15s ease, transform 0.15s ease;
+    position: relative; z-index: 1;
+  }
+  .founder-cta:hover { background: #1F2937; transform: translateY(-1px); }
+  .founder-cta:active { transform: translateY(0); }
 
   /* ---------- BOTTOM CTA ---------- */
   .cta-band {
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: 1200px; margin: 0 auto;
     padding: 7rem 1.5rem;
   }
   .cta-card {
@@ -873,87 +724,59 @@
     color: #fff;
     display: grid;
     grid-template-columns: 1.3fr 1fr;
-    gap: 4rem;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
+    gap: 4rem; align-items: center;
+    position: relative; overflow: hidden;
   }
   .cta-card::before {
     content: "";
-    position: absolute;
-    top: -50%; right: -20%;
+    position: absolute; top: -50%; right: -20%;
     width: 60%; height: 200%;
     background: radial-gradient(ellipse at center, rgba(207, 232, 255, 0.12), transparent 60%);
     pointer-events: none;
   }
   .cta-card h2 {
     font-size: clamp(1.8rem, 4vw, 2.8rem);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-    margin-bottom: 1rem;
-    position: relative;
+    font-weight: 800; letter-spacing: -0.03em;
+    line-height: 1.1; margin-bottom: 1rem; position: relative;
   }
   .cta-card p {
     font-size: 1.05rem;
     color: rgba(255, 255, 255, 0.7);
-    line-height: 1.6;
-    max-width: 28rem;
-    position: relative;
+    line-height: 1.6; max-width: 28rem; position: relative;
   }
   .cta-form {
     background: rgba(255, 255, 255, 0.06);
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 999px;
     padding: 0.4rem 0.4rem 0.4rem 1.2rem;
-    display: flex;
-    gap: 0.5rem;
-    position: relative;
+    display: flex; gap: 0.5rem; position: relative;
   }
   .cta-form input {
-    flex: 1;
-    background: transparent;
-    border: none;
-    outline: none;
-    color: #fff;
-    font-family: var(--sans);
-    font-size: 0.95rem;
-    min-width: 0;
-    padding: 0.5rem 0;
+    flex: 1; background: transparent; border: none; outline: none;
+    color: #fff; font-family: var(--sans);
+    font-size: 0.95rem; min-width: 0; padding: 0.5rem 0;
   }
   .cta-form input::placeholder { color: rgba(255, 255, 255, 0.5); }
   .cta-form button {
-    background: #fff;
-    color: var(--navy);
-    border: none;
-    border-radius: 999px;
+    background: #fff; color: var(--navy);
+    border: none; border-radius: 999px;
     padding: 0.7rem 1.4rem;
-    font-family: var(--sans);
-    font-weight: 600;
-    font-size: 0.85rem;
-    cursor: pointer;
-    white-space: nowrap;
+    font-family: var(--sans); font-weight: 600; font-size: 0.85rem;
+    cursor: pointer; white-space: nowrap;
     transition: transform 0.15s ease;
   }
   .cta-form button:hover { transform: scale(1.02); }
   .cta-card .cta-microcopy {
-    margin-top: 0.85rem;
-    font-size: 0.78rem;
-    color: rgba(255, 255, 255, 0.5);
-    position: relative;
+    margin-top: 0.85rem; font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.5); position: relative;
   }
   .cta-status {
-    margin-top: 1rem;
-    padding: 0.8rem 1rem;
-    border-radius: 0.6rem;
-    font-size: 0.85rem;
-    line-height: 1.5;
-    display: none;
-    color: #fff;
+    margin-top: 1rem; padding: 0.8rem 1rem;
+    border-radius: 0.6rem; font-size: 0.85rem;
+    line-height: 1.5; display: none; color: #fff;
   }
   .cta-status.success { display: block; background: rgba(207, 232, 255, 0.1); border: 1px solid rgba(207, 232, 255, 0.2); }
   .cta-status.error   { display: block; background: rgba(170, 79, 87, 0.15); border: 1px solid rgba(170, 79, 87, 0.3); }
-
   @media (max-width: 900px) {
     .cta-card { grid-template-columns: 1fr; gap: 2rem; }
   }
@@ -964,55 +787,36 @@
     background: var(--cloud);
   }
   .foot-inner {
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: 1200px; margin: 0 auto;
     padding: 3rem 1.5rem 2.5rem;
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
     gap: 3rem;
   }
   .foot-wordmark {
-    font-family: var(--serif-logo);
-    font-weight: 900;
-    font-size: 1.4rem;
-    letter-spacing: -0.04em;
-    color: var(--navy);
-    margin-bottom: 0.6rem;
-    display: block;
-    line-height: 1;
+    font-family: var(--serif-logo); font-weight: 900;
+    font-size: 1.4rem; letter-spacing: -0.04em;
+    color: var(--navy); margin-bottom: 0.6rem;
+    display: block; line-height: 1;
   }
-  .foot-tag {
-    font-size: 0.85rem;
-    color: var(--mid);
-    max-width: 22rem;
-  }
+  .foot-tag { font-size: 0.85rem; color: var(--mid); max-width: 22rem; }
   .foot-col h4 {
-    font-size: 0.7rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--slate);
-    margin-bottom: 1rem;
+    font-size: 0.7rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--slate); margin-bottom: 1rem;
   }
   .foot-col ul { list-style: none; }
   .foot-col li { margin-bottom: 0.5rem; }
   .foot-col a {
-    font-size: 0.86rem;
-    color: var(--navy);
-    text-decoration: none;
-    font-weight: 500;
+    font-size: 0.86rem; color: var(--navy);
+    text-decoration: none; font-weight: 500;
   }
   .foot-col a:hover { color: var(--sage); }
   .foot-bottom {
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: 1200px; margin: 0 auto;
     padding: 1.5rem 1.5rem 2.5rem;
     border-top: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.78rem;
-    color: var(--slate);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.78rem; color: var(--slate);
   }
   @media (max-width: 700px) {
     .foot-inner { grid-template-columns: 1fr 1fr; gap: 2rem; }
@@ -1026,37 +830,31 @@
   <div class="nav-inner">
     <a href="/" class="wordmark">Ralli</a>
     <div class="nav-links">
-      <a href="#what" class="hide-mobile">What it is</a>
       <a href="#how" class="hide-mobile">How it works</a>
-      <a href="/privacy.html" class="hide-mobile">Privacy</a>
+      <a href="#promise" class="hide-mobile">Our promise</a>
+      <a href="#letter" class="hide-mobile">Our story</a>
       <a href="#join" class="nav-cta">Join waitlist</a>
     </div>
   </div>
 </nav>
 
 <section class="hero">
-
   <div class="hero-left">
     <div class="hero-eyebrow">Coming soon · iOS &amp; Web</div>
-    <h1 class="hero-title">Know what's in <em>your skincare.</em></h1>
-    <p class="hero-lede">Scan any product. Get an instant pore-clogging score, ingredient breakdown, and honest reviews from people with skin like yours. No ads, no sponsored picks.</p>
+    <h1 class="hero-title">Skincare that's <em>actually honest.</em></h1>
+    <p class="hero-lede">Scan any product. Get an instant pore-clogging score, ingredient breakdown, and honest reviews from people you actually know. No ads. No paid placements. No algorithm pushing whatever brand bid the most this month.</p>
 
     <form class="waitlist" id="waitlist-form" novalidate>
       <div class="waitlist-label" id="join">Join the waitlist</div>
       <div class="waitlist-form">
-        <input
-          type="email"
-          class="waitlist-input"
-          id="waitlist-email"
-          placeholder="your@email.com"
-          autocomplete="email"
-          required>
+        <input type="email" class="waitlist-input" id="waitlist-email"
+          placeholder="your@email.com" autocomplete="email" required>
         <button type="submit" class="waitlist-button" id="waitlist-submit">
           Get early access
         </button>
       </div>
       <div class="waitlist-microcopy">
-        We'll email you once when Ralli opens. No newsletters, no spam.
+        One email when Ralli opens. No newsletter, no spam, no sale to third parties.
       </div>
       <div class="waitlist-status" id="waitlist-status"></div>
     </form>
@@ -1064,7 +862,7 @@
     <div class="proof">
       <div class="proof-avatars" aria-hidden="true">
         <span class="av">MK</span>
-        <span class="av">JC</span>
+        <span class="av">MR</span>
         <span class="av">SR</span>
         <span class="av">+</span>
       </div>
@@ -1143,20 +941,20 @@
   </div>
 </section>
 
-<section class="features" id="what">
+<section class="features" id="how">
   <div class="section-head">
     <div>
-      <div class="section-eyebrow">What it is</div>
-      <h2 class="section-title">Built for ingredient-conscious skin.</h2>
+      <div class="section-eyebrow">How it works</div>
+      <h2 class="section-title">Your community, your skin, information you can trust.</h2>
     </div>
     <div class="section-deck">
-      Every product you scan gets an honest pore score from a database of 250+ ingredients — paired with reactions from people with skin like yours. The way skincare research should have always worked.
+      Every product you scan gets an honest pore score from a database of 250+ ingredients — paired with reactions from people in your circle. Real reviews from women you know, not strangers paid to write them.
     </div>
   </div>
 
   <div class="feature-grid">
 
-    <div class="feature-card large" id="how">
+    <div class="feature-card large">
       <div>
         <div class="index">01</div>
         <h3>An instant pore score.</h3>
@@ -1181,7 +979,7 @@
       <div>
         <div class="index">02</div>
         <h3>Friend signals, not influencers.</h3>
-        <p>See who in your circle is using a product before you try it. Real reactions — loved it, broke me out, want to try — from people you actually know.</p>
+        <p>See who in your circle is using a product before you try it. Real reactions from real people you actually know — not paid creators or anonymous strangers.</p>
       </div>
       <div class="signal">
         <div class="row">
@@ -1215,11 +1013,77 @@
   </div>
 </section>
 
-<section class="editorial">
-  <div class="editorial-inner">
-    <div class="editorial-mark">"</div>
-    <div class="editorial-text">Your community is your most trusted source. Ralli makes that trust actionable — pairing verified ingredient data with the authentic opinions of people you know.</div>
-    <div class="editorial-attr">— The Founders</div>
+<!-- ============================================================
+     OUR PROMISE — replaces the prior pull-quote; surfaces the
+     four conviction points directly on the landing page.
+     ============================================================ -->
+<section class="promise" id="promise">
+  <div class="promise-inner">
+    <div>
+      <div class="promise-eyebrow">Our promise</div>
+      <h2 class="promise-title">What you'll never find here.</h2>
+    </div>
+
+    <div class="promise-list">
+      <div class="promise-item">
+        <h4><span class="bullet"></span>No paid placements.</h4>
+        <p>Brands cannot pay to appear, rank higher, or be featured. Our editorial picks are exactly that — editorial. Your feed has no native ads, no boosted posts, no sponsored "you might like" cards.</p>
+      </div>
+
+      <div class="promise-item">
+        <h4><span class="bullet rose"></span>Your community, your feed.</h4>
+        <p>What you see is what people you actually follow are using, loving, or breaking out from. No influencer algorithm. No engagement bait. Just your circle, sorted by what's new.</p>
+      </div>
+
+      <div class="promise-item">
+        <h4><span class="bullet amber"></span>Your data stays yours.</h4>
+        <p>We don't sell your data. Ever. Your routine and personal lists are private by default — only what you explicitly post is visible to others. <a href="/privacy.html" style="color: var(--sage);">Read our privacy policy →</a></p>
+      </div>
+
+      <div class="promise-item">
+        <h4><span class="bullet navy"></span>Honest by design.</h4>
+        <p>Every product score is calculated from its actual ingredient list, not from how much the brand spent on marketing. We show you the receipts — including ingredients we flag and why.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOUNDER LETTER — copy taken directly from founders' mockup.
+     Edit text in place if you ever want to revise; styling stays.
+     ============================================================ -->
+<section class="founder" id="letter">
+  <div class="founder-inner">
+    <!-- Subtle beaker accent in the corner — same minimal style as the
+         scan-accent dotted circle in the hero. Hidden on small screens. -->
+    <svg class="founder-accent" viewBox="0 0 80 100" aria-hidden="true">
+      <!-- Beaker outline: two top lip strokes, two angled sides, rounded bottom -->
+      <path d="M 26 8 L 26 32 L 8 84 Q 8 92 16 92 L 64 92 Q 72 92 72 84 L 54 32 L 54 8"
+            fill="none" stroke="currentColor" stroke-width="1.6"
+            stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- Top lip rim -->
+      <line x1="22" y1="8" x2="58" y2="8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <!-- A single quiet liquid line near the bottom -->
+      <path d="M 14 70 Q 22 67 30 70 Q 38 73 46 70 Q 54 67 62 70 Q 68 71.5 70 71"
+            fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+
+    <div class="founder-eyebrow">Our story</div>
+
+    <h2 class="founder-headline">Built out of necessity.</h2>
+
+    <div class="founder-letter">
+      <p>Ralli was born from the same frustration we know you've felt — spending hours deciphering ingredient labels, second-guessing whether a glowing review was paid for, and never quite trusting that the "dermatologist recommended" label meant anything real.</p>
+
+      <p>As sisters, we kept sending each other screenshots asking "is this pore-clogging?" We realized our most trusted source was each other — not ads, not influencers. So we built the tool we always wished existed.</p>
+    </div>
+
+    <div class="founder-signoff">
+      <div class="founder-names">McKenzie &amp; Morgan</div>
+      <div class="founder-meta">Co-founders · GoodSisters</div>
+    </div>
+
+    <a href="#join" class="founder-cta">Let's go →</a>
   </div>
 </section>
 
@@ -1227,7 +1091,7 @@
   <div class="cta-card">
     <div>
       <h2>Be first when we launch.</h2>
-      <p>Join the waitlist and we'll send one email when the iOS app and full web experience are ready. No newsletter, no pitch deck.</p>
+      <p>Join the waitlist and we'll send one email when the iOS app and full web experience are ready. No newsletter, no pitch deck, no follow-up nonsense.</p>
     </div>
     <div>
       <form class="cta-form" id="cta-form" novalidate>
@@ -1249,8 +1113,9 @@
     <div class="foot-col">
       <h4>Product</h4>
       <ul>
-        <li><a href="#what">What it is</a></li>
         <li><a href="#how">How it works</a></li>
+        <li><a href="#promise">Our promise</a></li>
+        <li><a href="#letter">Our story</a></li>
         <li><a href="#join">Join waitlist</a></li>
       </ul>
     </div>
@@ -1275,8 +1140,6 @@
 </footer>
 
 <script>
-  // Wire both waitlist forms (hero + bottom CTA) to the Firestore submitter.
-  // Idempotent: same email twice = "you're already on the list."
   function wireWaitlistForm({ formId, emailId, submitId, statusId }) {
     const form    = document.getElementById(formId);
     const email   = document.getElementById(emailId);
@@ -1286,25 +1149,20 @@
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-
-      // Hide previous status
       status.className = "waitlist-status";
       status.textContent = "";
       const isDark = status.classList.contains("cta-status");
       if (isDark) status.className = "cta-status";
 
-      // Disable while submitting
       const originalText = submit.textContent;
       submit.disabled = true;
       submit.textContent = "Adding…";
 
-      // Wait for Firebase module to load if needed
       let tries = 0;
       while (!window.__ralliWaitlist && tries < 50) {
         await new Promise(r => setTimeout(r, 100));
         tries++;
       }
-
       if (!window.__ralliWaitlist) {
         status.className = (isDark ? "cta-status " : "waitlist-status ") + "error";
         status.textContent = "Couldn't reach the server. Please refresh and try again.";
@@ -1314,7 +1172,6 @@
       }
 
       const result = await window.__ralliWaitlist(email.value);
-
       if (result.ok) {
         status.className = (isDark ? "cta-status " : "waitlist-status ") + "success";
         status.textContent = result.alreadyOnList
@@ -1322,7 +1179,6 @@
           : "You're in. We'll email you the moment Ralli is ready.";
         email.value = "";
         submit.textContent = "✓ You're in";
-        // Don't re-enable — let them feel done
       } else {
         status.className = (isDark ? "cta-status " : "waitlist-status ") + "error";
         status.textContent = result.error || "Something went wrong. Try again?";
