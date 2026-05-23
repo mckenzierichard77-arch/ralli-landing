@@ -4,267 +4,1343 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ralli by GoodSisters — Know what's in your skincare</title>
-<meta name="description" content="Ralli helps you make confident skincare decisions by analysing ingredients, calculating pore-clogging risk scores, and showing what your community thinks.">
+<meta name="description" content="Ralli analyses every ingredient in your skincare, gives you a pore-clogging score, and shows what people with your skin type actually think. Join the waitlist.">
+<meta name="theme-color" content="#111827">
+
+<!-- OG / Twitter -->
 <meta property="og:title" content="Ralli by GoodSisters">
-<meta property="og:description" content="Know exactly what's in your skincare. Instant pore scores, ingredient analysis, and honest reviews from real people.">
-<meta property="og:type" content="website">
+<meta property="og:description" content="Know exactly what's in your skincare. Instant pore scores, ingredient analysis, and honest reviews from people you trust.">
 <meta property="og:url" content="https://theralliapp.com">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://theralliapp.com/favicon-512x512.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Favicons -->
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180x180.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<!-- Fonts: Inter for everything, Poppins Black 900 reserved for the wordmark -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@900&display=swap" rel="stylesheet">
+
+<!-- Firebase: matches the SDK version used in app.theralliapp.com -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+  import { getFirestore, collection, addDoc, query, where, getDocs, serverTimestamp }
+    from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+
+  // NOTE: Replace this with your real Firebase config from Vercel env vars
+  // (or paste the values directly — these are public-by-design Firebase keys,
+  // safe to ship in client code; Firestore rules are what protect the data).
+  const firebaseConfig = {
+    apiKey:            "REPLACE_WITH_YOUR_FIREBASE_API_KEY",
+    authDomain:        "REPLACE_WITH_YOUR_AUTH_DOMAIN",
+    projectId:         "REPLACE_WITH_YOUR_PROJECT_ID",
+    storageBucket:     "REPLACE_WITH_YOUR_STORAGE_BUCKET",
+    messagingSenderId: "REPLACE_WITH_YOUR_SENDER_ID",
+    appId:             "REPLACE_WITH_YOUR_APP_ID",
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db  = getFirestore(app);
+
+  // Expose a single waitlist submitter on window for the form below.
+  window.__ralliWaitlist = async function(email) {
+    const clean = String(email || "").trim().toLowerCase();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clean)) {
+      return { ok: false, error: "Please enter a valid email address." };
+    }
+    try {
+      // Check for duplicates so the same person can't spam the form.
+      const dupSnap = await getDocs(query(
+        collection(db, "waitlist"),
+        where("email", "==", clean)
+      ));
+      if (!dupSnap.empty) {
+        return { ok: true, alreadyOnList: true };
+      }
+      await addDoc(collection(db, "waitlist"), {
+        email: clean,
+        createdAt: serverTimestamp(),
+        source: "landing",
+        userAgent: navigator.userAgent.slice(0, 200),
+      });
+      return { ok: true, alreadyOnList: false };
+    } catch (e) {
+      console.error("waitlist error", e);
+      return { ok: false, error: "Something went wrong. Please try again or email us directly." };
+    }
+  };
+</script>
+
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap');
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
   :root {
-    --navy: #111827;
-    --sage: #2C7A5C;
-    --rose: #AA4F57;
-    --amber: #8B6914;
-    --ice: #CFE8FF;
-    --text: #111827;
-    --mid: #4A5568;
-    --light: #9AACBC;
-    --border: #E6E8EC;
-    --bg: #F8F9FB;
-    --surface: #ffffff;
+    /* Core */
+    --navy:        #111827;
+    --cloud:       #F8F9FB;
+    --ice:         #CFE8FF;
+    --slate:       #9AACBC;
+    --sage:        #2C7A5C;
+    --rose:        #AA4F57;
+    --amber:       #8B6914;
+    --border:      #E6E8EC;
+
+    /* Derived */
+    --surface:     #FFFFFF;
+    --mid:         #4A5568;
+    --hairline:    #EEF0F3;
+
+    /* Type */
+    --serif-logo:  'Poppins', sans-serif; /* logo only */
+    --sans:        'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
-  html { scroll-behavior: smooth; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: 16px;
     line-height: 1.6;
-    font-weight: 300;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  /* Nav */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    background: rgba(248,249,251,0.92);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 1.5rem;
-    display: flex; align-items: center; justify-content: space-between;
-    height: 56px;
-  }
-  .nav-logo { font-family: 'DM Serif Display', serif; font-size: 1.3rem; color: var(--navy); text-decoration: none; }
-  .nav-logo span { display: block; font-family: 'DM Sans', sans-serif; font-size: 0.6rem; font-weight: 400; letter-spacing: 0.15em; text-transform: uppercase; color: var(--light); margin-top: -3px; }
-  .nav-links { display: flex; align-items: center; gap: 1.5rem; }
-  .nav-links a { font-size: 0.85rem; color: var(--mid); text-decoration: none; }
-  .nav-links a:hover { color: var(--navy); }
-
-  /* Hero */
-  .hero {
-    padding: 120px 1.5rem 80px;
-    max-width: 680px;
-    margin: 0 auto;
-    text-align: center;
-  }
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 0.4rem;
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 999px; padding: 0.3rem 0.9rem;
-    font-size: 0.75rem; color: var(--mid); margin-bottom: 2rem;
-  }
-  .hero-badge span { width: 6px; height: 6px; border-radius: 50%; background: var(--sage); display: inline-block; }
-  h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(2.2rem, 6vw, 3.4rem);
+    background: var(--cloud);
     color: var(--navy);
-    line-height: 1.15;
-    margin-bottom: 1.25rem;
-    letter-spacing: -0.02em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
-  h1 em { font-style: italic; color: var(--sage); }
-  .hero-sub {
-    font-size: 1.05rem; color: var(--mid); line-height: 1.75;
-    max-width: 520px; margin: 0 auto 2.5rem;
-  }
-  .cta-group { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
-  .cta-primary {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    background: var(--navy); color: #fff;
-    border-radius: 999px; padding: 0.85rem 2rem;
-    font-size: 0.95rem; font-weight: 500; text-decoration: none;
-    transition: opacity 0.15s;
-  }
-  .cta-primary:hover { opacity: 0.85; }
-  .cta-note { font-size: 0.75rem; color: var(--light); }
 
-  /* Product card preview */
-  .preview {
-    max-width: 360px;
-    margin: 4rem auto;
+  /* ---------- NAV ---------- */
+  nav.top {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(248, 249, 251, 0.85);
+    backdrop-filter: saturate(180%) blur(12px);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .wordmark {
+    font-family: var(--serif-logo);
+    font-weight: 900;
+    font-size: 1.55rem;
+    letter-spacing: -0.04em;
+    color: var(--navy);
+    text-decoration: none;
+    line-height: 1;
+  }
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    font-size: 0.86rem;
+    font-weight: 500;
+  }
+  .nav-links a {
+    color: var(--mid);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  .nav-links a:hover { color: var(--navy); }
+  .nav-cta {
+    padding: 0.55rem 1.1rem;
+    background: var(--navy);
+    color: #fff !important;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.82rem;
+  }
+  .nav-cta:hover { background: #1F2937; }
+  @media (max-width: 640px) {
+    .nav-links .hide-mobile { display: none; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4.5rem 1.5rem 5rem;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--slate);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    opacity: 0;
+    animation: rise 0.7s ease-out 0.1s forwards;
+  }
+  .hero-eyebrow::before {
+    content: "";
+    display: inline-block;
+    width: 28px;
+    height: 1px;
+    background: var(--slate);
+  }
+
+  h1.hero-title {
+    font-family: var(--sans);
+    font-weight: 800;
+    font-size: clamp(2.6rem, 6vw, 4.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    color: var(--navy);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: rise 0.8s ease-out 0.2s forwards;
+  }
+  h1.hero-title em {
+    font-style: normal;
+    color: var(--navy);
+    position: relative;
+    display: inline-block;
+  }
+  h1.hero-title em::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 0.1em;
+    height: 0.35em;
+    background: var(--ice);
+    z-index: -1;
+    border-radius: 0.1em;
+  }
+
+  .hero-lede {
+    font-size: 1.13rem;
+    line-height: 1.6;
+    color: var(--mid);
+    margin-bottom: 2.5rem;
+    max-width: 30rem;
+    opacity: 0;
+    animation: rise 0.8s ease-out 0.35s forwards;
+  }
+
+  /* ---------- WAITLIST FORM ---------- */
+  .waitlist {
+    opacity: 0;
+    animation: rise 0.8s ease-out 0.5s forwards;
+    max-width: 30rem;
+  }
+  .waitlist-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--slate);
+    margin-bottom: 0.65rem;
+  }
+  .waitlist-form {
+    display: flex;
+    gap: 0.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.4rem 0.4rem 0.4rem 1.2rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .waitlist-form:focus-within {
+    border-color: var(--navy);
+    box-shadow: 0 0 0 4px rgba(17, 24, 39, 0.06);
+  }
+  .waitlist-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    color: var(--navy);
+    outline: none;
+    min-width: 0;
+    padding: 0.5rem 0;
+  }
+  .waitlist-input::placeholder { color: var(--slate); }
+  .waitlist-button {
+    border: none;
+    background: var(--navy);
+    color: #fff;
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 0.7rem 1.5rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease;
+    white-space: nowrap;
+  }
+  .waitlist-button:hover { background: #1F2937; }
+  .waitlist-button:active { transform: scale(0.98); }
+  .waitlist-button:disabled { opacity: 0.55; cursor: default; }
+  .waitlist-microcopy {
+    margin-top: 0.85rem;
+    font-size: 0.78rem;
+    color: var(--slate);
+    line-height: 1.5;
+  }
+  .waitlist-status {
+    margin-top: 1rem;
+    padding: 0.8rem 1rem;
+    border-radius: 0.6rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    display: none;
+  }
+  .waitlist-status.success {
+    display: block;
+    border-color: rgba(44, 122, 92, 0.25);
+    background: rgba(44, 122, 92, 0.06);
+    color: var(--sage);
+  }
+  .waitlist-status.error {
+    display: block;
+    border-color: rgba(170, 79, 87, 0.25);
+    background: rgba(170, 79, 87, 0.06);
+    color: var(--rose);
+  }
+  .waitlist-status strong { color: inherit; font-weight: 600; }
+
+  /* Social proof under form */
+  .proof {
+    margin-top: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    opacity: 0;
+    animation: rise 0.8s ease-out 0.65s forwards;
+  }
+  .proof-avatars {
+    display: flex;
+  }
+  .proof-avatars .av {
+    width: 28px; height: 28px;
+    border-radius: 999px;
+    border: 2px solid var(--cloud);
+    background: var(--ice);
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--navy);
+    margin-left: -8px;
+  }
+  .proof-avatars .av:first-child { margin-left: 0; }
+  .proof-avatars .av:nth-child(2) { background: #FBE8E9; color: var(--rose); }
+  .proof-avatars .av:nth-child(3) { background: #E8F2EC; color: var(--sage); }
+  .proof-avatars .av:nth-child(4) { background: #F4ECD5; color: var(--amber); }
+  .proof-text { font-size: 0.82rem; color: var(--mid); }
+  .proof-text strong { color: var(--navy); font-weight: 600; }
+
+  /* ---------- HERO MOCKUP COLUMN ---------- */
+  .mockup-column {
+    position: relative;
+    height: 540px;
+    opacity: 0;
+    animation: rise 1s ease-out 0.4s forwards;
+  }
+
+  .mock-card {
+    position: absolute;
+    background: var(--surface);
+    border-radius: 1.2rem;
+    box-shadow:
+      0 1px 2px rgba(17, 24, 39, 0.04),
+      0 20px 50px -10px rgba(17, 24, 39, 0.12);
+    border: 1px solid var(--hairline);
+  }
+
+  /* Big product card */
+  .mock-product {
+    top: 30px;
+    left: 0;
+    width: 78%;
+    padding: 1.5rem;
+    z-index: 2;
+    animation: floatA 8s ease-in-out infinite;
+  }
+  .mock-product .row {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin-bottom: 1.1rem;
+  }
+  .mock-product .brand-block {
+    width: 56px; height: 56px;
+    border-radius: 0.75rem;
+    background: linear-gradient(135deg, var(--ice), #E8F1FB);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--sans);
+    font-weight: 700;
+    color: var(--navy);
+    font-size: 0.85rem;
+    letter-spacing: -0.02em;
+    flex-shrink: 0;
+  }
+  .mock-product .brand-name {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--slate);
+    margin-bottom: 0.2rem;
+  }
+  .mock-product .product-name {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+
+  .mock-score-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--hairline);
+  }
+  .mock-stat-label {
+    font-size: 0.62rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--slate);
+    margin-bottom: 0.4rem;
+  }
+  .mock-stat-value {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+  }
+  .mock-stat-num {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+  .mock-stat-suffix {
+    font-size: 0.85rem;
+    color: var(--slate);
+    font-weight: 500;
+  }
+  .mock-bar {
+    margin-top: 0.55rem;
+    height: 5px;
+    border-radius: 999px;
+    background: var(--border);
+    overflow: hidden;
+  }
+  .mock-bar-fill {
+    height: 100%;
+    background: var(--sage);
+    border-radius: 999px;
+    width: 0;
+    animation: fillBar 1.4s ease-out 1s forwards;
+  }
+  .mock-bar-fill.amber {
+    background: var(--amber);
+    --target: 60%;
+  }
+
+  /* Ingredient pills bar */
+  .mock-pills {
+    margin-top: 1.1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .mock-pill {
+    font-size: 0.7rem;
+    padding: 0.32rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    color: var(--mid);
+    background: var(--cloud);
+    font-weight: 500;
+    display: inline-flex; align-items: center; gap: 0.3rem;
+  }
+  .mock-pill.flag { border-color: rgba(170, 79, 87, 0.3); color: var(--rose); background: rgba(170, 79, 87, 0.05); }
+  .mock-pill .dot {
+    width: 5px; height: 5px;
+    border-radius: 999px;
+    background: var(--sage);
+  }
+  .mock-pill.flag .dot { background: var(--rose); }
+
+  /* Friend reaction card */
+  .mock-reaction {
+    top: 340px;
+    right: 0;
+    width: 70%;
+    padding: 1rem 1.1rem;
+    z-index: 3;
+    animation: floatB 9s ease-in-out infinite;
+  }
+  .reaction-head {
+    display: flex; align-items: center; gap: 0.6rem;
+    margin-bottom: 0.5rem;
+  }
+  .reaction-avatar {
+    width: 28px; height: 28px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #FBE8E9, var(--rose));
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .reaction-name {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--navy);
+  }
+  .reaction-meta {
+    font-size: 0.68rem;
+    color: var(--slate);
+  }
+  .reaction-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.22rem 0.55rem;
+    border-radius: 999px;
+    background: rgba(170, 79, 87, 0.08);
+    color: var(--rose);
+    font-size: 0.66rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .reaction-tag::before {
+    content: "";
+    width: 5px; height: 5px;
+    border-radius: 999px;
+    background: var(--rose);
+  }
+
+  /* Decorative scan-loop accent */
+  .scan-accent {
+    position: absolute;
+    top: -20px;
+    right: 18%;
+    width: 80px;
+    height: 80px;
+    border: 1px dashed var(--border);
+    border-radius: 999px;
+    z-index: 0;
+  }
+  .scan-accent::after {
+    content: "";
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 12px; height: 12px;
+    margin: -6px 0 0 -6px;
+    border-radius: 999px;
+    background: var(--ice);
+  }
+
+  @keyframes floatA {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  @keyframes floatB {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(8px); }
+  }
+  @keyframes fillBar {
+    to { width: var(--target, 40%); }
+  }
+  @keyframes rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Responsive hero */
+  @media (max-width: 900px) {
+    .hero {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      padding: 3rem 1.5rem 4rem;
+    }
+    .mockup-column {
+      height: 480px;
+      max-width: 480px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .mock-product { width: 82%; }
+    .mock-reaction { width: 70%; }
+  }
+
+  /* ---------- "WHAT IT IS" STRIP ---------- */
+  .strip {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .strip-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+  .strip-item .num {
+    font-family: var(--sans);
+    font-weight: 800;
+    font-size: 1.8rem;
+    letter-spacing: -0.03em;
+    color: var(--navy);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+  .strip-item .label {
+    font-size: 0.75rem;
+    color: var(--slate);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+  }
+  @media (max-width: 700px) {
+    .strip-inner { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  }
+
+  /* ---------- FEATURES ---------- */
+  .features {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 7rem 1.5rem 5rem;
+  }
+  .section-head {
+    margin-bottom: 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 3rem;
+    align-items: end;
+  }
+  .section-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--slate);
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .section-eyebrow::before {
+    content: ""; width: 28px; height: 1px; background: var(--slate);
+  }
+  .section-title {
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--navy);
+    margin-top: 0.6rem;
+  }
+  .section-deck {
+    font-size: 1.05rem;
+    color: var(--mid);
+    line-height: 1.6;
+    max-width: 32rem;
+  }
+  @media (max-width: 800px) {
+    .section-head { grid-template-columns: 1fr; gap: 1.5rem; }
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1.5rem;
+  }
+  .feature-card {
     background: var(--surface);
     border-radius: 1.25rem;
     border: 1px solid var(--border);
+    padding: 2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    position: relative;
     overflow: hidden;
-    box-shadow: 0 8px 40px rgba(17,24,39,0.08);
   }
-  .preview-img {
-    height: 180px;
-    background: linear-gradient(135deg, #EBF3FF 0%, #F0F7F4 100%);
-    display: flex; align-items: center; justify-content: center;
+  .feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 50px -20px rgba(17, 24, 39, 0.15);
+    border-color: var(--navy);
   }
-  .preview-img-inner {
-    width: 80px; height: 80px;
-    background: var(--surface);
-    border-radius: 1rem;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 16px rgba(17,24,39,0.1);
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.4rem; color: var(--mid);
+  .feature-card .index {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--slate);
+    letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+  }
+  .feature-card h3 {
+    font-size: 1.35rem;
+    font-weight: 700;
     letter-spacing: -0.02em;
-  }
-  .preview-body { padding: 1.25rem; }
-  .preview-brand { font-size: 0.62rem; font-weight: 500; color: var(--light); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.25rem; }
-  .preview-name { font-size: 1.1rem; font-weight: 500; color: var(--navy); margin-bottom: 1rem; }
-  .preview-score-row { display: flex; align-items: center; gap: 0.75rem; padding-bottom: 0.85rem; border-bottom: 1px solid var(--border); margin-bottom: 0.85rem; }
-  .preview-dial { position: relative; width: 48px; height: 48px; flex-shrink: 0; }
-  .preview-score-info { flex: 1; }
-  .preview-score-label { font-size: 0.55rem; color: var(--light); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.15rem; }
-  .preview-score-main { font-size: 0.9rem; font-weight: 500; color: var(--text); }
-  .preview-score-sub { font-size: 0.65rem; color: var(--light); margin-top: 0.1rem; }
-  .preview-flags { display: flex; flex-wrap: wrap; gap: 0.3rem; }
-  .flag-pill { font-size: 0.65rem; padding: 0.2rem 0.6rem; border-radius: 20px; background: #FAECE7; color: #712B13; }
-  .safe-pill { font-size: 0.65rem; padding: 0.2rem 0.6rem; border-radius: 20px; background: #E1F5EE; color: #085041; }
-
-  /* Features */
-  .features { max-width: 680px; margin: 0 auto; padding: 0 1.5rem 5rem; }
-  .features-title { font-family: 'DM Serif Display', serif; font-size: 1.8rem; color: var(--navy); text-align: center; margin-bottom: 0.5rem; }
-  .features-sub { text-align: center; color: var(--mid); font-size: 0.95rem; margin-bottom: 3rem; }
-  .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-  @media (max-width: 480px) { .feature-grid { grid-template-columns: 1fr; } }
-  .feature-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 1rem;
-    padding: 1.25rem;
-  }
-  .feature-icon {
-    width: 36px; height: 36px; border-radius: 0.6rem;
-    display: flex; align-items: center; justify-content: center;
+    color: var(--navy);
     margin-bottom: 0.75rem;
+    line-height: 1.2;
   }
-  .feature-card h3 { font-size: 0.95rem; font-weight: 500; color: var(--navy); margin-bottom: 0.35rem; }
-  .feature-card p { font-size: 0.82rem; color: var(--mid); line-height: 1.55; }
+  .feature-card p {
+    font-size: 0.94rem;
+    color: var(--mid);
+    line-height: 1.6;
+  }
+  .feature-card.large { grid-column: span 7; min-height: 320px; display: flex; flex-direction: column; justify-content: space-between; }
+  .feature-card.small { grid-column: span 5; min-height: 320px; display: flex; flex-direction: column; justify-content: space-between; }
+  .feature-card.wide  { grid-column: span 12; }
 
-  /* Footer */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 2rem 1.5rem;
-    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
-    max-width: 680px; margin: 0 auto;
+  /* Large card visual — pore score gauge */
+  .gauge {
+    margin-top: 2rem;
+    display: flex;
+    align-items: flex-end;
+    gap: 0.45rem;
   }
-  .footer-logo { font-family: 'DM Serif Display', serif; font-size: 1rem; color: var(--navy); }
-  .footer-links { display: flex; gap: 1.25rem; }
-  .footer-links a { font-size: 0.78rem; color: var(--light); text-decoration: none; }
-  .footer-links a:hover { color: var(--mid); }
-  .footer-copy { font-size: 0.72rem; color: var(--light); width: 100%; }
+  .gauge-bar {
+    flex: 1;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .gauge-bar.active::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--sage);
+    border-radius: 999px;
+  }
+  .gauge-bar.active.amber::after { background: var(--amber); }
+  .gauge-bar.active.rose::after  { background: var(--rose); }
+  .gauge-numbers {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.55rem;
+    font-size: 0.65rem;
+    color: var(--slate);
+    font-weight: 500;
+  }
+  .gauge-caption {
+    margin-top: 1.5rem;
+    font-size: 0.78rem;
+    color: var(--slate);
+  }
+  .gauge-caption strong { color: var(--navy); font-weight: 600; }
+
+  /* Small card visual — social signal */
+  .signal {
+    margin-top: 2rem;
+    padding: 1rem 1.1rem;
+    background: var(--cloud);
+    border-radius: 0.75rem;
+    border: 1px solid var(--hairline);
+  }
+  .signal .row {
+    display: flex; align-items: center; gap: 0.65rem;
+    margin-bottom: 0.4rem;
+  }
+  .signal .av {
+    width: 22px; height: 22px;
+    border-radius: 999px;
+    margin-left: -6px;
+    border: 2px solid var(--cloud);
+  }
+  .signal .av:first-child { margin-left: 0; }
+  .signal .av.a { background: linear-gradient(135deg, var(--ice), #E8F1FB); }
+  .signal .av.b { background: linear-gradient(135deg, #FBE8E9, var(--rose)); }
+  .signal .av.c { background: linear-gradient(135deg, #E8F2EC, var(--sage)); }
+  .signal .signal-text { font-size: 0.86rem; color: var(--navy); font-weight: 500; }
+  .signal .signal-meta { font-size: 0.75rem; color: var(--slate); }
+
+  /* Wide card */
+  .wide-row {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 2.5rem;
+    align-items: center;
+  }
+  .wide-row .right-stack {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .wide-row .ingredient-tag {
+    padding: 0.55rem 1rem;
+    border-radius: 999px;
+    background: var(--cloud);
+    border: 1px solid var(--border);
+    font-size: 0.82rem;
+    color: var(--navy);
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .wide-row .ingredient-tag .check {
+    width: 14px; height: 14px;
+    border-radius: 999px;
+    background: var(--sage);
+    color: #fff;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.55rem; font-weight: 700;
+  }
+  .wide-row .ingredient-tag.flag .check { background: var(--rose); }
+
+  @media (max-width: 800px) {
+    .feature-card.large, .feature-card.small, .feature-card.wide { grid-column: span 12; }
+    .wide-row { grid-template-columns: 1fr; gap: 1.5rem; }
+  }
+
+  /* ---------- QUOTE / EDITORIAL ---------- */
+  .editorial {
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .editorial-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 6rem 1.5rem;
+    text-align: center;
+  }
+  .editorial-mark {
+    font-size: 3rem;
+    line-height: 1;
+    color: var(--ice);
+    margin-bottom: 1rem;
+    font-weight: 800;
+  }
+  .editorial-text {
+    font-size: clamp(1.4rem, 2.4vw, 1.85rem);
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.015em;
+    color: var(--navy);
+    max-width: 32rem;
+    margin: 0 auto;
+  }
+  .editorial-attr {
+    margin-top: 2rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--slate);
+    font-weight: 600;
+  }
+
+  /* ---------- BOTTOM CTA ---------- */
+  .cta-band {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 7rem 1.5rem;
+  }
+  .cta-card {
+    background: var(--navy);
+    border-radius: 1.5rem;
+    padding: clamp(2.5rem, 6vw, 5rem);
+    color: #fff;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-card::before {
+    content: "";
+    position: absolute;
+    top: -50%; right: -20%;
+    width: 60%; height: 200%;
+    background: radial-gradient(ellipse at center, rgba(207, 232, 255, 0.12), transparent 60%);
+    pointer-events: none;
+  }
+  .cta-card h2 {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  .cta-card p {
+    font-size: 1.05rem;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.6;
+    max-width: 28rem;
+    position: relative;
+  }
+  .cta-form {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    padding: 0.4rem 0.4rem 0.4rem 1.2rem;
+    display: flex;
+    gap: 0.5rem;
+    position: relative;
+  }
+  .cta-form input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    min-width: 0;
+    padding: 0.5rem 0;
+  }
+  .cta-form input::placeholder { color: rgba(255, 255, 255, 0.5); }
+  .cta-form button {
+    background: #fff;
+    color: var(--navy);
+    border: none;
+    border-radius: 999px;
+    padding: 0.7rem 1.4rem;
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: transform 0.15s ease;
+  }
+  .cta-form button:hover { transform: scale(1.02); }
+  .cta-card .cta-microcopy {
+    margin-top: 0.85rem;
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.5);
+    position: relative;
+  }
+  .cta-status {
+    margin-top: 1rem;
+    padding: 0.8rem 1rem;
+    border-radius: 0.6rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    display: none;
+    color: #fff;
+  }
+  .cta-status.success { display: block; background: rgba(207, 232, 255, 0.1); border: 1px solid rgba(207, 232, 255, 0.2); }
+  .cta-status.error   { display: block; background: rgba(170, 79, 87, 0.15); border: 1px solid rgba(170, 79, 87, 0.3); }
+
+  @media (max-width: 900px) {
+    .cta-card { grid-template-columns: 1fr; gap: 2rem; }
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer.site-foot {
+    border-top: 1px solid var(--border);
+    background: var(--cloud);
+  }
+  .foot-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 2.5rem;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+  }
+  .foot-wordmark {
+    font-family: var(--serif-logo);
+    font-weight: 900;
+    font-size: 1.4rem;
+    letter-spacing: -0.04em;
+    color: var(--navy);
+    margin-bottom: 0.6rem;
+    display: block;
+    line-height: 1;
+  }
+  .foot-tag {
+    font-size: 0.85rem;
+    color: var(--mid);
+    max-width: 22rem;
+  }
+  .foot-col h4 {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--slate);
+    margin-bottom: 1rem;
+  }
+  .foot-col ul { list-style: none; }
+  .foot-col li { margin-bottom: 0.5rem; }
+  .foot-col a {
+    font-size: 0.86rem;
+    color: var(--navy);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .foot-col a:hover { color: var(--sage); }
+  .foot-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem 1.5rem 2.5rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.78rem;
+    color: var(--slate);
+  }
+  @media (max-width: 700px) {
+    .foot-inner { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .foot-col.first { grid-column: span 2; }
+  }
 </style>
 </head>
 <body>
 
-<nav>
-  <a href="/" class="nav-logo">Ralli <span>by GoodSisters</span></a>
-  <div class="nav-links">
-    <a href="#features">Features</a>
-    <a href="https://theralliapp.com/privacy.html">Privacy</a>
+<nav class="top">
+  <div class="nav-inner">
+    <a href="/" class="wordmark">Ralli</a>
+    <div class="nav-links">
+      <a href="#what" class="hide-mobile">What it is</a>
+      <a href="#how" class="hide-mobile">How it works</a>
+      <a href="/privacy.html" class="hide-mobile">Privacy</a>
+      <a href="#join" class="nav-cta">Join waitlist</a>
+    </div>
   </div>
 </nav>
 
 <section class="hero">
-  <div class="hero-badge"><span></span> Coming to the App Store</div>
-  <h1>Know exactly what's in your <em>skincare</em></h1>
-  <p class="hero-sub">Ralli analyses every ingredient in your products, calculates a pore-clogging risk score, and shows you what people with your skin type actually think — no ads, no sponsored reviews.</p>
-  <div class="cta-group">
-    <a href="mailto:theralliapp@gmail.com?subject=Ralli Early Access" class="cta-primary">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-      Get early access
-    </a>
-    <span class="cta-note">Be first to know when we launch on iOS</span>
+
+  <div class="hero-left">
+    <div class="hero-eyebrow">Coming soon · iOS &amp; Web</div>
+    <h1 class="hero-title">Know what's in <em>your skincare.</em></h1>
+    <p class="hero-lede">Scan any product. Get an instant pore-clogging score, ingredient breakdown, and honest reviews from people with skin like yours. No ads, no sponsored picks.</p>
+
+    <form class="waitlist" id="waitlist-form" novalidate>
+      <div class="waitlist-label" id="join">Join the waitlist</div>
+      <div class="waitlist-form">
+        <input
+          type="email"
+          class="waitlist-input"
+          id="waitlist-email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          required>
+        <button type="submit" class="waitlist-button" id="waitlist-submit">
+          Get early access
+        </button>
+      </div>
+      <div class="waitlist-microcopy">
+        We'll email you once when Ralli opens. No newsletters, no spam.
+      </div>
+      <div class="waitlist-status" id="waitlist-status"></div>
+    </form>
+
+    <div class="proof">
+      <div class="proof-avatars" aria-hidden="true">
+        <span class="av">MK</span>
+        <span class="av">JC</span>
+        <span class="av">SR</span>
+        <span class="av">+</span>
+      </div>
+      <div class="proof-text"><strong>Built by women</strong>, for ingredient-conscious skin.</div>
+    </div>
+  </div>
+
+  <div class="mockup-column" aria-hidden="true">
+    <div class="scan-accent"></div>
+
+    <div class="mock-card mock-product">
+      <div class="row">
+        <div class="brand-block">CV</div>
+        <div>
+          <div class="brand-name">CeraVe</div>
+          <div class="product-name">Moisturizing&nbsp;Cream</div>
+        </div>
+      </div>
+      <div class="mock-score-grid">
+        <div>
+          <div class="mock-stat-label">Pore Score</div>
+          <div class="mock-stat-value">
+            <span class="mock-stat-num">2</span>
+            <span class="mock-stat-suffix">/ 5 · Low</span>
+          </div>
+          <div class="mock-bar"><div class="mock-bar-fill" style="--target: 40%"></div></div>
+        </div>
+        <div>
+          <div class="mock-stat-label">Community</div>
+          <div class="mock-stat-value">
+            <span class="mock-stat-num">4.6</span>
+            <span class="mock-stat-suffix">★ · 1,284</span>
+          </div>
+          <div class="mock-bar"><div class="mock-bar-fill" style="--target: 88%"></div></div>
+        </div>
+      </div>
+      <div class="mock-pills">
+        <span class="mock-pill"><span class="dot"></span>Ceramides</span>
+        <span class="mock-pill"><span class="dot"></span>Niacinamide</span>
+        <span class="mock-pill"><span class="dot"></span>Hyaluronic acid</span>
+        <span class="mock-pill flag"><span class="dot"></span>Cetearyl alcohol</span>
+      </div>
+    </div>
+
+    <div class="mock-card mock-reaction">
+      <div class="reaction-head">
+        <div class="reaction-avatar">SR</div>
+        <div>
+          <div class="reaction-name">Sarah R.</div>
+          <div class="reaction-meta">2 friends use this · 3d ago</div>
+        </div>
+      </div>
+      <span class="reaction-tag">Loved it</span>
+    </div>
   </div>
 </section>
 
-<!-- Product card preview -->
-<div class="preview" style="padding: 0;">
-  <div class="preview-img">
-    <div class="preview-img-inner">CE</div>
-  </div>
-  <div class="preview-body">
-    <div class="preview-brand">CeraVe</div>
-    <div class="preview-name">Moisturizing Cream</div>
-    <div class="preview-score-row">
-      <div class="preview-dial">
-        <svg viewBox="0 0 48 48" width="48" height="48">
-          <circle cx="24" cy="24" r="19" fill="none" stroke="#E6E8EC" stroke-width="4"/>
-          <circle cx="24" cy="24" r="19" fill="none" stroke="#AA4F57" stroke-width="4" stroke-dasharray="47.7 119.4" stroke-linecap="round" transform="rotate(-90 24 24)"/>
-          <text x="24" y="28" text-anchor="middle" font-size="12" font-weight="500" fill="#AA4F57" font-family="DM Sans, sans-serif">2</text>
-        </svg>
-      </div>
-      <div class="preview-score-info">
-        <div class="preview-score-label">Pore score</div>
-        <div class="preview-score-main">Low risk</div>
-        <div class="preview-score-sub">Unlikely to clog pores</div>
-      </div>
-      <div style="text-align:right">
-        <div style="font-size:0.85rem;font-weight:500;color:#B45309">★★★★½</div>
-        <div style="font-size:0.6rem;color:var(--light);margin-top:2px">Community</div>
-      </div>
+<section class="strip">
+  <div class="strip-inner">
+    <div class="strip-item">
+      <div class="num">250+</div>
+      <div class="label">Ingredients scored</div>
     </div>
-    <div class="preview-flags">
-      <span class="flag-pill">Cetearyl alcohol ⚠</span>
-      <span class="safe-pill">✓ Niacinamide</span>
-      <span class="safe-pill">✓ Ceramides</span>
-      <span class="safe-pill">✓ Hyaluronic acid</span>
+    <div class="strip-item">
+      <div class="num">0–5</div>
+      <div class="label">Pore-clogging scale</div>
+    </div>
+    <div class="strip-item">
+      <div class="num">A–F</div>
+      <div class="label">Routine grade</div>
+    </div>
+    <div class="strip-item">
+      <div class="num">0</div>
+      <div class="label">Sponsored picks</div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- Features -->
-<section class="features" id="features">
-  <h2 class="features-title">Built for ingredient-conscious skin</h2>
-  <p class="features-sub">Everything you need to make confident product decisions.</p>
+<section class="features" id="what">
+  <div class="section-head">
+    <div>
+      <div class="section-eyebrow">What it is</div>
+      <h2 class="section-title">Built for ingredient-conscious skin.</h2>
+    </div>
+    <div class="section-deck">
+      Every product you scan gets an honest pore score from a database of 250+ ingredients — paired with reactions from people with skin like yours. The way skincare research should have always worked.
+    </div>
+  </div>
+
   <div class="feature-grid">
-    <div class="feature-card">
-      <div class="feature-icon" style="background:#E1F5EE">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2C7A5C" stroke-width="2"><path d="M10 2v7.31l-3.24 4.65A3 3 0 0 0 9.24 19H14.76a3 3 0 0 0 2.48-5.04L14 9.31V2"/><line x1="8.5" y1="2" x2="15.5" y2="2"/></svg>
+
+    <div class="feature-card large" id="how">
+      <div>
+        <div class="index">01</div>
+        <h3>An instant pore score.</h3>
+        <p>Every ingredient in a product is matched against a curated comedogenic database, then averaged into a single 0–5 score. Green for clear. Red for caution.</p>
       </div>
-      <h3>Pore score</h3>
-      <p>Every ingredient scored for comedogenic risk. Instant 0–5 rating so you know if a product will clog your pores before you buy it.</p>
+      <div>
+        <div class="gauge" aria-hidden="true">
+          <div class="gauge-bar active"></div>
+          <div class="gauge-bar active"></div>
+          <div class="gauge-bar"></div>
+          <div class="gauge-bar"></div>
+          <div class="gauge-bar"></div>
+        </div>
+        <div class="gauge-numbers">
+          <span>Clear</span><span>1</span><span>2</span><span>3</span><span>Avoid</span>
+        </div>
+        <div class="gauge-caption"><strong>Score 2 · Low risk</strong> · Fine for normal skin, use cautiously if acne-prone.</div>
+      </div>
     </div>
-    <div class="feature-card">
-      <div class="feature-icon" style="background:#EBF3FF">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#185FA5" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+
+    <div class="feature-card small">
+      <div>
+        <div class="index">02</div>
+        <h3>Friend signals, not influencers.</h3>
+        <p>See who in your circle is using a product before you try it. Real reactions — loved it, broke me out, want to try — from people you actually know.</p>
       </div>
-      <h3>Photo any product</h3>
-      <p>Point your camera at any product or ingredient label. AI reads it and scores it instantly — no barcode needed.</p>
+      <div class="signal">
+        <div class="row">
+          <div class="av a"></div>
+          <div class="av b"></div>
+          <div class="av c"></div>
+        </div>
+        <div class="signal-text">3 friends use this</div>
+        <div class="signal-meta">Maya · Sarah · Jen</div>
+      </div>
     </div>
-    <div class="feature-card">
-      <div class="feature-icon" style="background:#FAECE7">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#AA4F57" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+
+    <div class="feature-card wide">
+      <div class="wide-row">
+        <div>
+          <div class="index">03</div>
+          <h3>Every ingredient, explained.</h3>
+          <p>Tap any ingredient to see what it does, why it's flagged, and what concentration matters. A glossary of 60+ ingredients written by people, not algorithms.</p>
+        </div>
+        <div class="right-stack">
+          <span class="ingredient-tag"><span class="check">✓</span>Niacinamide</span>
+          <span class="ingredient-tag"><span class="check">✓</span>Ceramides</span>
+          <span class="ingredient-tag"><span class="check">✓</span>Glycerin</span>
+          <span class="ingredient-tag flag"><span class="check">!</span>Isopropyl myristate</span>
+          <span class="ingredient-tag"><span class="check">✓</span>Squalane</span>
+          <span class="ingredient-tag flag"><span class="check">!</span>Coconut oil</span>
+        </div>
       </div>
-      <h3>Community reviews</h3>
-      <p>See what people with your skin type actually think. Real reactions — loved it, broke me out, want to try — from a trusted social graph.</p>
     </div>
-    <div class="feature-card">
-      <div class="feature-icon" style="background:#F0F7F4">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2C7A5C" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      </div>
-      <h3>Your skin routine</h3>
-      <p>Track every product you use, get an overall routine safety score, and spot conflicts between ingredients before they cause issues.</p>
+
+  </div>
+</section>
+
+<section class="editorial">
+  <div class="editorial-inner">
+    <div class="editorial-mark">"</div>
+    <div class="editorial-text">Your community is your most trusted source. Ralli makes that trust actionable — pairing verified ingredient data with the authentic opinions of people you know.</div>
+    <div class="editorial-attr">— The Founders</div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="cta-card">
+    <div>
+      <h2>Be first when we launch.</h2>
+      <p>Join the waitlist and we'll send one email when the iOS app and full web experience are ready. No newsletter, no pitch deck.</p>
+    </div>
+    <div>
+      <form class="cta-form" id="cta-form" novalidate>
+        <input type="email" id="cta-email" placeholder="your@email.com" autocomplete="email" required>
+        <button type="submit" id="cta-submit">Join</button>
+      </form>
+      <div class="cta-microcopy">We'll never share your email. Promise.</div>
+      <div class="cta-status" id="cta-status"></div>
     </div>
   </div>
 </section>
 
-<footer>
-  <div class="footer-logo">Ralli</div>
-  <div class="footer-links">
-    <a href="https://theralliapp.com/privacy.html">Privacy Policy</a>
-    <a href="https://theralliapp.com/terms.html">Terms of Service</a>
-    <a href="mailto:theralliapp@gmail.com">Contact</a>
+<footer class="site-foot">
+  <div class="foot-inner">
+    <div class="foot-col first">
+      <a href="/" class="foot-wordmark">Ralli</a>
+      <div class="foot-tag">A skincare social app by GoodSisters. Built for ingredient-conscious skin.</div>
+    </div>
+    <div class="foot-col">
+      <h4>Product</h4>
+      <ul>
+        <li><a href="#what">What it is</a></li>
+        <li><a href="#how">How it works</a></li>
+        <li><a href="#join">Join waitlist</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="/privacy.html">Privacy</a></li>
+        <li><a href="/terms.html">Terms</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="mailto:theralliapp@gmail.com">theralliapp@gmail.com</a></li>
+      </ul>
+    </div>
   </div>
-  <div class="footer-copy">© 2026 GoodSisters. All rights reserved.</div>
+  <div class="foot-bottom">
+    <div>© 2026 GoodSisters. All rights reserved.</div>
+    <div>Made with care in San Francisco.</div>
+  </div>
 </footer>
+
+<script>
+  // Wire both waitlist forms (hero + bottom CTA) to the Firestore submitter.
+  // Idempotent: same email twice = "you're already on the list."
+  function wireWaitlistForm({ formId, emailId, submitId, statusId }) {
+    const form    = document.getElementById(formId);
+    const email   = document.getElementById(emailId);
+    const submit  = document.getElementById(submitId);
+    const status  = document.getElementById(statusId);
+    if (!form || !email || !submit || !status) return;
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      // Hide previous status
+      status.className = "waitlist-status";
+      status.textContent = "";
+      const isDark = status.classList.contains("cta-status");
+      if (isDark) status.className = "cta-status";
+
+      // Disable while submitting
+      const originalText = submit.textContent;
+      submit.disabled = true;
+      submit.textContent = "Adding…";
+
+      // Wait for Firebase module to load if needed
+      let tries = 0;
+      while (!window.__ralliWaitlist && tries < 50) {
+        await new Promise(r => setTimeout(r, 100));
+        tries++;
+      }
+
+      if (!window.__ralliWaitlist) {
+        status.className = (isDark ? "cta-status " : "waitlist-status ") + "error";
+        status.textContent = "Couldn't reach the server. Please refresh and try again.";
+        submit.disabled = false;
+        submit.textContent = originalText;
+        return;
+      }
+
+      const result = await window.__ralliWaitlist(email.value);
+
+      if (result.ok) {
+        status.className = (isDark ? "cta-status " : "waitlist-status ") + "success";
+        status.textContent = result.alreadyOnList
+          ? "You're already on the list — we'll be in touch."
+          : "You're in. We'll email you the moment Ralli is ready.";
+        email.value = "";
+        submit.textContent = "✓ You're in";
+        // Don't re-enable — let them feel done
+      } else {
+        status.className = (isDark ? "cta-status " : "waitlist-status ") + "error";
+        status.textContent = result.error || "Something went wrong. Try again?";
+        submit.disabled = false;
+        submit.textContent = originalText;
+      }
+    });
+  }
+
+  wireWaitlistForm({
+    formId: "waitlist-form", emailId: "waitlist-email",
+    submitId: "waitlist-submit", statusId: "waitlist-status",
+  });
+  wireWaitlistForm({
+    formId: "cta-form", emailId: "cta-email",
+    submitId: "cta-submit", statusId: "cta-status",
+  });
+</script>
 
 </body>
 </html>
