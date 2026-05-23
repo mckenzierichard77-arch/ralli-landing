@@ -15,7 +15,7 @@
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
-<link rel="icon" type="iamage/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180x180.png">
 <link rel="manifest" href="/site.webmanifest">
@@ -289,109 +289,121 @@
       0 20px 50px -10px rgba(17, 24, 39, 0.12);
     border: 1px solid var(--hairline);
   }
-  .mock-product {
-    top: 30px; left: 0; width: 78%;
-    padding: 1.5rem; z-index: 2;
+  /* PRIMARY: friend feed card — large, dominant, leads the visual */
+  .mock-feed {
+    top: 30px; left: 0; width: 90%;
+    padding: 1.5rem 1.25rem;
+    z-index: 2;
     animation: floatA 8s ease-in-out infinite;
   }
+  .feed-head { margin-bottom: 1rem; }
+  .feed-eyebrow {
+    font-size: 0.62rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.16em;
+    color: var(--slate);
+  }
+  .feed-row {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.55rem 0;
+  }
+  .feed-divider {
+    height: 1px; background: var(--hairline);
+    margin: 0 0 0 0;
+  }
+  .feed-avatar {
+    width: 36px; height: 36px;
+    border-radius: 999px;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
+    font-size: 0.7rem; font-weight: 700;
+    flex-shrink: 0;
+    letter-spacing: -0.01em;
+  }
+  .feed-avatar.a { background: linear-gradient(135deg, #FBE8E9, var(--rose)); }
+  .feed-avatar.b { background: linear-gradient(135deg, #E8F2EC, var(--sage)); }
+  .feed-avatar.c { background: linear-gradient(135deg, #F4ECD5, var(--amber)); }
+  .feed-text { flex: 1; min-width: 0; }
+  .feed-name {
+    font-size: 0.85rem; font-weight: 600;
+    color: var(--navy); line-height: 1.3;
+    letter-spacing: -0.005em;
+  }
+  .feed-verb {
+    font-weight: 400; color: var(--mid);
+  }
+  .feed-meta {
+    font-size: 0.7rem; color: var(--slate);
+    margin-top: 0.15rem;
+  }
+  .feed-tag {
+    font-size: 0.62rem; font-weight: 600;
+    padding: 0.25rem 0.55rem; border-radius: 999px;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .feed-tag.loved {
+    background: rgba(44, 122, 92, 0.1);
+    color: var(--sage);
+  }
+  .feed-tag.added {
+    background: rgba(207, 232, 255, 0.5);
+    color: var(--navy);
+  }
+  .feed-tag.brokeout {
+    background: rgba(170, 79, 87, 0.1);
+    color: var(--rose);
+  }
+
+  /* SECONDARY: compact product card — drifts in beneath the feed */
+  .mock-product {
+    top: 360px; right: 0; width: 72%;
+    padding: 0.85rem 1rem;
+    z-index: 3;
+    animation: floatB 9s ease-in-out infinite;
+  }
   .mock-product .row {
-    display: flex; align-items: center; gap: 0.85rem;
-    margin-bottom: 1.1rem;
+    display: flex; align-items: center; gap: 0.75rem;
   }
   .mock-product .brand-block {
-    width: 56px; height: 56px;
-    border-radius: 0.75rem;
+    width: 40px; height: 40px;
+    border-radius: 0.55rem;
     background: linear-gradient(135deg, var(--ice), #E8F1FB);
     display: flex; align-items: center; justify-content: center;
     font-family: var(--sans); font-weight: 700;
-    color: var(--navy); font-size: 0.85rem;
+    color: var(--navy); font-size: 0.7rem;
     letter-spacing: -0.02em; flex-shrink: 0;
   }
   .mock-product .brand-name {
-    font-size: 0.72rem; font-weight: 600;
+    font-size: 0.58rem; font-weight: 600;
     text-transform: uppercase; letter-spacing: 0.12em;
-    color: var(--slate); margin-bottom: 0.2rem;
+    color: var(--slate); margin-bottom: 0.1rem;
   }
   .mock-product .product-name {
-    font-size: 1.05rem; font-weight: 600;
-    color: var(--navy); line-height: 1.25;
+    font-size: 0.85rem; font-weight: 600;
+    color: var(--navy); line-height: 1.2;
     letter-spacing: -0.01em;
   }
-  .mock-score-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
-    padding-top: 1rem; border-top: 1px solid var(--hairline);
+  .product-score {
+    display: flex; align-items: baseline; gap: 0.15rem;
+    margin-left: auto;
+    padding: 0.35rem 0.6rem;
+    background: rgba(44, 122, 92, 0.08);
+    border-radius: 0.55rem;
+    color: var(--sage);
+    flex-shrink: 0;
   }
-  .mock-stat-label {
-    font-size: 0.62rem; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.14em;
-    color: var(--slate); margin-bottom: 0.4rem;
+  .product-score-num {
+    font-size: 1.15rem; font-weight: 700;
+    letter-spacing: -0.03em; line-height: 1;
   }
-  .mock-stat-value { display: flex; align-items: baseline; gap: 0.4rem; }
-  .mock-stat-num {
-    font-size: 2rem; font-weight: 700; color: var(--navy);
-    line-height: 1; letter-spacing: -0.04em;
+  .product-score-label {
+    font-size: 0.65rem; font-weight: 500;
+    color: var(--sage); opacity: 0.7;
   }
-  .mock-stat-suffix {
-    font-size: 0.85rem; color: var(--slate); font-weight: 500;
-  }
-  .mock-bar {
-    margin-top: 0.55rem; height: 5px;
-    border-radius: 999px; background: var(--border);
-    overflow: hidden;
-  }
-  .mock-bar-fill {
-    height: 100%; background: var(--sage);
-    border-radius: 999px; width: 0;
-    animation: fillBar 1.4s ease-out 1s forwards;
-  }
-  .mock-pills {
-    margin-top: 1.1rem;
-    display: flex; flex-wrap: wrap; gap: 0.4rem;
-  }
-  .mock-pill {
-    font-size: 0.7rem; padding: 0.32rem 0.7rem;
-    border-radius: 999px;
-    border: 1px solid var(--border); color: var(--mid);
-    background: var(--cloud); font-weight: 500;
-    display: inline-flex; align-items: center; gap: 0.3rem;
-  }
-  .mock-pill.flag {
-    border-color: rgba(170, 79, 87, 0.3);
-    color: var(--rose);
-    background: rgba(170, 79, 87, 0.05);
-  }
-  .mock-pill .dot { width: 5px; height: 5px; border-radius: 999px; background: var(--sage); }
-  .mock-pill.flag .dot { background: var(--rose); }
-  .mock-reaction {
-    top: 340px; right: 0; width: 70%;
-    padding: 1rem 1.1rem; z-index: 3;
-    animation: floatB 9s ease-in-out infinite;
-  }
-  .reaction-head {
-    display: flex; align-items: center; gap: 0.6rem;
-    margin-bottom: 0.5rem;
-  }
-  .reaction-avatar {
-    width: 28px; height: 28px; border-radius: 999px;
-    background: linear-gradient(135deg, #FBE8E9, var(--rose));
-    display: flex; align-items: center; justify-content: center;
-    color: #fff; font-size: 0.7rem; font-weight: 700; flex-shrink: 0;
-  }
-  .reaction-name { font-size: 0.78rem; font-weight: 600; color: var(--navy); }
-  .reaction-meta { font-size: 0.68rem; color: var(--slate); }
-  .reaction-tag {
-    display: inline-flex; align-items: center; gap: 0.35rem;
-    padding: 0.22rem 0.55rem; border-radius: 999px;
-    background: rgba(170, 79, 87, 0.08); color: var(--rose);
-    font-size: 0.66rem; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.06em;
-  }
-  .reaction-tag::before {
-    content: ""; width: 5px; height: 5px;
-    border-radius: 999px; background: var(--rose);
-  }
+
   .scan-accent {
-    position: absolute; top: -20px; right: 18%;
+    position: absolute; top: -20px; right: 8%;
     width: 80px; height: 80px;
     border: 1px dashed var(--border);
     border-radius: 999px; z-index: 0;
@@ -406,14 +418,13 @@
 
   @keyframes floatA { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
   @keyframes floatB { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
-  @keyframes fillBar { to { width: var(--target, 40%); } }
   @keyframes rise { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
   @media (max-width: 900px) {
     .hero { grid-template-columns: 1fr; gap: 3rem; padding: 3rem 1.5rem 4rem; }
-    .mockup-column { height: 480px; max-width: 480px; margin: 0 auto; width: 100%; }
-    .mock-product { width: 82%; }
-    .mock-reaction { width: 70%; }
+    .mockup-column { height: 460px; max-width: 480px; margin: 0 auto; width: 100%; }
+    .mock-feed { width: 92%; }
+    .mock-product { width: 78%; top: 340px; }
   }
 
   /* ---------- "WHAT IT IS" STRIP ---------- */
@@ -547,6 +558,53 @@
   .signal .av.c { background: linear-gradient(135deg, #E8F2EC, var(--sage)); }
   .signal .signal-text { font-size: 0.86rem; color: var(--navy); font-weight: 500; }
   .signal .signal-meta { font-size: 0.75rem; color: var(--slate); }
+
+  /* Enriched friend list visual for feature card 01 */
+  .friend-list {
+    margin-top: 2rem;
+    padding: 1.1rem 1.25rem;
+    background: var(--cloud);
+    border-radius: 0.85rem;
+    border: 1px solid var(--hairline);
+  }
+  .friend-list-eyebrow {
+    font-size: 0.65rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--slate);
+    margin-bottom: 0.85rem;
+  }
+  .friend-list-row {
+    display: flex; align-items: center; gap: 0.65rem;
+    padding: 0.4rem 0;
+  }
+  .friend-list-row + .friend-list-row {
+    border-top: 1px solid var(--hairline);
+  }
+  .friend-av {
+    width: 28px; height: 28px;
+    border-radius: 999px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.62rem; font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+    letter-spacing: -0.01em;
+  }
+  .friend-av.a { background: linear-gradient(135deg, #FBE8E9, var(--rose)); }
+  .friend-av.b { background: linear-gradient(135deg, #E8F2EC, var(--sage)); }
+  .friend-av.c { background: linear-gradient(135deg, #F4ECD5, var(--amber)); }
+  .friend-list-name {
+    flex: 1; font-size: 0.88rem;
+    font-weight: 500; color: var(--navy);
+    letter-spacing: -0.005em;
+  }
+  .friend-list-tag {
+    font-size: 0.62rem; font-weight: 600;
+    padding: 0.25rem 0.55rem; border-radius: 999px;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    flex-shrink: 0; white-space: nowrap;
+  }
+  .friend-list-tag.loved { background: rgba(44, 122, 92, 0.1); color: var(--sage); }
+  .friend-list-tag.added { background: rgba(207, 232, 255, 0.5); color: var(--navy); }
   .wide-row {
     display: grid; grid-template-columns: 1.5fr 1fr;
     gap: 2.5rem; align-items: center;
@@ -841,8 +899,8 @@
 <section class="hero">
   <div class="hero-left">
     <div class="hero-eyebrow">Coming soon · iOS &amp; Web</div>
-    <h1 class="hero-title">Skincare that's <em>actually honest.</em></h1>
-    <p class="hero-lede">Scan any product. Get an instant pore-clogging score, ingredient breakdown, and honest reviews from people you actually know. No ads. No paid placements. No algorithm pushing whatever brand bid the most this month.</p>
+    <h1 class="hero-title">See what your friends are <em>actually using.</em></h1>
+    <p class="hero-lede">The first skincare app built around your real-life network. See which products your friends love, what broke them out, plus an honest pore-clogging score on everything you scan. No ads. No paid placements. No influencers selling you something.</p>
 
     <form class="waitlist" id="waitlist-form" novalidate>
       <div class="waitlist-label" id="join">Join the waitlist</div>
@@ -866,56 +924,66 @@
         <span class="av">SR</span>
         <span class="av">+</span>
       </div>
-      <div class="proof-text"><strong>Built by women</strong>, for ingredient-conscious skin.</div>
+      <div class="proof-text"><strong>Your group chat</strong>, with pore scores.</div>
     </div>
   </div>
 
   <div class="mockup-column" aria-hidden="true">
     <div class="scan-accent"></div>
 
+    <!-- PRIMARY: friend feed card. Shows three friends interacting with the
+         same product so the social network angle is visible at a glance. -->
+    <div class="mock-card mock-feed">
+      <div class="feed-head">
+        <div class="feed-eyebrow">Your friends · this week</div>
+      </div>
+
+      <div class="feed-row">
+        <div class="feed-avatar a">SR</div>
+        <div class="feed-text">
+          <div class="feed-name">Sarah <span class="feed-verb">loved</span> CeraVe Moisturizing Cream</div>
+          <div class="feed-meta">3 days ago · Pore Score 2</div>
+        </div>
+        <span class="feed-tag loved">Loved</span>
+      </div>
+
+      <div class="feed-divider"></div>
+
+      <div class="feed-row">
+        <div class="feed-avatar b">MY</div>
+        <div class="feed-text">
+          <div class="feed-name">Maya <span class="feed-verb">added</span> The Ordinary Niacinamide</div>
+          <div class="feed-meta">5 days ago · 4 friends use this</div>
+        </div>
+        <span class="feed-tag added">In routine</span>
+      </div>
+
+      <div class="feed-divider"></div>
+
+      <div class="feed-row">
+        <div class="feed-avatar c">JN</div>
+        <div class="feed-text">
+          <div class="feed-name">Jen <span class="feed-verb">broke out from</span> a new SPF</div>
+          <div class="feed-meta">1 week ago · Pore Score 4</div>
+        </div>
+        <span class="feed-tag brokeout">Broke out</span>
+      </div>
+    </div>
+
+    <!-- SECONDARY: compact product scan card. Drifts in beneath the feed so
+         the pore-score capability is still visible without dominating. -->
     <div class="mock-card mock-product">
       <div class="row">
         <div class="brand-block">CV</div>
         <div>
           <div class="brand-name">CeraVe</div>
-          <div class="product-name">Moisturizing&nbsp;Cream</div>
+          <div class="product-name">Moisturizing Cream</div>
+        </div>
+        <div class="product-score">
+          <div class="product-score-num">2</div>
+          <div class="product-score-label">/ 5</div>
         </div>
       </div>
-      <div class="mock-score-grid">
-        <div>
-          <div class="mock-stat-label">Pore Score</div>
-          <div class="mock-stat-value">
-            <span class="mock-stat-num">2</span>
-            <span class="mock-stat-suffix">/ 5 · Low</span>
-          </div>
-          <div class="mock-bar"><div class="mock-bar-fill" style="--target: 40%"></div></div>
-        </div>
-        <div>
-          <div class="mock-stat-label">Community</div>
-          <div class="mock-stat-value">
-            <span class="mock-stat-num">4.6</span>
-            <span class="mock-stat-suffix">★ · 1,284</span>
-          </div>
-          <div class="mock-bar"><div class="mock-bar-fill" style="--target: 88%"></div></div>
-        </div>
-      </div>
-      <div class="mock-pills">
-        <span class="mock-pill"><span class="dot"></span>Ceramides</span>
-        <span class="mock-pill"><span class="dot"></span>Niacinamide</span>
-        <span class="mock-pill"><span class="dot"></span>Hyaluronic acid</span>
-        <span class="mock-pill flag"><span class="dot"></span>Cetearyl alcohol</span>
-      </div>
-    </div>
-
-    <div class="mock-card mock-reaction">
-      <div class="reaction-head">
-        <div class="reaction-avatar">SR</div>
-        <div>
-          <div class="reaction-name">Sarah R.</div>
-          <div class="reaction-meta">2 friends use this · 3d ago</div>
-        </div>
-      </div>
-      <span class="reaction-tag">Loved it</span>
     </div>
   </div>
 </section>
@@ -935,8 +1003,8 @@
       <div class="label">Routine grade</div>
     </div>
     <div class="strip-item">
-      <div class="num">0</div>
-      <div class="label">Sponsored picks</div>
+      <div class="num">100%</div>
+      <div class="label">Your network</div>
     </div>
   </div>
 </section>
@@ -945,10 +1013,10 @@
   <div class="section-head">
     <div>
       <div class="section-eyebrow">How it works</div>
-      <h2 class="section-title">Your community, your skin, information you can trust.</h2>
+      <h2 class="section-title">Your friends. Your routine. Real answers.</h2>
     </div>
     <div class="section-deck">
-      Every product you scan gets an honest pore score from a database of 250+ ingredients — paired with reactions from people in your circle. Real reviews from women you know, not strangers paid to write them.
+      See which products people in your circle actually use, loved, or broke out from — paired with an honest pore-clogging score on everything you scan. Built around your real-life network, not strangers paid to promote products.
     </div>
   </div>
 
@@ -957,8 +1025,34 @@
     <div class="feature-card large">
       <div>
         <div class="index">01</div>
-        <h3>An instant pore score.</h3>
-        <p>Every ingredient in a product is matched against a curated comedogenic database, then averaged into a single 0–5 score. Green for clear. Red for caution.</p>
+        <h3>Your real-life network, finally in one place.</h3>
+        <p>See which products your friends use, what they love, and what broke them out — before you buy anything yourself. Not influencers. Not strangers. The people whose skin you actually trust.</p>
+      </div>
+      <div class="friend-list">
+        <div class="friend-list-eyebrow">3 friends use La Roche-Posay Toleriane</div>
+        <div class="friend-list-row">
+          <span class="friend-av a">SR</span>
+          <span class="friend-list-name">Sarah</span>
+          <span class="friend-list-tag loved">Loved</span>
+        </div>
+        <div class="friend-list-row">
+          <span class="friend-av b">MY</span>
+          <span class="friend-list-name">Maya</span>
+          <span class="friend-list-tag added">In routine</span>
+        </div>
+        <div class="friend-list-row">
+          <span class="friend-av c">JN</span>
+          <span class="friend-list-name">Jen</span>
+          <span class="friend-list-tag added">In routine</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-card small">
+      <div>
+        <div class="index">02</div>
+        <h3>An honest pore score on everything.</h3>
+        <p>Every ingredient matched against a curated comedogenic database, averaged into a 0–5 score. Green for clear. Red for caution.</p>
       </div>
       <div>
         <div class="gauge" aria-hidden="true">
@@ -971,24 +1065,7 @@
         <div class="gauge-numbers">
           <span>Clear</span><span>1</span><span>2</span><span>3</span><span>Avoid</span>
         </div>
-        <div class="gauge-caption"><strong>Score 2 · Low risk</strong> · Fine for normal skin, use cautiously if acne-prone.</div>
-      </div>
-    </div>
-
-    <div class="feature-card small">
-      <div>
-        <div class="index">02</div>
-        <h3>Friend signals, not influencers.</h3>
-        <p>See who in your circle is using a product before you try it. Real reactions from real people you actually know — not paid creators or anonymous strangers.</p>
-      </div>
-      <div class="signal">
-        <div class="row">
-          <div class="av a"></div>
-          <div class="av b"></div>
-          <div class="av c"></div>
-        </div>
-        <div class="signal-text">3 friends use this</div>
-        <div class="signal-meta">Maya · Sarah · Jen</div>
+        <div class="gauge-caption"><strong>Score 2 · Low risk</strong></div>
       </div>
     </div>
 
@@ -1026,13 +1103,13 @@
 
     <div class="promise-list">
       <div class="promise-item">
-        <h4><span class="bullet"></span>No paid placements.</h4>
-        <p>Brands cannot pay to appear, rank higher, or be featured. Our editorial picks are exactly that — editorial. Your feed has no native ads, no boosted posts, no sponsored "you might like" cards.</p>
+        <h4><span class="bullet rose"></span>Your community, your feed.</h4>
+        <p>What you see is what people you actually follow are using, loving, or breaking out from. No influencer algorithm. No engagement bait. Just your circle, sorted by what's new.</p>
       </div>
 
       <div class="promise-item">
-        <h4><span class="bullet rose"></span>Your community, your feed.</h4>
-        <p>What you see is what people you actually follow are using, loving, or breaking out from. No influencer algorithm. No engagement bait. Just your circle, sorted by what's new.</p>
+        <h4><span class="bullet"></span>No paid placements.</h4>
+        <p>Brands cannot pay to appear, rank higher, or be featured. Our editorial picks are exactly that — editorial. Your feed has no native ads, no boosted posts, no sponsored "you might like" cards.</p>
       </div>
 
       <div class="promise-item">
@@ -1090,7 +1167,7 @@
 <section class="cta-band">
   <div class="cta-card">
     <div>
-      <h2>Be first when we launch.</h2>
+      <h2>Find out what your friends are using.</h2>
       <p>Join the waitlist and we'll send one email when the iOS app and full web experience are ready. No newsletter, no pitch deck, no follow-up nonsense.</p>
     </div>
     <div>
