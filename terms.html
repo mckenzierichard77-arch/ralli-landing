@@ -10,6 +10,7 @@
   :root {
     --navy: #111827;
     --sage: #2C7A5C;
+    --rose: #AA4F57;
     --ice: #CFE8FF;
     --text: #111827;
     --mid: #4A5568;
@@ -43,13 +44,81 @@
   .intro { font-size: 1.05rem; color: var(--mid); line-height: 1.8; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
   h2 { font-family: 'DM Serif Display', serif; font-size: 1.3rem; color: var(--navy); margin: 2.5rem 0 0.75rem; }
   p { color: var(--mid); margin-bottom: 1rem; }
-  ul { color: var(--mid); padding-left: 1.25rem; margin-bottom: 1rem; }
+  ul, ol { color: var(--mid); padding-left: 1.25rem; margin-bottom: 1rem; }
   li { margin-bottom: 0.4rem; }
   a { color: var(--sage); text-decoration: none; }
   a:hover { text-decoration: underline; }
   .contact-box { background: var(--bg); border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin-top: 3rem; border: 1px solid var(--border); }
   .contact-box p { margin: 0; }
   strong { font-weight: 500; color: var(--navy); }
+  .toc {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .toc-label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--light);
+    margin-bottom: 0.75rem;
+  }
+  .toc ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    columns: 2;
+    column-gap: 1.5rem;
+    font-size: 0.9rem;
+  }
+  .toc li { margin-bottom: 0.3rem; break-inside: avoid; }
+  .toc a { color: var(--mid); }
+  .toc a:hover { color: var(--navy); text-decoration: none; }
+  @media (max-width: 540px) { .toc ul { columns: 1; } }
+  .callout {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--rose);
+    border-radius: 0.5rem;
+    padding: 1rem 1.25rem;
+    margin: 1.25rem 0;
+  }
+  .callout p { margin: 0; color: var(--navy); font-weight: 400; }
+  .legal-details {
+    margin-top: 1.5rem;
+    padding: 1.1rem 1.5rem;
+    background: var(--bg);
+    border-radius: 0.75rem;
+    border: 1px solid var(--border);
+  }
+  .legal-details summary {
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--navy);
+    font-size: 0.95rem;
+    list-style: none;
+    user-select: none;
+  }
+  .legal-details summary::-webkit-details-marker { display: none; }
+  .legal-details summary::after {
+    content: " →";
+    color: var(--sage);
+    display: inline-block;
+  }
+  .legal-details[open] summary::after { content: " ↓"; }
+  .legal-details summary:hover { color: var(--sage); }
+  .legal-details-body {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.92rem;
+    line-height: 1.75;
+  }
+  .legal-details-body p { color: var(--mid); margin-bottom: 0.9rem; }
+  .legal-details-body strong { color: var(--navy); }
 </style>
 </head>
 <body>
@@ -60,22 +129,48 @@
 
 <main>
   <h1 class="page-title">Terms of Service</h1>
-  <p class="updated">Last updated: April 2026</p>
+  <p class="updated">Last updated: May 2026</p>
 
   <p class="intro">By using Ralli, you agree to these terms. We've written them to be readable, not deliberately confusing. If something isn't clear, email us and we'll explain it.</p>
 
-  <h2>Who we are</h2>
+  <nav class="toc">
+    <div class="toc-label">What's in here</div>
+    <ul>
+      <li><a href="#who-we-are">Who we are</a></li>
+      <li><a href="#account">Your account</a></li>
+      <li><a href="#post">What you can post</a></li>
+      <li><a href="#dmca">Copyright complaints</a></li>
+      <li><a href="#medical">Medical disclaimer</a></li>
+      <li><a href="#content">Your content</a></li>
+      <li><a href="#affiliate">Affiliate links</a></li>
+      <li><a href="#data">Our ingredient data</a></li>
+      <li><a href="#warranties">Disclaimer of warranties</a></li>
+      <li><a href="#liability">Limitation of liability</a></li>
+      <li><a href="#indemnification">Indemnification</a></li>
+      <li><a href="#termination">Termination</a></li>
+      <li><a href="#changes">Changes to the service</a></li>
+      <li><a href="#force-majeure">Force majeure</a></li>
+      <li><a href="#california">California residents</a></li>
+      <li><a href="#governing-law">Governing law</a></li>
+      <li><a href="#disputes">Dispute resolution</a></li>
+      <li><a href="#general">General provisions</a></li>
+    </ul>
+  </nav>
+
+  <h2 id="who-we-are">Who we are</h2>
   <p>Ralli is a skincare social app made by GoodSisters. You can reach us at <a href="mailto:theralliapp@gmail.com">theralliapp@gmail.com</a>.</p>
 
-  <h2>Your account</h2>
+  <h2 id="account">Your account</h2>
   <ul>
-    <li>You must be at least 13 years old to use Ralli.</li>
-    <li>You are responsible for keeping your account credentials secure.</li>
-    <li>You may only have one account. Don't impersonate other people.</li>
+    <li>You must be at least 13 years old to use Ralli. <strong>Ralli is not directed to children under 13. If you are under 13, please do not create an account or send us any personal information.</strong> If we learn we have collected information from a child under 13, we will delete it.</li>
+    <li>If you are between 13 and the age of majority in your jurisdiction (typically 18), you may only use Ralli with the involvement and consent of a parent or legal guardian, who agrees to these terms on your behalf.</li>
+    <li>You are responsible for keeping your account credentials secure and for all activity that occurs under your account.</li>
+    <li>You may only have one account. Don't impersonate other people, brands, or organizations.</li>
+    <li>We may suspend or terminate your account at any time, with or without notice, if we believe you have violated these terms or pose a risk to other users.</li>
     <li>You can delete your account at any time in Profile → Settings.</li>
   </ul>
 
-  <h2>What you can post</h2>
+  <h2 id="post">What you can post</h2>
   <p>Ralli is a community built on honest skincare experiences. When you post, you agree to:</p>
   <ul>
     <li>Share genuine opinions and experiences — not fake reviews or paid promotions you haven't disclosed.</li>
@@ -83,32 +178,167 @@
     <li>Not post content that promotes self-harm or eating disorders.</li>
     <li>Not impersonate brands, dermatologists, or other users.</li>
     <li>Not spam, advertise, or promote products in a misleading way.</li>
+    <li>Not post content that infringes anyone's copyright, trademark, or other rights. If you believe someone has done so, see the <a href="#dmca">Copyright complaints</a> section below.</li>
+    <li>Not attempt to reverse-engineer, scrape, or otherwise extract data from Ralli outside of normal app use.</li>
   </ul>
-  <p>We reserve the right to remove content that violates these standards and to suspend or terminate accounts that repeatedly do so.</p>
+  <p>We reserve the right to remove content that violates these standards and to suspend or terminate accounts that repeatedly do so. We are not obligated to monitor user content, but we may do so at our discretion.</p>
 
-  <h2>Medical disclaimer</h2>
-  <p><strong>Ralli is not medical advice.</strong> Pore scores, ingredient ratings, and community reviews are informational tools to help you make more informed choices — they are not a substitute for advice from a dermatologist or healthcare provider. If you have a skin condition or medical concern, please consult a qualified professional.</p>
-  <p>Ingredient comedogenicity ratings are based on published research and community databases. Individual reactions vary — an ingredient rated low-risk may still affect your specific skin.</p>
+  <h2 id="dmca">Copyright complaints</h2>
+  <p>If you believe content on Ralli infringes your copyright, please send a notice to <a href="mailto:theralliapp@gmail.com">theralliapp@gmail.com</a> with the subject line "DMCA Notice" that includes:</p>
+  <ol>
+    <li>A description of the copyrighted work you believe has been infringed.</li>
+    <li>A description of where on Ralli the infringing material is located (a screenshot or post URL helps).</li>
+    <li>Your contact information (name, address, email, phone).</li>
+    <li>A statement that you have a good-faith belief that the use is not authorized by the copyright owner, its agent, or the law.</li>
+    <li>A statement, under penalty of perjury, that the information in your notice is accurate and that you are the copyright owner or authorized to act on the owner's behalf.</li>
+    <li>Your physical or electronic signature.</li>
+  </ol>
+  <p>We will respond to valid notices in accordance with the Digital Millennium Copyright Act (17 U.S.C. § 512). Repeat infringers will have their accounts terminated.</p>
 
-  <h2>Your content</h2>
+  <h2 id="medical">Medical disclaimer</h2>
+  <p><strong>Ralli is not medical advice — and we are not your dermatologist.</strong></p>
+  <p>We built Ralli to help you make more informed choices about the products you put on your skin. But pore scores, ingredient ratings, routine grades, and the things your friends say in the app are educational tools, not diagnoses. They are not a substitute for the advice of a qualified healthcare provider.</p>
+  <p><strong>Please talk to a dermatologist if:</strong></p>
+  <ul>
+    <li>You have persistent acne, eczema, rosacea, or any skin condition that concerns you.</li>
+    <li>You're starting or stopping prescription skincare (tretinoin, hydroquinone, oral medications).</li>
+    <li>You're pregnant or breastfeeding — many active ingredients have specific guidance for these situations.</li>
+    <li>You have an allergic reaction to any product, especially one with swelling, hives, or difficulty breathing — that's a 911 call, not a Ralli search.</li>
+  </ul>
+  <p><strong>A few things to keep in mind when you use Ralli:</strong></p>
+  <ul>
+    <li><strong>Pore scores are general guidance, not personal predictions.</strong> An ingredient flagged as comedogenic for most acne-prone skin may be perfectly fine for yours.</li>
+    <li><strong>Everyone's skin is different.</strong> Two people can use the same product and have completely different results.</li>
+    <li><strong>Always patch-test.</strong> Apply a small amount to your inner forearm for 48 hours before using a new product on your face.</li>
+    <li><strong>Ingredient data has gaps.</strong> We pull from published research and public databases. Formulations change. If you spot a mistake, tap "Report a correction" — it genuinely helps.</li>
+    <li><strong>Community reviews are opinions, not evidence.</strong> A 9/10 community rating means a lot of women loved it; it does not mean it's safe or effective for you.</li>
+  </ul>
+  <p>You're the expert on your own skin. We're here to give you better tools to make decisions — but those decisions are yours.</p>
+
+  <details class="legal-details">
+    <summary>Read the full legal disclaimer</summary>
+    <div class="legal-details-body">
+
+      <p><strong>No medical advice.</strong> The information provided through Ralli, including but not limited to pore scores, comedogenic ratings, routine scores, ingredient analyses, ingredient glossary entries, product reviews, community ratings, friend signals, editorial picks, and any other content (collectively, the "Content"), is provided for general informational and educational purposes only. The Content is not intended to be, and should not be construed as, medical advice, dermatological advice, diagnosis, treatment, or a recommendation of any kind. Ralli is not a substitute for professional medical advice, diagnosis, or treatment.</p>
+
+      <p><strong>No professional relationship.</strong> Use of Ralli does not create any professional, medical, dermatological, doctor-patient, or fiduciary relationship between you and GoodSisters, its founders, employees, contractors, contributors, or any other person associated with Ralli. We are not licensed medical professionals, and nothing in Ralli should be interpreted as a clinical evaluation of any product, ingredient, or your skin.</p>
+
+      <p><strong>Consult a qualified professional.</strong> Always seek the advice of a licensed dermatologist, physician, or other qualified healthcare provider with any questions you may have regarding a skin condition, medical condition, allergy, pregnancy, breastfeeding, or before starting or stopping any treatment. Never disregard, avoid, or delay seeking professional medical advice because of something you have read or seen on Ralli. If you believe you are having a medical emergency, call your local emergency number (911 in the United States) or visit the nearest emergency room.</p>
+
+      <p><strong>Individual variation.</strong> Skin biology, sensitivities, allergies, hormonal cycles, environmental conditions, and pre-existing conditions vary significantly between individuals. An ingredient or product that is rated low-risk on Ralli may still cause adverse reactions in you. An ingredient rated high-risk may have no effect on you. You acknowledge and accept that you are solely responsible for evaluating any product before applying it to your skin, including reading the manufacturer's full ingredient list and instructions, performing a patch test, and discontinuing use if any adverse reaction occurs.</p>
+
+      <p><strong>Comedogenic ratings.</strong> Comedogenic ratings shown on Ralli are derived from published research, third-party comedogenicity scales, public ingredient databases, and reasoned analysis. These ratings are general estimates and are not validated for any individual user. Comedogenicity scales themselves are imperfect: published ratings vary by source, do not account for ingredient concentration, formulation interactions, vehicle effects, or individual skin chemistry. Ralli's pore scores are general directional signals, not personalized predictions, and should not be relied upon as a diagnostic tool.</p>
+
+      <p><strong>Ingredient data limitations.</strong> Ingredient lists displayed in Ralli are compiled from a combination of user-uploaded data, public databases including Open Beauty Facts, manufacturer labels read via barcode or photo, and editorial review. We make reasonable efforts to ensure accuracy, but we do not warrant that any ingredient list, ingredient classification, pore score, routine grade, or other product data is accurate, complete, current, or applicable to any specific product version, batch, or formulation. Manufacturers may reformulate products without changing the barcode, packaging, or product name. If you have a known allergy or sensitivity, always verify the ingredient list on the physical product label before use.</p>
+
+      <p><strong>Community content.</strong> Ralli is a social platform, and much of the Content is generated by users — including product ratings, reviews, comments, direct messages, friend signals, "loved" and "broke out" reactions, and other user-submitted material. User-generated content reflects the personal experiences and opinions of individual users and does not represent the views, endorsements, or professional opinions of GoodSisters. We do not verify the accuracy of user-generated content. You should not rely on user-generated content as medical, dermatological, or scientific advice.</p>
+
+      <p><strong>Affiliate and brand partnerships.</strong> Ralli may display affiliate links, sponsored content, brand partnerships, or editorial picks. The inclusion of a product on Ralli — including in Founder Picks, Brand of the Week, Top 100 lists, or any other curated surface — does not constitute a medical endorsement of safety or efficacy. Editorial decisions are made independently of affiliate relationships.</p>
+
+      <p><strong>Allergic reactions and adverse events.</strong> If you experience an allergic reaction, irritation, burning, swelling, breakouts, or any other adverse skin response from a product, stop using the product immediately and consult a healthcare provider. Ralli's "Broke out from this" reaction is a community signal for informational purposes only and is not intended to function as an adverse event reporting system. To report a serious adverse cosmetic event, contact the U.S. Food and Drug Administration's MedWatch program at <a href="https://www.fda.gov/safety/medwatch">fda.gov/safety/medwatch</a> or call 1-800-FDA-1088.</p>
+
+      <p><strong>Pregnancy, nursing, and minors.</strong> Certain skincare ingredients — including but not limited to retinoids, salicylic acid at certain concentrations, hydroquinone, and others — carry specific guidance for individuals who are pregnant, nursing, or under 18. Ralli does not currently provide pregnancy- or age-specific filtering. If you are pregnant, nursing, or under 18, consult a healthcare provider before using any skincare product based on information from Ralli.</p>
+
+      <p><strong>No FDA evaluation.</strong> Statements made on Ralli, including those about ingredients, products, or routines, have not been evaluated by the U.S. Food and Drug Administration or any other regulatory body. Ralli is not intended to diagnose, treat, cure, or prevent any disease or condition, including but not limited to acne, eczema, rosacea, dermatitis, hyperpigmentation, or any other dermatological condition.</p>
+
+      <p><strong>Assumption of risk.</strong> You acknowledge that you use Ralli and any products discovered through Ralli at your own risk. To the maximum extent permitted by law, GoodSisters and its founders, employees, contractors, partners, and affiliates disclaim all liability for any direct, indirect, incidental, consequential, special, exemplary, or punitive damages — including but not limited to physical injury, allergic reactions, breakouts, scarring, emotional distress, medical expenses, lost income, or any other harm — arising out of or relating to your use of Ralli or any product you choose to use based on information from Ralli, whether or not GoodSisters has been advised of the possibility of such damages.</p>
+
+      <p>This disclaimer is in addition to, and does not limit, the <a href="#warranties">Disclaimer of Warranties</a> and <a href="#liability">Limitation of Liability</a> sections elsewhere in these Terms of Service.</p>
+
+    </div>
+  </details>
+
+  <h2 id="content">Your content</h2>
   <p>You own the content you post. By posting it, you give us a non-exclusive licence to display it within the app to other users. We won't sell your content or use it in advertising without your permission.</p>
   <p>When you delete a post or your account, your content is removed from the app. Some aggregate data (like a product's community rating) may persist in anonymised form.</p>
 
-  <h2>Affiliate links</h2>
-  <p>Product "Shop" buttons may link to Amazon or other retailers using our affiliate tracking tag. If you make a purchase through these links, we earn a small commission at no extra cost to you. This helps support the app.</p>
+  <h2 id="affiliate">Affiliate links and disclosures</h2>
+  <p><strong>Ralli participates in affiliate programs, including the Amazon Services LLC Associates Program.</strong> This is an affiliate advertising program designed to provide a means for sites to earn advertising fees by advertising and linking to Amazon.com.</p>
+  <p>When you tap "Shop" or a similar link on a product, you may be directed to a retailer's website through an affiliate link that contains our tracking tag. If you make a purchase, we earn a small commission at no additional cost to you. This helps support the cost of running Ralli.</p>
+  <p>Our editorial picks, founder picks, and product rankings are determined independently. Affiliate participation does not influence whether a product appears in Ralli or how it is scored. We disclose sponsored content clearly whenever it appears.</p>
 
-  <h2>Our ingredient data</h2>
+  <h2 id="data">Our ingredient data</h2>
   <p>Ralli's ingredient database and pore scores are compiled from published research and public databases including Open Beauty Facts. We do our best to keep the data accurate but we cannot guarantee completeness or correctness for every product. If you spot an error, use the "Report a correction" feature in the product modal.</p>
 
-  <h2>Limitation of liability</h2>
-  <p>Ralli is provided as-is. We are not liable for any skincare reactions, allergic responses, or outcomes resulting from products you choose to use based on information in the app. Always patch-test new products and consult a professional if you have concerns.</p>
-  <p>We are not liable for any interruption, data loss, or unavailability of the service.</p>
+  <h2 id="warranties">Disclaimer of warranties</h2>
+  <p><strong>Ralli is provided on an "as is" and "as available" basis, without warranties of any kind, either express or implied.</strong> To the maximum extent permitted by applicable law, GoodSisters disclaims all warranties, including but not limited to implied warranties of merchantability, fitness for a particular purpose, non-infringement, and any warranties arising from course of dealing or usage of trade.</p>
+  <p>We do not warrant that Ralli will be uninterrupted, error-free, or completely secure, or that ingredient data, pore scores, or community content will be accurate, complete, or current.</p>
 
-  <h2>Changes to the service</h2>
+  <h2 id="liability">Limitation of liability</h2>
+  <p>To the maximum extent permitted by law, GoodSisters and its founders, employees, and partners will not be liable for:</p>
+  <ul>
+    <li>Any skincare reactions, allergic responses, breakouts, irritation, or other health outcomes resulting from products you choose to use, regardless of whether you found those products through Ralli.</li>
+    <li>Any indirect, incidental, special, consequential, exemplary, or punitive damages — including loss of profits, data, goodwill, or other intangible losses.</li>
+    <li>Any interruption, downtime, data loss, security breach, or unavailability of the service.</li>
+    <li>Any reliance you place on user-submitted reviews, ratings, or other community content.</li>
+  </ul>
+  <div class="callout">
+    <p><strong>In no event will our total cumulative liability to you for all claims arising out of or relating to these terms or your use of Ralli exceed the greater of (a) the total amount you have paid us in the twelve months preceding the claim, or (b) one hundred US dollars ($100).</strong></p>
+  </div>
+  <p>Some jurisdictions do not allow the exclusion of certain warranties or limitations on liability, so portions of these limitations may not apply to you.</p>
+
+  <h2 id="indemnification">Indemnification</h2>
+  <p>You agree to defend, indemnify, and hold harmless GoodSisters and its founders, employees, contractors, and partners from any claims, damages, losses, liabilities, costs, or expenses (including reasonable attorneys' fees) arising out of or related to:</p>
+  <ul>
+    <li>Your use of Ralli;</li>
+    <li>Content you post, share, or transmit through Ralli;</li>
+    <li>Your violation of these terms;</li>
+    <li>Your violation of any third party's rights, including intellectual property, privacy, or publicity rights.</li>
+  </ul>
+  <p>We reserve the right to assume the exclusive defense of any matter for which you are required to indemnify us, in which case you agree to cooperate with our defense.</p>
+
+  <h2 id="termination">Termination</h2>
+  <p>You may stop using Ralli at any time, and you may delete your account in Profile → Settings.</p>
+  <p>We may suspend or terminate your access to Ralli, in whole or in part, at any time, with or without notice or cause, including if we believe:</p>
+  <ul>
+    <li>You have violated these terms;</li>
+    <li>Your conduct poses a risk to other users, our partners, or us;</li>
+    <li>Required by law or by a request from law enforcement;</li>
+    <li>We discontinue the service.</li>
+  </ul>
+  <p>Upon termination, your right to use Ralli ends immediately. Sections that by their nature should survive termination — including <a href="#warranties">Disclaimer of warranties</a>, <a href="#liability">Limitation of liability</a>, <a href="#indemnification">Indemnification</a>, <a href="#governing-law">Governing law</a>, and <a href="#disputes">Dispute resolution</a> — will continue to apply.</p>
+
+  <h2 id="changes">Changes to the service</h2>
   <p>We may add, change, or remove features at any time. We'll do our best to communicate significant changes in advance. We may also update these terms — if we do, we'll update the date at the top.</p>
 
-  <h2>Governing law</h2>
-  <p>These terms are governed by the laws of the United States. Any disputes will be resolved in the courts of the state where GoodSisters is based.</p>
+  <h2 id="force-majeure">Force majeure</h2>
+  <p>Neither party will be liable for failure or delay in performance caused by circumstances beyond reasonable control, including natural disasters, pandemics, government action, war, terrorism, labor disputes, internet or hosting provider outages, or third-party service failures.</p>
+
+  <h2 id="california">California residents — your privacy rights</h2>
+  <p>If you are a California resident, you have specific rights under the California Consumer Privacy Act (CCPA) and California Privacy Rights Act (CPRA), including:</p>
+  <ul>
+    <li>The right to know what personal information we collect, use, and share.</li>
+    <li>The right to request deletion of your personal information.</li>
+    <li>The right to correct inaccurate personal information.</li>
+    <li>The right to opt out of the "sale" or "sharing" of your personal information (we do not sell your personal information).</li>
+    <li>The right to non-discrimination for exercising these rights.</li>
+  </ul>
+  <p>To exercise these rights, email <a href="mailto:theralliapp@gmail.com">theralliapp@gmail.com</a> with the subject line "California Privacy Request." We may need to verify your identity before responding. For more details, see our <a href="/privacy.html">Privacy Policy</a>.</p>
+
+  <h2 id="governing-law">Governing law</h2>
+  <p>These terms are governed by the laws of the State of California, without regard to its conflict of laws principles. The federal and state courts located in San Francisco County, California will have exclusive jurisdiction over any dispute not subject to arbitration under the next section.</p>
+
+  <h2 id="disputes">Dispute resolution and arbitration</h2>
+  <div class="callout">
+    <p><strong>Please read this section carefully — it affects your legal rights.</strong></p>
+  </div>
+  <p>Most concerns can be resolved by emailing us at <a href="mailto:theralliapp@gmail.com">theralliapp@gmail.com</a>. We encourage you to contact us before filing a formal claim, and we'll work in good faith to resolve the issue.</p>
+  <p>If we cannot resolve a dispute informally, <strong>any dispute, claim, or controversy arising out of or relating to these terms or your use of Ralli will be resolved through binding individual arbitration</strong>, rather than in court, except that:</p>
+  <ul>
+    <li>You may bring claims in small claims court if they qualify.</li>
+    <li>Either party may seek injunctive or equitable relief in court for intellectual property or unauthorized-access issues.</li>
+  </ul>
+  <p>Arbitration will be conducted by JAMS or the American Arbitration Association under their consumer rules, in San Francisco, California, or another mutually agreed location. Each side bears its own costs unless the arbitration rules require otherwise.</p>
+  <p><strong>You and GoodSisters agree that any dispute will be brought in your individual capacity, and not as a plaintiff or class member in any purported class, collective, or representative action.</strong> Class arbitrations and class actions are not permitted.</p>
+  <p>You may opt out of this arbitration agreement by emailing <a href="mailto:theralliapp@gmail.com">theralliapp@gmail.com</a> with the subject line "Arbitration Opt-Out" within 30 days of creating your account. Opting out will not affect any other part of these terms.</p>
+
+  <h2 id="general">General provisions</h2>
+  <p><strong>Severability.</strong> If any part of these terms is found to be unenforceable, the remaining provisions will continue in full force.</p>
+  <p><strong>Entire agreement.</strong> These terms, together with our <a href="/privacy.html">Privacy Policy</a>, form the entire agreement between you and GoodSisters regarding Ralli, and supersede any prior agreements on the same subject.</p>
+  <p><strong>No waiver.</strong> Our failure to enforce any provision of these terms does not waive our right to enforce it later.</p>
+  <p><strong>Assignment.</strong> You may not assign or transfer your rights under these terms without our prior written consent. We may assign these terms to a successor or affiliate, including in connection with a merger or acquisition.</p>
+  <p><strong>Headings.</strong> Section headings are for convenience only and have no legal effect.</p>
+  <p><strong>Notices to us.</strong> Send legal notices to <a href="mailto:theralliapp@gmail.com">theralliapp@gmail.com</a> with the subject line "Legal Notice."</p>
 
   <div class="contact-box">
     <p>Questions or concerns? Email us at <a href="mailto:theralliapp@gmail.com">theralliapp@gmail.com</a>.</p>
