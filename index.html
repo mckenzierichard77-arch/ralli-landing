@@ -56,10 +56,20 @@
       if (!dupSnap.empty) {
         return { ok: true, alreadyOnList: true };
       }
+      // Read source from URL query parameter (?src=ig, ?src=reddit, etc.)
+      // so we can tell in Firestore which channel each signup came from.
+      // Falls back to "landing" if no ?src= was provided.
+      let source = "landing";
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const raw = (params.get("src") || params.get("source") || "").trim().toLowerCase();
+        if (raw && /^[a-z0-9_-]{1,40}$/.test(raw)) source = raw;
+      } catch {}
+
       await addDoc(collection(db, "waitlist"), {
         email: clean,
         createdAt: serverTimestamp(),
-        source: "landing",
+        source,
         userAgent: navigator.userAgent.slice(0, 200),
       });
       return { ok: true, alreadyOnList: false };
