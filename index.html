@@ -26,7 +26,7 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-  import { getFirestore, collection, addDoc, query, where, getDocs, serverTimestamp }
+  import { getFirestore, doc, setDoc, serverTimestamp }
     from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 
   // REPLACE these with your real Firebase config — same values your React app uses.
@@ -49,13 +49,6 @@
       return { ok: false, error: "Please enter a valid email address." };
     }
     try {
-      const dupSnap = await getDocs(query(
-        collection(db, "waitlist"),
-        where("email", "==", clean)
-      ));
-      if (!dupSnap.empty) {
-        return { ok: true, alreadyOnList: true };
-      }
       // Read source from URL query parameter (?src=ig, ?src=reddit, etc.)
       // so we can tell in Firestore which channel each signup came from.
       // Falls back to "landing" if no ?src= was provided.
@@ -66,13 +59,20 @@
         if (raw && /^[a-z0-9_-]{1,40}$/.test(raw)) source = raw;
       } catch {}
 
-      await addDoc(collection(db, "waitlist"), {
+      // Doc ID is derived from the email itself, so a repeat signup just
+      // overwrites (merges into) the same doc instead of requiring a read
+      // to detect duplicates first — anonymous visitors aren't allowed to
+      // read the waitlist collection per Firestore security rules.
+      const docId = clean.replace(/\//g, "_");
+
+      await setDoc(doc(db, "waitlist", docId), {
         email: clean,
         createdAt: serverTimestamp(),
         source,
         userAgent: navigator.userAgent.slice(0, 200),
-      });
-      return { ok: true, alreadyOnList: false };
+      }, { merge: true });
+
+      return { ok: true };
     } catch (e) {
       console.error("waitlist error", e);
       return { ok: false, error: "Something went wrong. Please try again or email us directly." };
@@ -1273,9 +1273,7 @@
       const result = await window.__ralliWaitlist(email.value);
       if (result.ok) {
         status.className = (isDark ? "cta-status " : "waitlist-status ") + "success";
-        status.textContent = result.alreadyOnList
-          ? "You're already on the list — we'll be in touch."
-          : "You're in. We'll email you the moment Ralli is ready.";
+        status.textContent = "You're in. We'll email you the moment Ralli is ready.";
         email.value = "";
         submit.textContent = "✓ You're in";
       } else {
