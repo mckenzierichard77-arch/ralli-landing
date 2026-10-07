@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ralli by GoodSisters — Know what's in your skincare</title>
-<meta name="description" content="Ralli analyses every ingredient in your skincare, gives you a pore-clogging score, and shows what people with your skin type actually think. Join the waitlist.">
+<title>Ralli by GoodSisters — Less noise, more answers</title>
+<meta name="description" content="Less noise, more answers. Ralli is the social skincare app: 200,000+ products scored, honest pore scores, and what your circle is actually using. iOS app coming late fall — join the waitlist.">
 <meta name="theme-color" content="#111827">
 
 <meta property="og:title" content="Ralli by GoodSisters">
-<meta property="og:description" content="Know exactly what's in your skincare. Instant pore scores, ingredient analysis, and honest reviews from people you trust.">
+<meta property="og:description" content="Less noise, more answers. See what your friends are actually using and get an honest pore score on 200,000+ products.">
 <meta property="og:url" content="https://theralliapp.com">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://theralliapp.com/favicon-512x512.png">
@@ -24,6 +24,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@900&display=swap" rel="stylesheet">
 
+<!-- ============================================================
+     WAITLIST — unchanged from the previous version.
+     ============================================================ -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
   import { getFirestore, doc, setDoc, serverTimestamp }
@@ -85,12 +88,15 @@
 
   :root {
     --navy:        #111827;
+    --navy-2:      #1B2540;
     --cloud:       #F8F9FB;
     --ice:         #CFE8FF;
+    --ice-soft:    #E8F1FB;
     --slate:       #9AACBC;
     --sage:        #2C7A5C;
     --rose:        #AA4F57;
     --amber:       #8B6914;
+    --star:        #D9A21B;
     --border:      #E6E8EC;
     --surface:     #FFFFFF;
     --mid:         #4A5568;
@@ -160,7 +166,7 @@
     font-weight: 600; font-size: 0.82rem;
   }
   .nav-cta:hover { background: #1F2937; }
-  @media (max-width: 640px) { .nav-links .hide-mobile { display: none; } }
+  @media (max-width: 760px) { .nav-links { gap: 1rem; } .nav-links .hide-mobile { display: none; } }
 
   /* ---------- HERO ---------- */
   .hero {
@@ -181,6 +187,11 @@
   .hero-eyebrow::before {
     content: ""; display: inline-block;
     width: 28px; height: 1px; background: var(--slate);
+  }
+  .live-dot {
+    width: 7px; height: 7px; border-radius: 999px;
+    background: var(--sage); display: inline-block;
+    box-shadow: 0 0 0 4px rgba(44, 122, 92, 0.14);
   }
 
   h1.hero-title {
@@ -204,7 +215,7 @@
   .hero-lede {
     font-size: 1.13rem; line-height: 1.6;
     color: var(--mid); margin-bottom: 2.5rem;
-    max-width: 30rem;
+    max-width: 31rem;
     opacity: 0; animation: rise 0.8s ease-out 0.35s forwards;
   }
 
@@ -295,7 +306,7 @@
 
   /* ---------- HERO MOCKUP COLUMN ---------- */
   .mockup-column {
-    position: relative; height: 540px;
+    position: relative; height: 560px;
     opacity: 0; animation: rise 1s ease-out 0.4s forwards;
   }
   .mock-card {
@@ -307,121 +318,118 @@
       0 20px 50px -10px rgba(17, 24, 39, 0.12);
     border: 1px solid var(--hairline);
   }
-  /* PRIMARY: friend feed card — large, dominant, leads the visual */
+
+  /* PRIMARY: friends' activity feed — mirrors the Home screen */
   .mock-feed {
-    top: 30px; left: 0; width: 90%;
-    padding: 1.5rem 1.25rem;
+    top: 20px; left: 0; width: 90%;
+    padding: 1.4rem 1.25rem 1.1rem;
     z-index: 2;
     animation: floatA 8s ease-in-out infinite;
   }
-  .feed-head { margin-bottom: 1rem; }
+  .feed-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 0.6rem;
+  }
+  .feed-title {
+    font-size: 0.95rem; font-weight: 700; color: var(--navy);
+    letter-spacing: -0.015em;
+  }
   .feed-eyebrow {
     font-size: 0.62rem; font-weight: 600;
     text-transform: uppercase; letter-spacing: 0.16em;
     color: var(--slate);
   }
   .feed-row {
-    display: flex; align-items: center; gap: 0.75rem;
-    padding: 0.55rem 0;
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    padding: 0.7rem 0;
   }
-  .feed-divider {
-    height: 1px; background: var(--hairline);
-    margin: 0 0 0 0;
-  }
+  .feed-row + .feed-row { border-top: 1px solid var(--hairline); }
   .feed-avatar {
-    width: 36px; height: 36px;
+    width: 34px; height: 34px;
     border-radius: 999px;
     display: flex; align-items: center; justify-content: center;
-    color: #fff;
-    font-size: 0.7rem; font-weight: 700;
+    background: var(--ice-soft); color: var(--navy);
+    font-size: 0.78rem; font-weight: 700;
     flex-shrink: 0;
-    letter-spacing: -0.01em;
   }
-  .feed-avatar.a { background: linear-gradient(135deg, #FBE8E9, var(--rose)); }
-  .feed-avatar.b { background: linear-gradient(135deg, #E8F2EC, var(--sage)); }
-  .feed-avatar.c { background: linear-gradient(135deg, #F4ECD5, var(--amber)); }
+  .feed-avatar.b { background: #E8F2EC; color: var(--sage); }
+  .feed-avatar.c { background: #F4ECD5; color: var(--amber); }
   .feed-text { flex: 1; min-width: 0; }
-  .feed-name {
-    font-size: 0.85rem; font-weight: 600;
-    color: var(--navy); line-height: 1.3;
-    letter-spacing: -0.005em;
+  .feed-who {
+    font-size: 0.8rem; font-weight: 600; color: var(--navy); line-height: 1.3;
   }
-  .feed-verb {
-    font-weight: 400; color: var(--mid);
+  .feed-who .verb { font-weight: 400; color: var(--slate); }
+  .feed-product {
+    font-size: 0.86rem; font-weight: 700; color: var(--navy);
+    letter-spacing: -0.01em; line-height: 1.3; margin-top: 0.1rem;
   }
-  .feed-meta {
-    font-size: 0.7rem; color: var(--slate);
+  .feed-quote {
+    font-size: 0.78rem; color: var(--mid); font-style: italic;
     margin-top: 0.15rem;
   }
-  .feed-tag {
-    font-size: 0.62rem; font-weight: 600;
-    padding: 0.25rem 0.55rem; border-radius: 999px;
-    text-transform: uppercase; letter-spacing: 0.06em;
-    flex-shrink: 0;
-    white-space: nowrap;
+  .feed-meta {
+    display: flex; align-items: center; gap: 0.6rem;
+    font-size: 0.7rem; color: var(--slate); margin-top: 0.35rem;
   }
-  .feed-tag.loved {
-    background: rgba(44, 122, 92, 0.1);
-    color: var(--sage);
-  }
-  .feed-tag.added {
-    background: rgba(207, 232, 255, 0.5);
-    color: var(--navy);
-  }
-  .feed-tag.brokeout {
-    background: rgba(170, 79, 87, 0.1);
-    color: var(--rose);
+  .star-chip {
+    background: #FBF3DF; color: var(--amber);
+    font-weight: 600; padding: 0.12rem 0.45rem; border-radius: 999px;
   }
 
-  /* SECONDARY: compact product card — drifts in beneath the feed */
+  /* SECONDARY: product card with pore score ring — mirrors Product Detail */
   .mock-product {
-    top: 360px; right: 0; width: 72%;
-    padding: 0.85rem 1rem;
+    top: 372px; right: 0; width: 76%;
+    padding: 1rem 1.1rem;
     z-index: 3;
     animation: floatB 9s ease-in-out infinite;
   }
-  .mock-product .row {
-    display: flex; align-items: center; gap: 0.75rem;
-  }
-  .mock-product .brand-block {
-    width: 40px; height: 40px;
-    border-radius: 0.55rem;
-    background: linear-gradient(135deg, var(--ice), #E8F1FB);
-    display: flex; align-items: center; justify-content: center;
-    font-family: var(--sans); font-weight: 700;
-    color: var(--navy); font-size: 0.7rem;
-    letter-spacing: -0.02em; flex-shrink: 0;
-  }
-  .mock-product .brand-name {
-    font-size: 0.58rem; font-weight: 600;
+  .mock-product .row { display: flex; align-items: center; gap: 0.85rem; }
+  .brand-pill {
+    display: inline-block;
+    font-size: 0.55rem; font-weight: 700;
     text-transform: uppercase; letter-spacing: 0.12em;
-    color: var(--slate); margin-bottom: 0.1rem;
+    color: var(--mid);
+    border: 1px solid var(--border); border-radius: 0.35rem;
+    padding: 0.12rem 0.4rem; margin-bottom: 0.3rem;
   }
   .mock-product .product-name {
-    font-size: 0.85rem; font-weight: 600;
+    font-size: 0.95rem; font-weight: 700;
     color: var(--navy); line-height: 1.2;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.015em;
   }
-  .product-score {
-    display: flex; align-items: baseline; gap: 0.15rem;
-    margin-left: auto;
-    padding: 0.35rem 0.6rem;
-    background: rgba(44, 122, 92, 0.08);
-    border-radius: 0.55rem;
-    color: var(--sage);
-    flex-shrink: 0;
+  .mock-product .risk {
+    font-size: 0.72rem; color: var(--sage); font-weight: 600; margin-top: 0.15rem;
   }
-  .product-score-num {
-    font-size: 1.15rem; font-weight: 700;
-    letter-spacing: -0.03em; line-height: 1;
+  .mock-product .friends-line {
+    display: flex; align-items: center; gap: 0.5rem;
+    margin-top: 0.8rem; padding-top: 0.7rem;
+    border-top: 1px solid var(--hairline);
+    font-size: 0.74rem; color: var(--mid);
   }
-  .product-score-label {
-    font-size: 0.65rem; font-weight: 500;
-    color: var(--sage); opacity: 0.7;
+  .mini-avs { display: flex; }
+  .mini-avs span {
+    width: 20px; height: 20px; border-radius: 999px;
+    background: var(--ice-soft); border: 2px solid #fff;
+    font-size: 0.5rem; font-weight: 700; color: var(--navy);
+    display: inline-flex; align-items: center; justify-content: center;
+    margin-left: -6px;
   }
+  .mini-avs span:first-child { margin-left: 0; }
+  .mini-avs span.more { background: var(--navy); color: #fff; }
+
+  /* Pore score ring — used in hero + features */
+  .score-ring { position: relative; flex-shrink: 0; }
+  .score-ring svg { display: block; transform: rotate(-90deg); }
+  .score-ring .val {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    line-height: 1;
+  }
+  .score-ring .val b { font-size: 1.15rem; font-weight: 800; color: var(--navy); letter-spacing: -0.03em; }
+  .score-ring .val small { font-size: 0.5rem; color: var(--slate); margin-top: 0.1rem; }
 
   .scan-accent {
-    position: absolute; top: -20px; right: 8%;
+    position: absolute; top: -24px; right: 8%;
     width: 80px; height: 80px;
     border: 1px dashed var(--border);
     border-radius: 999px; z-index: 0;
@@ -439,10 +447,18 @@
   @keyframes rise { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
   @media (max-width: 900px) {
-    .hero { grid-template-columns: 1fr; gap: 3rem; padding: 3rem 1.5rem 4rem; }
-    .mockup-column { height: 460px; max-width: 480px; margin: 0 auto; width: 100%; }
-    .mock-feed { width: 92%; }
-    .mock-product { width: 78%; top: 340px; }
+    .hero { grid-template-columns: minmax(0, 1fr); gap: 3rem; padding: 3rem 1rem 4rem; }
+    .hero > * { min-width: 0; }
+    .mockup-column { height: 520px; max-width: 480px; margin: 0 auto; width: 100%; }
+    .mock-feed { width: 94%; }
+    .mock-product { width: 82%; top: 360px; }
+  }
+  @media (max-width: 420px) {
+    .mockup-column { height: 560px; }
+    .mock-product { top: 400px; width: 90%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mock-feed, .mock-product { animation: none; }
   }
 
   /* ---------- "WHAT IT IS" STRIP ---------- */
@@ -455,7 +471,7 @@
     max-width: 1200px; margin: 0 auto;
     padding: 2.5rem 1.5rem;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
   }
   .strip-item .num {
@@ -470,7 +486,7 @@
     font-weight: 600;
   }
   @media (max-width: 700px) {
-    .strip-inner { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+    .strip-inner { grid-template-columns: 1fr; gap: 1.5rem; }
   }
 
   /* ---------- FEATURES ---------- */
@@ -479,7 +495,7 @@
     padding: 7rem 1.5rem 5rem;
   }
   .section-head {
-    margin-bottom: 4rem;
+    margin-bottom: 3rem;
     display: grid; grid-template-columns: 1fr 1.5fr; gap: 3rem;
     align-items: end;
   }
@@ -505,6 +521,24 @@
   @media (max-width: 800px) {
     .section-head { grid-template-columns: 1fr; gap: 1.5rem; }
   }
+
+  /* App tab bar — mirrors the bottom nav in the app */
+  .tabbar {
+    display: flex; gap: 0.5rem; flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  .tabbar a {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    padding: 0.5rem 0.95rem; border-radius: 999px;
+    background: var(--surface); border: 1px solid var(--border);
+    font-size: 0.82rem; font-weight: 600; color: var(--mid);
+    text-decoration: none;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .tabbar a:hover { border-color: var(--navy); color: var(--navy); }
+  .tabbar a.plus { background: var(--navy); border-color: var(--navy); color: #fff; }
+  .tabbar svg { width: 15px; height: 15px; }
+
   .feature-grid {
     display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.5rem;
   }
@@ -515,6 +549,7 @@
     padding: 2rem;
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     position: relative; overflow: hidden;
+    scroll-margin-top: 90px;
   }
   .feature-card:hover {
     transform: translateY(-4px);
@@ -525,6 +560,12 @@
     font-size: 0.7rem; font-weight: 600;
     color: var(--slate); letter-spacing: 0.1em;
     margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .feature-card .index .tab {
+    text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--navy); background: var(--ice-soft);
+    padding: 0.15rem 0.5rem; border-radius: 999px;
   }
   .feature-card h3 {
     font-size: 1.35rem; font-weight: 700;
@@ -533,16 +574,77 @@
   }
   .feature-card p { font-size: 0.94rem; color: var(--mid); line-height: 1.6; }
   .feature-card.large {
-    grid-column: span 7; min-height: 320px;
+    grid-column: span 7; min-height: 340px;
     display: flex; flex-direction: column; justify-content: space-between;
   }
   .feature-card.small {
-    grid-column: span 5; min-height: 320px;
+    grid-column: span 5; min-height: 340px;
     display: flex; flex-direction: column; justify-content: space-between;
   }
   .feature-card.wide { grid-column: span 12; }
-  .gauge {
+  .feature-card.dark {
+    background: linear-gradient(160deg, var(--navy-2), var(--navy));
+    border-color: var(--navy); color: #fff;
+  }
+  .feature-card.dark h3 { color: #fff; }
+  .feature-card.dark p { color: rgba(255,255,255,0.7); }
+  .feature-card.dark .index { color: rgba(255,255,255,0.5); }
+  .feature-card.dark .index .tab { background: rgba(207,232,255,0.15); color: var(--ice); }
+
+  /* Shared inset panel */
+  .panel {
     margin-top: 2rem;
+    padding: 1.1rem 1.25rem;
+    background: var(--cloud);
+    border-radius: 0.85rem;
+    border: 1px solid var(--hairline);
+  }
+  .panel-eyebrow {
+    font-size: 0.65rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--slate);
+    margin-bottom: 0.7rem;
+  }
+
+  /* 01 — friends' activity list */
+  .act-row {
+    display: flex; align-items: center; gap: 0.65rem;
+    padding: 0.45rem 0;
+  }
+  .act-row + .act-row { border-top: 1px solid var(--hairline); }
+  .act-av {
+    width: 28px; height: 28px; border-radius: 999px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.66rem; font-weight: 700; flex-shrink: 0;
+    background: var(--ice-soft); color: var(--navy);
+  }
+  .act-av.b { background: #E8F2EC; color: var(--sage); }
+  .act-av.c { background: #F4ECD5; color: var(--amber); }
+  .act-av.d { background: #FBE8E9; color: var(--rose); }
+  .act-text { flex: 1; min-width: 0; font-size: 0.84rem; color: var(--navy); line-height: 1.35; }
+  .act-text .verb { color: var(--slate); }
+  .act-text b { font-weight: 600; }
+  .tag {
+    font-size: 0.6rem; font-weight: 600;
+    padding: 0.25rem 0.55rem; border-radius: 999px;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    flex-shrink: 0; white-space: nowrap;
+  }
+  .tag.review  { background: #FBF3DF; color: var(--amber); }
+  .tag.routine { background: rgba(207, 232, 255, 0.6); color: var(--navy); }
+  .tag.repurch { background: rgba(44, 122, 92, 0.1); color: var(--sage); }
+  .tag.ask     { background: rgba(170, 79, 87, 0.1); color: var(--rose); }
+
+  /* 02 — Scan methods + gauge */
+  .scan-methods { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 1.25rem; }
+  .scan-methods span {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.76rem; font-weight: 600; color: var(--navy);
+    background: var(--ice-soft); padding: 0.4rem 0.7rem; border-radius: 0.6rem;
+  }
+  .scan-methods svg { width: 14px; height: 14px; }
+  .gauge {
+    margin-top: 1.5rem;
     display: flex; align-items: flex-end; gap: 0.45rem;
   }
   .gauge-bar {
@@ -558,144 +660,146 @@
     margin-top: 0.55rem; font-size: 0.65rem;
     color: var(--slate); font-weight: 500;
   }
-  .gauge-caption { margin-top: 1.5rem; font-size: 0.78rem; color: var(--slate); }
+  .gauge-caption { margin-top: 1rem; font-size: 0.78rem; color: var(--slate); }
   .gauge-caption strong { color: var(--navy); font-weight: 600; }
-  .signal {
-    margin-top: 2rem; padding: 1rem 1.1rem;
-    background: var(--cloud); border-radius: 0.75rem;
-    border: 1px solid var(--hairline);
-  }
-  .signal .row { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.4rem; }
-  .signal .av {
-    width: 22px; height: 22px; border-radius: 999px;
-    margin-left: -6px; border: 2px solid var(--cloud);
-  }
-  .signal .av:first-child { margin-left: 0; }
-  .signal .av.a { background: linear-gradient(135deg, var(--ice), #E8F1FB); }
-  .signal .av.b { background: linear-gradient(135deg, #FBE8E9, var(--rose)); }
-  .signal .av.c { background: linear-gradient(135deg, #E8F2EC, var(--sage)); }
-  .signal .signal-text { font-size: 0.86rem; color: var(--navy); font-weight: 500; }
-  .signal .signal-meta { font-size: 0.75rem; color: var(--slate); }
 
-  /* Enriched friend list visual for feature card 01 */
-  .friend-list {
-    margin-top: 2rem;
-    padding: 1.1rem 1.25rem;
-    background: var(--cloud);
-    border-radius: 0.85rem;
-    border: 1px solid var(--hairline);
-  }
-  .friend-list-eyebrow {
-    font-size: 0.65rem; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.14em;
-    color: var(--slate);
-    margin-bottom: 0.85rem;
-  }
-  .friend-list-row {
-    display: flex; align-items: center; gap: 0.65rem;
-    padding: 0.4rem 0;
-  }
-  .friend-list-row + .friend-list-row {
-    border-top: 1px solid var(--hairline);
-  }
-  .friend-av {
-    width: 28px; height: 28px;
-    border-radius: 999px;
-    display: inline-flex; align-items: center; justify-content: center;
-    font-size: 0.62rem; font-weight: 700;
-    color: #fff;
-    flex-shrink: 0;
-    letter-spacing: -0.01em;
-  }
-  .friend-av.a { background: linear-gradient(135deg, #FBE8E9, var(--rose)); }
-  .friend-av.b { background: linear-gradient(135deg, #E8F2EC, var(--sage)); }
-  .friend-av.c { background: linear-gradient(135deg, #F4ECD5, var(--amber)); }
-  .friend-list-name {
-    flex: 1; font-size: 0.88rem;
-    font-weight: 500; color: var(--navy);
-    letter-spacing: -0.005em;
-  }
-  .friend-list-tag {
-    font-size: 0.62rem; font-weight: 600;
-    padding: 0.25rem 0.55rem; border-radius: 999px;
-    text-transform: uppercase; letter-spacing: 0.06em;
-    flex-shrink: 0; white-space: nowrap;
-  }
-  .friend-list-tag.loved { background: rgba(44, 122, 92, 0.1); color: var(--sage); }
-  .friend-list-tag.added { background: rgba(207, 232, 255, 0.5); color: var(--navy); }
+  /* 03 — product page */
   .wide-row {
-    display: grid; grid-template-columns: 1.5fr 1fr;
+    display: grid; grid-template-columns: 1.2fr 1fr;
     gap: 2.5rem; align-items: center;
   }
-  .wide-row .right-stack { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-  .wide-row .ingredient-tag {
-    padding: 0.55rem 1rem; border-radius: 999px;
+  .lists {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;
+    margin-top: 1.5rem; max-width: 26rem;
+  }
+  .lists span {
+    border: 1px solid var(--border); border-radius: 0.75rem;
+    padding: 0.65rem 0.4rem; text-align: center;
+    font-size: 0.74rem; font-weight: 600; color: var(--navy);
+    background: var(--surface);
+  }
+  .lists span i {
+    display: block; font-style: normal; font-size: 0.95rem;
+    color: var(--mid); margin-bottom: 0.15rem; font-weight: 500;
+  }
+  .right-stack { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+  .ingredient-tag {
+    padding: 0.5rem 0.95rem; border-radius: 999px;
     background: var(--cloud); border: 1px solid var(--border);
-    font-size: 0.82rem; color: var(--navy); font-weight: 500;
+    font-size: 0.8rem; color: var(--navy); font-weight: 500;
     display: inline-flex; align-items: center; gap: 0.4rem;
   }
-  .wide-row .ingredient-tag .check {
+  .ingredient-tag .check {
     width: 14px; height: 14px; border-radius: 999px;
     background: var(--sage); color: #fff;
     display: inline-flex; align-items: center; justify-content: center;
     font-size: 0.55rem; font-weight: 700;
   }
-  .wide-row .ingredient-tag.flag .check { background: var(--rose); }
-  @media (max-width: 800px) {
-    .feature-card.large, .feature-card.small, .feature-card.wide { grid-column: span 12; }
-    .wide-row { grid-template-columns: 1fr; gap: 1.5rem; }
+  .ingredient-tag.flag .check { background: var(--rose); }
+  .ingredient-tag.irritant .check { background: var(--amber); }
+  .legend {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    margin-top: 1rem; font-size: 0.72rem; color: var(--slate);
+  }
+  .legend span { display: inline-flex; align-items: center; gap: 0.35rem; }
+  .legend i { width: 8px; height: 8px; border-radius: 999px; display: inline-block; }
+  .alts {
+    margin-top: 1.25rem; padding: 0.85rem 1rem;
+    background: var(--cloud); border: 1px solid var(--hairline);
+    border-radius: 0.75rem;
+  }
+  .alt-row { display: flex; align-items: center; justify-content: space-between; font-size: 0.82rem; padding: 0.3rem 0; }
+  .alt-row b { font-weight: 600; color: var(--navy); }
+  .alt-row small { color: var(--slate); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; display: block; }
+  .clear-pill {
+    font-size: 0.62rem; font-weight: 700; color: var(--sage);
+    background: rgba(44,122,92,0.1); padding: 0.2rem 0.55rem; border-radius: 999px;
   }
 
-  /* ---------- PROMISE STRIP — replaces former pull-quote ---------- */
-  .promise {
-    border-top: 1px solid var(--border);
-    background: var(--surface);
+  /* 04 — Routine + Ralli Ring */
+  .ring-wrap { display: flex; align-items: center; gap: 1.5rem; margin-top: 2rem; }
+  .ralli-ring { position: relative; width: 132px; height: 132px; flex-shrink: 0; }
+  .ralli-ring svg { transform: rotate(-90deg); display: block; }
+  .ralli-ring .center {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
   }
-  .promise-inner {
-    max-width: 1200px; margin: 0 auto;
-    padding: 5rem 1.5rem;
-    display: grid;
-    grid-template-columns: 0.9fr 1.6fr;
-    gap: 4rem;
-    align-items: start;
+  .ralli-ring .center b { font-size: 1.9rem; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+  .ralli-ring .center small { font-size: 0.7rem; color: rgba(255,255,255,0.6); margin-top: 0.2rem; }
+  .goal-list { flex: 1; min-width: 0; }
+  .goal {
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 0.8rem; padding: 0.45rem 0;
+    color: rgba(255,255,255,0.85);
   }
-  .promise-eyebrow {
-    font-size: 0.72rem; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.18em;
-    color: var(--slate);
-    display: flex; align-items: center; gap: 0.6rem;
-    margin-bottom: 0.75rem;
+  .goal + .goal { border-top: 1px solid rgba(255,255,255,0.08); }
+  .goal .tick {
+    width: 18px; height: 18px; border-radius: 999px;
+    background: var(--ice); color: var(--navy);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.6rem; font-weight: 800;
   }
-  .promise-eyebrow::before {
-    content: ""; width: 28px; height: 1px; background: var(--slate);
+  .goal .tick.todo { background: transparent; border: 1.5px solid rgba(255,255,255,0.3); }
+  .streak {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    margin-top: 0.9rem;
+    font-size: 0.62rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(255,255,255,0.8);
+    border: 1px solid rgba(255,255,255,0.18); border-radius: 999px;
+    padding: 0.3rem 0.7rem;
   }
-  .promise-title {
-    font-size: clamp(1.7rem, 3.5vw, 2.4rem);
-    font-weight: 800; line-height: 1.1;
-    letter-spacing: -0.03em; color: var(--navy);
+
+  /* 05 — Profile + sharing */
+  .thread-title { font-size: 0.9rem; font-weight: 700; color: var(--navy); line-height: 1.3; }
+  .thread-meta { font-size: 0.72rem; color: var(--slate); margin-top: 0.1rem; }
+  .profile-head { display: flex; align-items: center; gap: 0.75rem; }
+  .profile-stats { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 0.9rem; text-align: center; }
+  .profile-stats b { display: block; font-size: 1.05rem; font-weight: 800; color: var(--navy); letter-spacing: -0.02em; }
+  .profile-stats span { font-size: 0.68rem; color: var(--slate); }
+  .profile-tabs { display: flex; gap: 0.4rem; margin-top: 0.9rem; padding-top: 0.8rem; border-top: 1px solid var(--hairline); }
+  .profile-tabs span { font-size: 0.72rem; font-weight: 600; color: var(--mid); padding: 0.3rem 0.7rem; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); }
+  .profile-tabs span.on { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .dm {
+    margin-top: 0.8rem; display: flex; flex-direction: column; gap: 0.4rem;
   }
-  .promise-list {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2.5rem 3rem;
+  .bubble {
+    max-width: 85%; font-size: 0.78rem; line-height: 1.4;
+    padding: 0.5rem 0.75rem; border-radius: 1rem;
   }
-  .promise-item h4 {
-    font-size: 1rem; font-weight: 700; color: var(--navy);
-    letter-spacing: -0.015em; line-height: 1.2;
+  .bubble.them { background: var(--surface); border: 1px solid var(--border); color: var(--navy); border-bottom-left-radius: 0.3rem; }
+  .bubble.me { background: var(--navy); color: #fff; align-self: flex-end; border-bottom-right-radius: 0.3rem; }
+
+  /* 06 — Shop */
+  .shop-row {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.85rem;
+  }
+  .shop-card {
+    border: 1px solid var(--border); border-radius: 0.9rem;
+    background: var(--cloud); padding: 0.9rem 1rem;
+  }
+  .shop-card .brand { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--slate); }
+  .shop-card .name { font-size: 0.85rem; font-weight: 700; color: var(--navy); line-height: 1.25; margin-top: 0.15rem; }
+  .shop-card .stats { display: flex; gap: 0.75rem; margin-top: 0.55rem; font-size: 0.72rem; color: var(--mid); align-items: center; }
+  .shop-card .dot { width: 7px; height: 7px; border-radius: 999px; background: var(--sage); display: inline-block; margin-right: 0.25rem; }
+  .shop-card .star { color: var(--star); }
+  .shop-card .friends { font-size: 0.7rem; color: var(--slate); margin-top: 0.4rem; }
+  .verified {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    font-size: 0.58rem; font-weight: 700; color: var(--navy);
+    background: var(--ice-soft); padding: 0.18rem 0.5rem; border-radius: 999px;
     margin-bottom: 0.5rem;
-    display: flex; align-items: center; gap: 0.5rem;
   }
-  .promise-item h4 .bullet {
-    width: 8px; height: 8px; border-radius: 999px;
-    background: var(--sage); display: inline-block; flex-shrink: 0;
-  }
-  .promise-item h4 .bullet.rose { background: var(--rose); }
-  .promise-item h4 .bullet.amber { background: var(--amber); }
-  .promise-item h4 .bullet.navy { background: var(--navy); }
-  .promise-item p { font-size: 0.92rem; color: var(--mid); line-height: 1.55; }
+  .shop-note { margin-top: 0.9rem; font-size: 0.72rem; color: var(--slate); }
+
   @media (max-width: 800px) {
-    .promise-inner { grid-template-columns: 1fr; gap: 2.5rem; }
-    .promise-list { grid-template-columns: 1fr; gap: 1.75rem; }
+    .feature-card.large, .feature-card.small, .feature-card.wide { grid-column: span 12; min-height: 0; }
+    .wide-row { grid-template-columns: 1fr; gap: 1.5rem; }
+    .shop-row { grid-template-columns: 1fr; }
+    .feature-card { padding: 1.5rem; }
+  }
+  @media (max-width: 420px) {
+    .ring-wrap { flex-direction: column; align-items: flex-start; }
+    .goal-list { width: 100%; }
   }
 
   /* ---------- FOUNDER LETTER ---------- */
@@ -854,7 +958,8 @@
   .cta-status.success { display: block; background: rgba(207, 232, 255, 0.1); border: 1px solid rgba(207, 232, 255, 0.2); }
   .cta-status.error   { display: block; background: rgba(170, 79, 87, 0.15); border: 1px solid rgba(170, 79, 87, 0.3); }
   @media (max-width: 900px) {
-    .cta-card { grid-template-columns: 1fr; gap: 2rem; }
+    .cta-card { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+    .cta-band { padding: 4rem 1rem; }
   }
 
   /* ---------- FOOTER ---------- */
@@ -872,7 +977,7 @@
     font-family: var(--serif-logo); font-weight: 900;
     font-size: 1.4rem; letter-spacing: -0.04em;
     color: var(--navy); margin-bottom: 0.6rem;
-    display: block; line-height: 1;
+    display: block; line-height: 1; text-decoration: none;
   }
   .foot-tag { font-size: 0.85rem; color: var(--mid); max-width: 22rem; }
   .foot-col h4 {
@@ -885,6 +990,7 @@
   .foot-col a {
     font-size: 0.86rem; color: var(--navy);
     text-decoration: none; font-weight: 500;
+    overflow-wrap: anywhere;
   }
   .foot-col a:hover { color: var(--sage); }
   .foot-bottom {
@@ -892,6 +998,7 @@
     padding: 1.5rem 1.5rem 2.5rem;
     border-top: 1px solid var(--border);
     display: flex; justify-content: space-between; align-items: center;
+    gap: 1rem; flex-wrap: wrap;
     font-size: 0.78rem; color: var(--slate);
   }
   @media (max-width: 700px) {
@@ -907,7 +1014,6 @@
     <a href="/" class="wordmark">Ralli</a>
     <div class="nav-links">
       <a href="#how" class="hide-mobile">How it works</a>
-      <a href="#promise" class="hide-mobile">Our promise</a>
       <a href="#letter" class="hide-mobile">Our story</a>
       <a href="https://instagram.com/the.ralli.app/" target="_blank" rel="noopener" class="nav-ig" aria-label="Follow @the.ralli.app on Instagram">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
@@ -917,11 +1023,14 @@
   </div>
 </nav>
 
+<!-- ============================================================
+     HERO
+     ============================================================ -->
 <section class="hero">
   <div class="hero-left">
-    <div class="hero-eyebrow">Coming soon · iOS </div>
-    <h1 class="hero-title">See what your friends are <em>actually using.</em></h1>
-    <p class="hero-lede">The first skincare app built around your real-life network. See which products your friends love, what broke them out, plus an honest pore-clogging score on everything you scan. No ads. No paid placements. No influencers selling you something.</p>
+    <div class="hero-eyebrow"><span class="live-dot" aria-hidden="true"></span>iOS app · Coming late fall</div>
+    <h1 class="hero-title">Less noise, <em>more answers.</em></h1>
+    <p class="hero-lede">See what your circle is actually using, reviewing, and repurchasing. Scan any of 200,000+ products for an honest pore score. Then build an AM/PM routine — and close your Ralli Ring every day. No influencers selling you something.</p>
 
     <form class="waitlist" id="waitlist-form" novalidate>
       <div class="waitlist-label" id="join">Join the waitlist</div>
@@ -952,158 +1061,287 @@
   <div class="mockup-column" aria-hidden="true">
     <div class="scan-accent"></div>
 
-    <!-- PRIMARY: friend feed card. Shows three friends interacting with the
-         same product so the social network angle is visible at a glance. -->
+    <!-- PRIMARY: friends' activity, as it appears on the Home tab -->
     <div class="mock-card mock-feed">
       <div class="feed-head">
-        <div class="feed-eyebrow">Your friends · this week</div>
+        <div class="feed-title">Friends' activity</div>
+        <div class="feed-eyebrow">Today</div>
       </div>
 
       <div class="feed-row">
-        <div class="feed-avatar a">SR</div>
+        <div class="feed-avatar">A</div>
         <div class="feed-text">
-          <div class="feed-name">Sarah <span class="feed-verb">loved</span> CeraVe Moisturizing Cream</div>
-          <div class="feed-meta">3 days ago · Pore Score 2</div>
+          <div class="feed-who">Angela <span class="verb">reviewed · 2h</span></div>
+          <div class="feed-product">Beauty of Joseon Relief Sun SPF50+</div>
+          <div class="feed-quote">"Perfect under makeup, no white cast."</div>
+          <div class="feed-meta"><span class="star-chip">★ 4.8</span><span>♡ 24</span></div>
         </div>
-        <span class="feed-tag loved">Loved</span>
       </div>
 
-      <div class="feed-divider"></div>
-
       <div class="feed-row">
-        <div class="feed-avatar b">MY</div>
+        <div class="feed-avatar b">M</div>
         <div class="feed-text">
-          <div class="feed-name">Maya <span class="feed-verb">added</span> The Ordinary Niacinamide</div>
-          <div class="feed-meta">5 days ago · 4 friends use this</div>
+          <div class="feed-who">Maya <span class="verb">added to her routine · 5h</span></div>
+          <div class="feed-product">CeraVe Hydrating Cleanser</div>
+          <div class="feed-quote">"Great for my sensitive skin."</div>
         </div>
-        <span class="feed-tag added">In routine</span>
       </div>
 
-      <div class="feed-divider"></div>
-
       <div class="feed-row">
-        <div class="feed-avatar c">JN</div>
+        <div class="feed-avatar c">S</div>
         <div class="feed-text">
-          <div class="feed-name">Jen <span class="feed-verb">broke out from</span> a new SPF</div>
-          <div class="feed-meta">1 week ago · Pore Score 4</div>
+          <div class="feed-who">Sophie <span class="verb">repurchased · 1d</span></div>
+          <div class="feed-product">Paula's Choice 2% BHA Liquid</div>
         </div>
-        <span class="feed-tag brokeout">Broke out</span>
       </div>
     </div>
 
-    <!-- SECONDARY: compact product scan card. Drifts in beneath the feed so
-         the pore-score capability is still visible without dominating. -->
+    <!-- SECONDARY: product card with pore score, as on Product Detail -->
     <div class="mock-card mock-product">
       <div class="row">
-        <div class="brand-block">CV</div>
+        <div class="score-ring">
+          <svg width="56" height="56" viewBox="0 0 56 56">
+            <circle cx="28" cy="28" r="23" fill="none" stroke="#EEF0F3" stroke-width="6"/>
+            <circle cx="28" cy="28" r="23" fill="none" stroke="#2C7A5C" stroke-width="6"
+                    stroke-linecap="round" stroke-dasharray="115.6 144.5"/>
+          </svg>
+          <div class="val"><b>4</b><small>/5</small></div>
+        </div>
         <div>
-          <div class="brand-name">CeraVe</div>
-          <div class="product-name">Moisturizing Cream</div>
+          <div class="brand-pill">Laneige</div>
+          <div class="product-name">Water Sleeping Mask</div>
+          <div class="risk">Pore score · Low risk</div>
         </div>
-        <div class="product-score">
-          <div class="product-score-num">2</div>
-          <div class="product-score-label">/ 5</div>
-        </div>
+      </div>
+      <div class="friends-line">
+        <div class="mini-avs"><span>M</span><span>S</span><span>L</span><span class="more">+2</span></div>
+        Maya, Sophie +3 use this
       </div>
     </div>
   </div>
 </section>
 
+<!-- ============================================================
+     STRIP
+     ============================================================ -->
 <section class="strip">
   <div class="strip-inner">
     <div class="strip-item">
-      <div class="num">1000+</div>
+      <div class="num">200K+</div>
       <div class="label">Products scored</div>
     </div>
     <div class="strip-item">
-      <div class="num">0–5</div>
-      <div class="label">Pore-clogging scale</div>
+      <div class="num">100s</div>
+      <div class="label">Pore-cloggers flagged</div>
     </div>
     <div class="strip-item">
-      <div class="num">A–F</div>
-      <div class="label">Routine grade</div>
-    </div>
-    <div class="strip-item">
-      <div class="num">100%</div>
-      <div class="label">Your network</div>
+      <div class="num">1–5</div>
+      <div class="label">Pore score · 5 is no risk</div>
     </div>
   </div>
 </section>
 
+<!-- ============================================================
+     HOW IT WORKS — follows the app's five tabs
+     ============================================================ -->
 <section class="features" id="how">
   <div class="section-head">
     <div>
       <div class="section-eyebrow">How it works</div>
-      <h2 class="section-title">Your friends. Your routine. Real answers.</h2>
+      <h2 class="section-title">Everything your group chat does. Plus the receipts.</h2>
     </div>
     <div class="section-deck">
-      See which products people in your circle actually use, loved, or broke out from — paired with an honest pore-clogging score on everything you scan. Built around your real-life network, not strangers paid to promote products.
+      Ralli puts your circle, the ingredient facts, and your routine in one app. Here's what's inside each tab.
     </div>
+  </div>
+
+  <div class="tabbar" aria-label="App sections">
+    <a href="#f-home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"/></svg>Home</a>
+    <a href="#f-shop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l-1 14H7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>Shop</a>
+    <a href="#f-scan" class="plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Scan</a>
+    <a href="#f-routine"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>Routine</a>
+    <a href="#f-profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Profile</a>
   </div>
 
   <div class="feature-grid">
 
-    <div class="feature-card large">
+    <!-- 01 HOME -->
+    <div class="feature-card large" id="f-home">
       <div>
-        <div class="index">01</div>
-        <h3>Your real-life network, finally in one place.</h3>
-        <p>See which products your friends use, what they love, and what broke them out — before you buy anything yourself. Not influencers. Not strangers. The people whose skin you actually trust.</p>
+        <div class="index">01 <span class="tab">Home</span></div>
+        <h3>A feed of what your circle is loving right now.</h3>
+        <p>Reviews, routine updates, repurchases, and saves from the people you follow, plus what's trending in your circle this week. Not influencers or strangers. The people whose skin you actually trust.</p>
       </div>
-      <div class="friend-list">
-        <div class="friend-list-eyebrow">3 friends use La Roche-Posay Toleriane</div>
-        <div class="friend-list-row">
-          <span class="friend-av a">SR</span>
-          <span class="friend-list-name">Sarah</span>
-          <span class="friend-list-tag loved">Loved</span>
+      <div class="panel">
+        <div class="panel-eyebrow">From the 48 people you follow</div>
+        <div class="act-row">
+          <span class="act-av">A</span>
+          <span class="act-text"><b>Angela</b> <span class="verb">reviewed</span> Relief Sun SPF50+</span>
+          <span class="tag review">★ 4.8</span>
         </div>
-        <div class="friend-list-row">
-          <span class="friend-av b">MY</span>
-          <span class="friend-list-name">Maya</span>
-          <span class="friend-list-tag added">In routine</span>
+        <div class="act-row">
+          <span class="act-av b">M</span>
+          <span class="act-text"><b>Maya</b> <span class="verb">added</span> CeraVe Hydrating Cleanser</span>
+          <span class="tag routine">In routine</span>
         </div>
-        <div class="friend-list-row">
-          <span class="friend-av c">JN</span>
-          <span class="friend-list-name">Jen</span>
-          <span class="friend-list-tag added">In routine</span>
+        <div class="act-row">
+          <span class="act-av c">S</span>
+          <span class="act-text"><b>Sophie</b> <span class="verb">repurchased</span> 2% BHA Liquid</span>
+          <span class="tag repurch">Repurchased</span>
+        </div>
+        <div class="act-row">
+          <span class="act-av d">L</span>
+          <span class="act-text"><b>Lena</b> <span class="verb">saved</span> COSRX Snail 96 Mucin</span>
+          <span class="tag ask">Want to try</span>
         </div>
       </div>
     </div>
 
-    <div class="feature-card small">
+    <!-- 02 SCAN -->
+    <div class="feature-card small" id="f-scan">
       <div>
-        <div class="index">02</div>
-        <h3>An honest pore score on everything.</h3>
-        <p>Every ingredient matched against a curated comedogenic database, averaged into a 0–5 score. Green for clear. Red for caution.</p>
+        <div class="index">02 <span class="tab">Scan +</span></div>
+        <h3>An honest pore score on 200,000+ products.</h3>
+        <p>Snap the product, scan the ingredient label, or paste the INCI list. Every ingredient is checked against hundreds of known pore-cloggers and rolled into one score from 1 to 5. 5 means no risk.</p>
+        <div class="scan-methods">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>Photo</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h7"/></svg>Ingredient label</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6V4h14v2M12 4v16M9 20h6"/></svg>Paste a list</span>
+        </div>
       </div>
       <div>
         <div class="gauge" aria-hidden="true">
           <div class="gauge-bar active"></div>
           <div class="gauge-bar active"></div>
-          <div class="gauge-bar"></div>
-          <div class="gauge-bar"></div>
+          <div class="gauge-bar active"></div>
+          <div class="gauge-bar active"></div>
           <div class="gauge-bar"></div>
         </div>
         <div class="gauge-numbers">
-          <span>Clear</span><span>1</span><span>2</span><span>3</span><span>Avoid</span>
+          <span>High risk</span><span>2</span><span>3</span><span>4</span><span>No risk</span>
         </div>
-        <div class="gauge-caption"><strong>Score 2 · Low risk</strong></div>
+        <div class="gauge-caption"><strong>4/5 · Low risk</strong> — very unlikely to clog</div>
       </div>
     </div>
 
-    <div class="feature-card wide">
+    <!-- 03 PRODUCT PAGE -->
+    <div class="feature-card wide" id="f-product">
       <div class="wide-row">
         <div>
-          <div class="index">03</div>
-          <h3>Every ingredient, explained.</h3>
-          <p>Tap any ingredient to see what it does, why it's flagged, and what concentration matters. A glossary of 60+ ingredients written by people, not algorithms.</p>
+          <div class="index">03 <span class="tab">Every product</span></div>
+          <h3>Every ingredient, explained. Every friend, right there.</h3>
+          <p>Each product page shows who in your circle uses it, a "Why this score?" breakdown, the full ingredient list (tap anything to learn what it does), and better alternatives with lower pore risk. Save it in one tap.</p>
+          <div class="lists" aria-hidden="true">
+            <span><i>+</i>Add to Routine</span>
+            <span><i>☆</i>Want to Try</span>
+            <span><i>⊘</i>Not For Me</span>
+          </div>
         </div>
-        <div class="right-stack">
-          <span class="ingredient-tag"><span class="check">✓</span>Niacinamide</span>
-          <span class="ingredient-tag"><span class="check">✓</span>Ceramides</span>
-          <span class="ingredient-tag"><span class="check">✓</span>Glycerin</span>
-          <span class="ingredient-tag flag"><span class="check">!</span>Isopropyl myristate</span>
-          <span class="ingredient-tag"><span class="check">✓</span>Squalane</span>
-          <span class="ingredient-tag flag"><span class="check">!</span>Coconut oil</span>
+        <div>
+          <div class="right-stack">
+            <span class="ingredient-tag"><span class="check">✓</span>Glycerin</span>
+            <span class="ingredient-tag"><span class="check">✓</span>Sodium Hyaluronate</span>
+            <span class="ingredient-tag"><span class="check">✓</span>Trehalose</span>
+            <span class="ingredient-tag flag"><span class="check">!</span>Dimethicone</span>
+            <span class="ingredient-tag"><span class="check">✓</span>Beta-Glucan</span>
+            <span class="ingredient-tag irritant"><span class="check">!</span>Fragrance</span>
+          </div>
+          <div class="legend">
+            <span><i style="background:var(--rose)"></i>May clog pores</span>
+            <span><i style="background:var(--amber)"></i>May cause irritation</span>
+          </div>
+          <div class="alts">
+            <div class="panel-eyebrow" style="margin-bottom:0.4rem">Better alternatives</div>
+            <div class="alt-row"><div><small>CeraVe</small><b>Moisturizing Cream</b></div><span class="clear-pill">No risk</span></div>
+            <div class="alt-row"><div><small>Tatcha</small><b>The Water Cream</b></div><span class="clear-pill">No risk</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 ROUTINE + RALLI RING -->
+    <div class="feature-card small dark" id="f-routine">
+      <div>
+        <div class="index">04 <span class="tab">Routine</span></div>
+        <h3>Build your routine. Close your Ralli Ring.</h3>
+        <p>Lay out your AM and PM steps, set daily skin goals, and watch your streak grow. Check your month at a glance to see what's working.</p>
+      </div>
+      <div class="ring-wrap" aria-hidden="true">
+        <div class="ralli-ring">
+          <svg width="132" height="132" viewBox="0 0 132 132">
+            <circle cx="66" cy="66" r="54" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="12"/>
+            <circle cx="66" cy="66" r="54" fill="none" stroke="#F8F9FB" stroke-width="12"
+                    stroke-linecap="round" stroke-dasharray="226 339.3"/>
+          </svg>
+          <div class="center"><b>2/3</b><small>complete</small></div>
+        </div>
+        <div class="goal-list">
+          <div class="goal">Wash face (AM) <span class="tick">✓</span></div>
+          <div class="goal">Wash face (PM) <span class="tick">✓</span></div>
+          <div class="goal">SPF <span class="tick todo"></span></div>
+          <div class="streak">🔥 6 day streak</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05 PROFILE + SHARING -->
+    <div class="feature-card large" id="f-profile">
+      <div>
+        <div class="index">05 <span class="tab">Profile</span></div>
+        <h3>Your skin, your circle, all in one place.</h3>
+        <p>Your reviews, routines, and saved lists live on your profile. Follow the friends whose skin you trust, see who follows you, and send a product straight to a friend. It's the group-chat screenshot, finally in one place.</p>
+      </div>
+      <div class="panel">
+        <div class="profile-head">
+          <span class="act-av" style="width:40px;height:40px;font-size:0.9rem">A</span>
+          <div>
+            <div class="thread-title">Angela</div>
+            <div class="thread-meta">@angelaskin · Ingredient nerd ✦</div>
+          </div>
+        </div>
+        <div class="profile-stats">
+          <div><b>48</b><span>Following</span></div>
+          <div><b>128</b><span>Followers</span></div>
+          <div><b>41</b><span>Posts</span></div>
+        </div>
+        <div class="profile-tabs"><span class="on">Posts</span><span>Routines</span><span>Saved</span></div>
+        <div class="dm" aria-hidden="true">
+          <div class="bubble me">Sending you the sleeping mask I mentioned. 4/5, low clog risk</div>
+          <div class="bubble them">Adding it to my Want to Try ✨</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 06 SHOP -->
+    <div class="feature-card wide" id="f-shop">
+      <div class="wide-row" style="align-items:start">
+        <div>
+          <div class="index">06 <span class="tab">Shop</span></div>
+          <h3>Shop what your friends actually use.</h3>
+          <p>Browse by category or skin concern and compare picks side by side, with the pore score and your friends' picks right on every card. Partner picks are always labeled, and every one has to pass Ralli's ingredient review first.</p>
+        </div>
+        <div>
+          <div class="shop-row">
+            <div class="shop-card">
+              <div class="brand">CeraVe</div>
+              <div class="name">Hydrating Facial Cleanser</div>
+              <div class="stats"><span><i class="dot"></i>5/5</span><span><span class="star">★</span> 4.8</span></div>
+              <div class="friends">24 friends love CeraVe</div>
+            </div>
+            <div class="shop-card">
+              <div class="brand">Anua</div>
+              <div class="name">Heartleaf 77% Soothing Toner</div>
+              <div class="stats"><span><i class="dot"></i>5/5</span><span><span class="star">★</span> 4.7</span></div>
+              <div class="friends">Trending in your circle</div>
+            </div>
+            <div class="shop-card">
+              <span class="verified">✓ Ralli Verified</span>
+              <div class="brand">Beauty of Joseon</div>
+              <div class="name">Relief Sun SPF50+</div>
+              <div class="stats"><span><i class="dot"></i>5/5</span><span><span class="star">★</span> 4.8</span></div>
+            </div>
+          </div>
+          <div class="shop-note">Some links are affiliate links, so Ralli may earn a commission. It never changes a score.</div>
         </div>
       </div>
     </div>
@@ -1112,68 +1350,31 @@
 </section>
 
 <!-- ============================================================
-     OUR PROMISE — replaces the prior pull-quote; surfaces the
-     four conviction points directly on the landing page.
-     ============================================================ -->
-<section class="promise" id="promise">
-  <div class="promise-inner">
-    <div>
-      <div class="promise-eyebrow">Our promise</div>
-      <h2 class="promise-title">What you'll never find here.</h2>
-    </div>
-
-    <div class="promise-list">
-      <div class="promise-item">
-        <h4><span class="bullet rose"></span>Your community, your feed.</h4>
-        <p>What you see is what people you actually follow are using, loving, or breaking out from. No influencer algorithm. No engagement bait. Just your circle, sorted by what's new.</p>
-      </div>
-
-      <div class="promise-item">
-        <h4><span class="bullet"></span>No paid placements.</h4>
-        <p>Brands cannot pay to appear, rank higher, or be featured. Our editorial picks are exactly that — editorial. Your feed has no native ads, no boosted posts, no sponsored "you might like" cards.</p>
-      </div>
-
-      <div class="promise-item">
-        <h4><span class="bullet amber"></span>Your data stays yours.</h4>
-        <p>We don't sell your data. Ever. Your routine and personal lists are private by default — only what you explicitly post is visible to others. <a href="/privacy.html" style="color: var(--sage);">Read our privacy policy →</a></p>
-      </div>
-
-      <div class="promise-item">
-        <h4><span class="bullet navy"></span>Honest by design.</h4>
-        <p>Every product score is calculated from its actual ingredient list, not from how much the brand spent on marketing. We show you the receipts — including ingredients we flag and why.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     FOUNDER LETTER — copy taken directly from founders' mockup.
-     Edit text in place if you ever want to revise; styling stays.
+     FOUNDER LETTER
      ============================================================ -->
 <section class="founder" id="letter">
   <div class="founder-inner">
-    <!-- Subtle beaker accent in the corner — same minimal style as the
-         scan-accent dotted circle in the hero. Hidden on small screens. -->
     <svg class="founder-accent" viewBox="0 0 80 100" aria-hidden="true">
-      <!-- Beaker outline: two top lip strokes, two angled sides, rounded bottom -->
       <path d="M 26 8 L 26 32 L 8 84 Q 8 92 16 92 L 64 92 Q 72 92 72 84 L 54 32 L 54 8"
             fill="none" stroke="currentColor" stroke-width="1.6"
             stroke-linecap="round" stroke-linejoin="round"/>
-      <!-- Top lip rim -->
       <line x1="22" y1="8" x2="58" y2="8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-      <!-- A single quiet liquid line near the bottom -->
       <path d="M 14 70 Q 22 67 30 70 Q 38 73 46 70 Q 54 67 62 70 Q 68 71.5 70 71"
             fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
     </svg>
 
     <div class="founder-eyebrow">Our story</div>
 
-    <h2 class="founder-headline">Built out of necessity.</h2>
+    <h2 class="founder-headline">Two sisters, one ingredient list at a time.</h2>
 
     <div class="founder-letter">
-      <p>Ralli was born from the same frustration we know you've felt — spending hours deciphering ingredient labels, second-guessing whether a glowing review was paid for, and never quite trusting that the "dermatologist recommended" label meant anything real.</p>
+      <p>It started with screenshots. Every new cleanser, serum, or sunscreen one of us was eyeing got sent to the other with the same question: "Is this going to break me out?"</p>
 
-      <p>As sisters, we kept sending each other screenshots asking "is this pore-clogging?" We realized our most trusted source was each other — not ads, not influencers. So we built the tool we always wished existed.</p>
+      <p>Then came the checking. We'd copy the ingredient list, paste it into one site, cross-check it on another, and look up every name we didn't recognize, then text each other what we found. Fifteen minutes per product, every time. The answers were out there. They were just buried under marketing, paid reviews, and "dermatologist recommended" labels that didn't mean much.</p>
+
+      <p>What we actually trusted was the ingredient list and each other. So we built Ralli to do both at once: scan a product, see exactly what's in it and whether it's likely to clog your pores, and see what the people you trust are really using.</p>
+
+      <p>Less noise, more answers. That's the whole idea.</p>
     </div>
 
     <div class="founder-signoff">
@@ -1185,15 +1386,18 @@
   </div>
 </section>
 
+<!-- ============================================================
+     BOTTOM CTA — waitlist form #2 (ids unchanged)
+     ============================================================ -->
 <section class="cta-band">
   <div class="cta-card">
     <div>
       <h2>Find out what your friends are using.</h2>
-      <p>Join the waitlist and we'll send one email when the iOS app is are ready. No newsletter, no pitch deck, no follow-up nonsense.</p>
+      <p>The iOS app lands late fall. Join the waitlist and we'll send one email when it's ready.</p>
     </div>
     <div>
       <form class="cta-form" id="cta-form" novalidate>
-        <input type="email" id="cta-email" placeholder="your@email.com" autocomplete="email" required>
+        <input type="email" id="cta-email" placeholder="your@email.com" autocomplete="email" required aria-label="Email address">
         <button type="submit" id="cta-submit">Join</button>
       </form>
       <div class="cta-microcopy">We'll never share your email. Promise.</div>
@@ -1206,13 +1410,12 @@
   <div class="foot-inner">
     <div class="foot-col first">
       <a href="/" class="foot-wordmark">Ralli</a>
-      <div class="foot-tag">A skincare social app by GoodSisters. Built for ingredient-conscious skin.</div>
+      <div class="foot-tag">The social skincare app by GoodSisters. See what your circle uses, scan what's in it, and build a routine that sticks.</div>
     </div>
     <div class="foot-col">
       <h4>Product</h4>
       <ul>
         <li><a href="#how">How it works</a></li>
-        <li><a href="#promise">Our promise</a></li>
         <li><a href="#letter">Our story</a></li>
         <li><a href="#join">Join waitlist</a></li>
       </ul>
