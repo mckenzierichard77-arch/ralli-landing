@@ -22,7 +22,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <!-- ============================================================
      WAITLIST — unchanged from the previous version.
@@ -102,7 +102,7 @@
     --mid:         #4A5568;
     --hairline:    #EEF0F3;
     --serif-logo:  'Poppins', sans-serif;
-    --sans:        'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --sans:        'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
   html { scroll-behavior: smooth; scroll-padding-top: 80px; -webkit-text-size-adjust: 100%; }
@@ -632,7 +632,6 @@
   }
   .tag.review  { background: #FBF3DF; color: var(--amber); }
   .tag.routine { background: rgba(207, 232, 255, 0.6); color: var(--navy); }
-  .tag.repurch { background: rgba(44, 122, 92, 0.1); color: var(--sage); }
   .tag.ask     { background: rgba(170, 79, 87, 0.1); color: var(--rose); }
 
   /* 02 — Scan methods + gauge */
@@ -655,6 +654,7 @@
     content: ""; position: absolute; inset: 0;
     background: var(--sage); border-radius: 999px;
   }
+  .gauge-bar.active.half::after { right: 50%; }
   .gauge-numbers {
     display: flex; justify-content: space-between;
     margin-top: 0.55rem; font-size: 0.65rem;
@@ -696,7 +696,6 @@
     font-size: 0.55rem; font-weight: 700;
   }
   .ingredient-tag.flag .check { background: var(--rose); }
-  .ingredient-tag.irritant .check { background: var(--amber); }
   .legend {
     display: flex; gap: 1rem; flex-wrap: wrap;
     margin-top: 1rem; font-size: 0.72rem; color: var(--slate);
@@ -1030,7 +1029,7 @@
   <div class="hero-left">
     <div class="hero-eyebrow"><span class="live-dot" aria-hidden="true"></span>iOS app · Coming late fall</div>
     <h1 class="hero-title">Less noise, <em>more answers.</em></h1>
-    <p class="hero-lede">See what your circle is actually using, reviewing, and repurchasing. Scan any of 200,000+ products for an honest pore score. Then build an AM/PM routine — and close your Ralli Ring every day. No influencers selling you something.</p>
+    <p class="hero-lede">See what your circle is actually using, reviewing, and saving. Scan any of 200,000+ products for an honest pore score. Then build an AM/PM routine — and close your Ralli Ring every day.</p>
 
     <form class="waitlist" id="waitlist-form" novalidate>
       <div class="waitlist-label" id="join">Join the waitlist</div>
@@ -1040,9 +1039,6 @@
         <button type="submit" class="waitlist-button" id="waitlist-submit">
           Get early access
         </button>
-      </div>
-      <div class="waitlist-microcopy">
-        One email when Ralli opens. No newsletter, no spam, no sale to third parties.
       </div>
       <div class="waitlist-status" id="waitlist-status"></div>
     </form>
@@ -1090,7 +1086,7 @@
       <div class="feed-row">
         <div class="feed-avatar c">S</div>
         <div class="feed-text">
-          <div class="feed-who">Sophie <span class="verb">repurchased · 1d</span></div>
+          <div class="feed-who">Sophie <span class="verb">saved to Want to Try · 1d</span></div>
           <div class="feed-product">Paula's Choice 2% BHA Liquid</div>
         </div>
       </div>
@@ -1103,9 +1099,9 @@
           <svg width="56" height="56" viewBox="0 0 56 56">
             <circle cx="28" cy="28" r="23" fill="none" stroke="#EEF0F3" stroke-width="6"/>
             <circle cx="28" cy="28" r="23" fill="none" stroke="#2C7A5C" stroke-width="6"
-                    stroke-linecap="round" stroke-dasharray="115.6 144.5"/>
+                    stroke-linecap="round" stroke-dasharray="130 144.5"/>
           </svg>
-          <div class="val"><b>4</b><small>/5</small></div>
+          <div class="val"><b>4.5</b><small>/5</small></div>
         </div>
         <div>
           <div class="brand-pill">Laneige</div>
@@ -1135,8 +1131,8 @@
       <div class="label">Pore-cloggers flagged</div>
     </div>
     <div class="strip-item">
-      <div class="num">1–5</div>
-      <div class="label">Pore score · 5 is no risk</div>
+      <div class="num">0–5</div>
+      <div class="label">Pore score · 4.5+ is low risk</div>
     </div>
   </div>
 </section>
@@ -1170,7 +1166,7 @@
       <div>
         <div class="index">01 <span class="tab">Home</span></div>
         <h3>A feed of what your circle is loving right now.</h3>
-        <p>Reviews, routine updates, repurchases, and saves from the people you follow, plus what's trending in your circle this week. Not influencers or strangers. The people whose skin you actually trust.</p>
+        <p>Reviews, routine updates, and saves from the people you follow, plus what's trending in your circle this week. The people whose skin you actually trust.</p>
       </div>
       <div class="panel">
         <div class="panel-eyebrow">From the 48 people you follow</div>
@@ -1186,8 +1182,8 @@
         </div>
         <div class="act-row">
           <span class="act-av c">S</span>
-          <span class="act-text"><b>Sophie</b> <span class="verb">repurchased</span> 2% BHA Liquid</span>
-          <span class="tag repurch">Repurchased</span>
+          <span class="act-text"><b>Sophie</b> <span class="verb">reviewed</span> 2% BHA Liquid</span>
+          <span class="tag review">★ 4.7</span>
         </div>
         <div class="act-row">
           <span class="act-av d">L</span>
@@ -1202,7 +1198,7 @@
       <div>
         <div class="index">02 <span class="tab">Scan +</span></div>
         <h3>An honest pore score on 200,000+ products.</h3>
-        <p>Snap the product, scan the ingredient label, or paste the INCI list. Every ingredient is checked against hundreds of known pore-cloggers and rolled into one score from 1 to 5. 5 means no risk.</p>
+        <p>Snap the product, scan the ingredient label, or paste the INCI list. Every ingredient is checked against hundreds of known pore-cloggers and rolled into one score from 0 to 5. 4.5 and up is low risk.</p>
         <div class="scan-methods">
           <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>Photo</span>
           <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h7"/></svg>Ingredient label</span>
@@ -1215,12 +1211,12 @@
           <div class="gauge-bar active"></div>
           <div class="gauge-bar active"></div>
           <div class="gauge-bar active"></div>
-          <div class="gauge-bar"></div>
+          <div class="gauge-bar active half"></div>
         </div>
         <div class="gauge-numbers">
-          <span>High risk</span><span>2</span><span>3</span><span>4</span><span>No risk</span>
+          <span>0 · High risk</span><span>5 · Low risk</span>
         </div>
-        <div class="gauge-caption"><strong>4/5 · Low risk</strong> — very unlikely to clog</div>
+        <div class="gauge-caption"><strong>4.5/5 · Low risk</strong> — very unlikely to clog</div>
       </div>
     </div>
 
@@ -1244,16 +1240,15 @@
             <span class="ingredient-tag"><span class="check">✓</span>Trehalose</span>
             <span class="ingredient-tag flag"><span class="check">!</span>Dimethicone</span>
             <span class="ingredient-tag"><span class="check">✓</span>Beta-Glucan</span>
-            <span class="ingredient-tag irritant"><span class="check">!</span>Fragrance</span>
+            <span class="ingredient-tag"><span class="check">✓</span>Squalane</span>
           </div>
           <div class="legend">
             <span><i style="background:var(--rose)"></i>May clog pores</span>
-            <span><i style="background:var(--amber)"></i>May cause irritation</span>
           </div>
           <div class="alts">
             <div class="panel-eyebrow" style="margin-bottom:0.4rem">Better alternatives</div>
-            <div class="alt-row"><div><small>CeraVe</small><b>Moisturizing Cream</b></div><span class="clear-pill">No risk</span></div>
-            <div class="alt-row"><div><small>Tatcha</small><b>The Water Cream</b></div><span class="clear-pill">No risk</span></div>
+            <div class="alt-row"><div><small>CeraVe</small><b>Moisturizing Cream</b></div><span class="clear-pill">Low risk</span></div>
+            <div class="alt-row"><div><small>Tatcha</small><b>The Water Cream</b></div><span class="clear-pill">Low risk</span></div>
           </div>
         </div>
       </div>
@@ -1306,7 +1301,7 @@
         </div>
         <div class="profile-tabs"><span class="on">Posts</span><span>Routines</span><span>Saved</span></div>
         <div class="dm" aria-hidden="true">
-          <div class="bubble me">Sending you the sleeping mask I mentioned. 4/5, low clog risk</div>
+          <div class="bubble me">Sending you the sleeping mask I mentioned. 4.5/5, low clog risk</div>
           <div class="bubble them">Adding it to my Want to Try ✨</div>
         </div>
       </div>
