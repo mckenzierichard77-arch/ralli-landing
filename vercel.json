@@ -1,0 +1,9 @@
+   {
+     "redirects": [
+       {
+         "source": "/go",
+         "destination": "/?src=sticker",
+         "permanent": false
+       }
+     ]
+   }
