@@ -1,9 +1,13 @@
-   {
-     "redirects": [
-       {
-         "source": "/go",
-         "destination": "/?src=sticker",
-         "permanent": false
-       }
-     ]
-   }
+{
+  "redirects": [
+    { "source": "/go",        "destination": "/?src=sticker",        "permanent": false },
+    { "source": "/go/scan",   "destination": "/?src=sticker-scan",   "permanent": false },
+    { "source": "/go/really", "destination": "/?src=sticker-really", "permanent": false },
+    { "source": "/go/bestie", "destination": "/?src=sticker-bestie", "permanent": false },
+    { "source": "/go/circle", "destination": "/?src=sticker-circle", "permanent": false },
+    { "source": "/go/check",  "destination": "/?src=sticker-check",  "permanent": false },
+    { "source": "/go/break",  "destination": "/?src=sticker-break",  "permanent": false },
+    { "source": "/go/gossip", "destination": "/?src=sticker-gossip", "permanent": false },
+    { "source": "/go/you",    "destination": "/?src=sticker-you",    "permanent": false }
+  ]
+}
