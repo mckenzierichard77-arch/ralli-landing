@@ -29,7 +29,7 @@
      ============================================================ -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-  import { getFirestore, doc, setDoc, serverTimestamp }
+  import { getFirestore, doc, setDoc, serverTimestamp, addDoc, collection }
     from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 
   // REPLACE these with your real Firebase config — same values your React app uses.
@@ -45,6 +45,23 @@
 
   const app = initializeApp(firebaseConfig);
   const db  = getFirestore(app);
+
+  // ============================================================
+  // VISIT COUNTER — logs one visit per browser session when the page
+  // is opened with a ?src= tag (e.g. stickers via theralliapp.com/go,
+  // or ?src=ig from Instagram). See Firestore → visits.
+  // ============================================================
+  try {
+    const visitSrc = (new URLSearchParams(window.location.search).get("src") || "").trim().toLowerCase();
+    if (visitSrc && /^[a-z0-9_-]{1,40}$/.test(visitSrc) && !sessionStorage.getItem("ralli_visit")) {
+      sessionStorage.setItem("ralli_visit", "1");
+      addDoc(collection(db, "visits"), {
+        source: visitSrc,
+        at: serverTimestamp(),
+        userAgent: navigator.userAgent.slice(0, 200),
+      }).catch((e) => console.error("visit log error", e));
+    }
+  } catch {}
 
   window.__ralliWaitlist = async function(email) {
     const clean = String(email || "").trim().toLowerCase();
