@@ -1,13 +1,15 @@
 {
   "redirects": [
-    { "source": "/go",        "destination": "/?src=sticker",        "permanent": false },
-    { "source": "/go/scan",   "destination": "/?src=sticker-scan",   "permanent": false },
-    { "source": "/go/really", "destination": "/?src=sticker-really", "permanent": false },
-    { "source": "/go/bestie", "destination": "/?src=sticker-bestie", "permanent": false },
-    { "source": "/go/circle", "destination": "/?src=sticker-circle", "permanent": false },
-    { "source": "/go/check",  "destination": "/?src=sticker-check",  "permanent": false },
-    { "source": "/go/break",  "destination": "/?src=sticker-break",  "permanent": false },
-    { "source": "/go/gossip", "destination": "/?src=sticker-gossip", "permanent": false },
-    { "source": "/go/you",    "destination": "/?src=sticker-you",    "permanent": false }
+    {"source": "/go", "destination": "/?src=sticker", "permanent": false},
+    {"source": "/go/out", "destination": "/?src=sticker-out", "permanent": false},
+    {"source": "/go/label", "destination": "/?src=sticker-label", "permanent": false},
+    {"source": "/go/pores", "destination": "/?src=sticker-pores", "permanent": false},
+    {"source": "/go/steal", "destination": "/?src=sticker-steal", "permanent": false},
+    {"source": "/go/tiktok", "destination": "/?src=sticker-tiktok", "permanent": false},
+    {"source": "/go/nosy", "destination": "/?src=sticker-nosy", "permanent": false},
+    {"source": "/go/serum", "destination": "/?src=sticker-serum", "permanent": false},
+    {"source": "/go/detect", "destination": "/?src=sticker-detect", "permanent": false},
+    {"source": "/go/lying", "destination": "/?src=sticker-lying", "permanent": false},
+    {"source": "/go/chat", "destination": "/?src=sticker-chat", "permanent": false}
   ]
 }
