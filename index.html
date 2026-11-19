@@ -868,62 +868,58 @@
     .cta-band { padding: 4rem 1rem; }
   }
 
-  /* ---------- LAUNCH POPUP ---------- */
-  .launch-overlay {
-    position: fixed; inset: 0; z-index: 100;
-    background: rgba(17, 24, 39, 0.45);
-    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
-    display: flex; align-items: center; justify-content: center;
-    padding: 1.25rem;
-    opacity: 0; pointer-events: none;
-    transition: opacity 0.25s ease;
-  }
-  .launch-overlay.open { opacity: 1; pointer-events: auto; }
-  .launch-modal {
-    position: relative;
-    width: 100%; max-width: 400px;
+  /* ---------- LAUNCH NOTICE (bottom corner card) ---------- */
+  .launch {
+    position: fixed; right: 1.5rem; bottom: 1.5rem; z-index: 100;
+    width: 340px; max-width: calc(100vw - 2rem);
     background: var(--surface);
-    border-radius: 1.4rem;
-    padding: 2.25rem 1.75rem 1.75rem;
-    text-align: center;
-    box-shadow: 0 30px 80px -20px rgba(17, 24, 39, 0.35);
-    transform: translateY(16px) scale(0.98);
-    transition: transform 0.3s ease;
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 1.1rem 1.1rem 1.1rem 1.1rem;
+    box-shadow: 0 1px 2px rgba(17,24,39,0.04), 0 18px 40px -16px rgba(17,24,39,0.22);
+    display: grid; grid-template-columns: auto 1fr; gap: 0.9rem;
+    opacity: 0; transform: translateY(12px); pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
   }
-  .launch-overlay.open .launch-modal { transform: translateY(0) scale(1); }
+  .launch.open { opacity: 1; transform: none; pointer-events: auto; }
+  .launch-icon {
+    width: 48px; height: 48px; border-radius: 11px;
+    background: var(--navy); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 1.35rem; letter-spacing: -0.05em;
+    overflow: hidden; flex-shrink: 0;
+  }
+  .launch-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .launch-body { min-width: 0; padding-right: 1.25rem; }
+  .launch h2 {
+    font-size: 1rem; font-weight: 700; color: var(--navy);
+    letter-spacing: -0.015em; line-height: 1.25;
+  }
+  .launch p {
+    font-size: 0.84rem; color: var(--mid); line-height: 1.45;
+    margin-top: 0.2rem;
+  }
+  .launch-link {
+    display: inline-block; margin-top: 0.7rem;
+    font-size: 0.84rem; font-weight: 600; color: var(--navy);
+    text-decoration: none;
+    border-bottom: 2px solid var(--ice);
+    padding-bottom: 1px;
+    transition: border-color 0.15s ease;
+  }
+  .launch-link:hover { border-color: var(--navy); }
   .launch-close {
-    position: absolute; top: 0.85rem; right: 0.85rem;
-    width: 32px; height: 32px; border-radius: 999px;
-    border: none; background: var(--cloud); color: var(--mid);
-    font-size: 1.1rem; line-height: 1; cursor: pointer;
+    position: absolute; top: 0.55rem; right: 0.55rem;
+    width: 26px; height: 26px; border-radius: 6px;
+    border: none; background: transparent; color: var(--slate);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
   }
-  .launch-close:hover { color: var(--navy); background: var(--hairline); }
-  .launch-badge {
-    display: inline-flex; align-items: center; gap: 0.45rem;
-    font-size: 0.68rem; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.16em;
-    color: var(--sage); background: rgba(44, 122, 92, 0.08);
-    padding: 0.35rem 0.8rem; border-radius: 999px;
-    margin-bottom: 1.1rem;
+  .launch-close:hover { color: var(--navy); background: var(--cloud); }
+  .launch-close svg { width: 14px; height: 14px; }
+  @media (max-width: 520px) {
+    .launch { right: 1rem; left: 1rem; bottom: 1rem; width: auto; max-width: none; }
   }
-  .launch-modal h2 {
-    font-size: 1.9rem; font-weight: 800;
-    letter-spacing: -0.035em; line-height: 1.05;
-    color: var(--navy); margin-bottom: 0.7rem;
-  }
-  .launch-modal p {
-    font-size: 0.95rem; color: var(--mid);
-    line-height: 1.55; margin-bottom: 1.5rem;
-  }
-  .launch-later {
-    display: block; margin: 1rem auto 0;
-    background: none; border: none; cursor: pointer;
-    font-family: var(--sans); font-size: 0.8rem; color: var(--slate);
-  }
-  .launch-later:hover { color: var(--navy); }
-  @media (prefers-reduced-motion: reduce) {
-    .launch-overlay, .launch-modal { transition: none; }
-  }
+  @media (prefers-reduced-motion: reduce) { .launch { transition: none; } }
 
   /* ---------- FOOTER ---------- */
   footer.site-foot {
@@ -1399,51 +1395,43 @@
 </footer>
 
 <!-- ============================================================
-     LAUNCH POPUP — shows once per browser session
+     LAUNCH NOTICE — shows once per browser session
      ============================================================ -->
-<div class="launch-overlay" id="launch-popup" role="dialog" aria-modal="true" aria-labelledby="launch-title" aria-hidden="true">
-  <div class="launch-modal">
-    <button class="launch-close" type="button" aria-label="Close" data-close>&times;</button>
-    <div class="launch-badge"><span class="live-dot" aria-hidden="true"></span>We're live</div>
-    <h2 id="launch-title">Ralli is on the App Store.</h2>
-    <p>The wait's over. Download Ralli, find your friends, and get an honest pore score on your first product.</p>
-    <a class="appstore-btn" href="https://apps.apple.com/us/app/ralli-social-skincare/id6789360681" data-appstore>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
-      <span class="lines"><small>Download on the</small><b>App Store</b></span>
-    </a>
-    <button class="launch-later" type="button" data-close>Maybe later</button>
+<aside class="launch" id="launch-popup" aria-label="Ralli is on the App Store" aria-hidden="true">
+  <div class="launch-icon"><img src="/favicon-180x180.png" alt="" onerror="this.parentNode.textContent='R'"></div>
+  <div class="launch-body">
+    <h2>Ralli is out.</h2>
+    <p>It started as group-chat screenshots. Now it's an app on your iPhone.</p>
+    <a class="launch-link" href="https://apps.apple.com/us/app/ralli-social-skincare/id6789360681" data-appstore>Get it on the App Store &rarr;</a>
   </div>
-</div>
+  <button class="launch-close" type="button" aria-label="Dismiss" data-close>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+  </button>
+</aside>
 
 <script>
   (function () {
-    var popup = document.getElementById("launch-popup");
-    if (!popup) return;
-    var seen = false;
-    try { seen = sessionStorage.getItem("ralli_launch_popup") === "1"; } catch (e) {}
-    if (seen) return;
+    var el = document.getElementById("launch-popup");
+    if (!el) return;
+    try { if (sessionStorage.getItem("ralli_launch_popup") === "1") return; } catch (e) {}
 
+    function remember() { try { sessionStorage.setItem("ralli_launch_popup", "1"); } catch (e) {} }
     function close() {
-      popup.classList.remove("open");
-      popup.setAttribute("aria-hidden", "true");
-      try { sessionStorage.setItem("ralli_launch_popup", "1"); } catch (e) {}
+      el.classList.remove("open");
+      el.setAttribute("aria-hidden", "true");
+      remember();
       document.removeEventListener("keydown", onKey);
     }
     function onKey(e) { if (e.key === "Escape") close(); }
 
-    popup.addEventListener("click", function (e) {
-      if (e.target === popup || e.target.hasAttribute("data-close")) close();
-    });
-    popup.querySelector("a[data-appstore]").addEventListener("click", function () {
-      try { sessionStorage.setItem("ralli_launch_popup", "1"); } catch (e) {}
-    });
+    el.querySelector("[data-close]").addEventListener("click", close);
+    el.querySelector("a[data-appstore]").addEventListener("click", remember);
 
     setTimeout(function () {
-      popup.classList.add("open");
-      popup.setAttribute("aria-hidden", "false");
+      el.classList.add("open");
+      el.setAttribute("aria-hidden", "false");
       document.addEventListener("keydown", onKey);
-      popup.querySelector(".launch-close").focus();
-    }, 1200);
+    }, 1500);
   })();
 </script>
 
