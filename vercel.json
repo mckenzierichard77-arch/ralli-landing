@@ -1,15 +1,15 @@
 {
   "redirects": [
-    {"source": "/go", "destination": "/?src=sticker", "permanent": false},
-    {"source": "/go/out", "destination": "/?src=sticker-out", "permanent": false},
-    {"source": "/go/label", "destination": "/?src=sticker-label", "permanent": false},
-    {"source": "/go/pores", "destination": "/?src=sticker-pores", "permanent": false},
-    {"source": "/go/steal", "destination": "/?src=sticker-steal", "permanent": false},
-    {"source": "/go/tiktok", "destination": "/?src=sticker-tiktok", "permanent": false},
-    {"source": "/go/nosy", "destination": "/?src=sticker-nosy", "permanent": false},
-    {"source": "/go/serum", "destination": "/?src=sticker-serum", "permanent": false},
-    {"source": "/go/detect", "destination": "/?src=sticker-detect", "permanent": false},
-    {"source": "/go/lying", "destination": "/?src=sticker-lying", "permanent": false},
-    {"source": "/go/chat", "destination": "/?src=sticker-chat", "permanent": false}
+    {"source": "/go", "destination": "https://apps.apple.com/us/app/ralli-social-skincare/id6789360681?ct=sticker", "permanent": false},
+    {"source": "/go/out", "destination": "https://apps.apple.com/us/app/ralli-social-skincare/id6789360681?ct=sticker-out", "permanent": false},
+    {"source": "/go/label", "destination": "https://apps.apple.com/us/app/ralli-social-skincare/id6789360681?ct=sticker-label", "permanent": false},
+    {"source": "/go/pores", "destination": "https://apps.apple.com/us/app/ralli-social-skincare/id6789360681?ct=sticker-pores", "permanent": false},
+    {"source": "/go/steal", "destination": "https://apps.apple.com/us/app/ralli-social-skincare/id6789360681?ct=sticker-steal", "permanent": false},
+    {"source": "/go/tiktok", "destination": "https://apps.apple.com/us/app/ralli-social-skincare/id6789360681?ct=sticker-tiktok", "permanent": false},
+    {"source": "/go/nosy", "destination": "https://apps.apple.com/us/app/ralli-social-skincare/id6789360681?ct=sticker-nosy", "permanent": false},
+    {"source": "/go/serum", "destination": "https://apps.apple.com/us/app/ralli-social-skincare/id6789360681?ct=sticker-serum", "permanent": false},
+    {"source": "/go/detect", "destination": "https://apps.apple.com/us/app/ralli-social-skincare/id6789360681?ct=sticker-detect", "permanent": false},
+    {"source": "/go/lying", "destination": "https://apps.apple.com/us/app/ralli-social-skincare/id6789360681?ct=sticker-lying", "permanent": false},
+    {"source": "/go/chat", "destination": "https://apps.apple.com/us/app/ralli-social-skincare/id6789360681?ct=sticker-chat", "permanent": false}
   ]
 }
