@@ -4,11 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ralli by GoodSisters — Less noise, more answers</title>
-<meta name="description" content="Less noise, more answers. Ralli is the social skincare app: 200,000+ products scored, honest pore scores, and what your circle is actually using. iOS app coming late fall — join the waitlist.">
+<meta name="description" content="Less noise, more answers. Ralli is the social skincare app: 200,000+ products scored, honest pore scores, and what your circle is actually using. Now on the App Store.">
 <meta name="theme-color" content="#111827">
 
+<!-- iOS Safari Smart App Banner -->
+<meta name="apple-itunes-app" content="app-id=6789360681">
+
 <meta property="og:title" content="Ralli by GoodSisters">
-<meta property="og:description" content="Less noise, more answers. See what your friends are actually using and get an honest pore score on 200,000+ products.">
+<meta property="og:description" content="Less noise, more answers. See what your friends are actually using and get an honest pore score on 200,000+ products. Now on the App Store.">
 <meta property="og:url" content="https://theralliapp.com">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://theralliapp.com/favicon-512x512.png">
@@ -25,15 +28,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <!-- ============================================================
-     WAITLIST — unchanged from the previous version.
+     VISIT COUNTER — still logs ?src= visits (e.g. ?src=ig) to
+     Firestore → visits. Waitlist signup code has been removed.
      ============================================================ -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-  import { getFirestore, doc, setDoc, serverTimestamp, addDoc, collection }
+  import { getFirestore, serverTimestamp, addDoc, collection }
     from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 
-  // REPLACE these with your real Firebase config — same values your React app uses.
-  // Public-by-design (Firestore security rules protect the actual data).
   const firebaseConfig = {
     apiKey:            "AIzaSyCPPl-cpHpA714AgE_mJI3MDj6nSVlSJRg",
     authDomain:        "feb242026morg.firebaseapp.com",
@@ -46,11 +48,6 @@
   const app = initializeApp(firebaseConfig);
   const db  = getFirestore(app);
 
-  // ============================================================
-  // VISIT COUNTER — logs one visit per browser session when the page
-  // is opened with a ?src= tag (e.g. stickers via theralliapp.com/go,
-  // or ?src=ig from Instagram). See Firestore → visits.
-  // ============================================================
   try {
     const visitSrc = (new URLSearchParams(window.location.search).get("src") || "").trim().toLowerCase();
     if (visitSrc && /^[a-z0-9_-]{1,40}$/.test(visitSrc) && !sessionStorage.getItem("ralli_visit")) {
@@ -62,42 +59,6 @@
       }).catch((e) => console.error("visit log error", e));
     }
   } catch {}
-
-  window.__ralliWaitlist = async function(email) {
-    const clean = String(email || "").trim().toLowerCase();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clean)) {
-      return { ok: false, error: "Please enter a valid email address." };
-    }
-    try {
-      // Read source from URL query parameter (?src=ig, ?src=reddit, etc.)
-      // so we can tell in Firestore which channel each signup came from.
-      // Falls back to "landing" if no ?src= was provided.
-      let source = "landing";
-      try {
-        const params = new URLSearchParams(window.location.search);
-        const raw = (params.get("src") || params.get("source") || "").trim().toLowerCase();
-        if (raw && /^[a-z0-9_-]{1,40}$/.test(raw)) source = raw;
-      } catch {}
-
-      // Doc ID is derived from the email itself, so a repeat signup just
-      // overwrites (merges into) the same doc instead of requiring a read
-      // to detect duplicates first — anonymous visitors aren't allowed to
-      // read the waitlist collection per Firestore security rules.
-      const docId = clean.replace(/\//g, "_");
-
-      await setDoc(doc(db, "waitlist", docId), {
-        email: clean,
-        createdAt: serverTimestamp(),
-        source,
-        userAgent: navigator.userAgent.slice(0, 200),
-      }, { merge: true });
-
-      return { ok: true };
-    } catch (e) {
-      console.error("waitlist error", e);
-      return { ok: false, error: "Something went wrong. Please try again or email us directly." };
-    }
-  };
 </script>
 
 <style>
@@ -236,68 +197,36 @@
     opacity: 0; animation: rise 0.8s ease-out 0.35s forwards;
   }
 
-  /* ---------- WAITLIST FORM ---------- */
-  .waitlist {
+  /* ---------- APP STORE CTA ---------- */
+  .download {
     opacity: 0; animation: rise 0.8s ease-out 0.5s forwards;
     max-width: 30rem;
   }
-  .waitlist-label {
+  .download-label {
     font-size: 0.7rem; font-weight: 600;
     text-transform: uppercase; letter-spacing: 0.14em;
     color: var(--slate); margin-bottom: 0.65rem;
   }
-  .waitlist-form {
-    display: flex; gap: 0.5rem;
-    background: var(--surface);
-    border: 1px solid var(--border);
+  .appstore-btn {
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    padding: 0.85rem 1.6rem 0.85rem 1.3rem;
+    background: var(--navy); color: #fff;
     border-radius: 999px;
-    padding: 0.4rem 0.4rem 0.4rem 1.2rem;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    font-family: var(--sans); text-decoration: none;
+    transition: background 0.15s ease, transform 0.15s ease;
   }
-  .waitlist-form:focus-within {
-    border-color: var(--navy);
-    box-shadow: 0 0 0 4px rgba(17, 24, 39, 0.06);
-  }
-  .waitlist-input {
-    flex: 1; border: none; background: transparent;
-    font-family: var(--sans); font-size: 0.95rem;
-    color: var(--navy); outline: none;
-    min-width: 0; padding: 0.5rem 0;
-  }
-  .waitlist-input::placeholder { color: var(--slate); }
-  .waitlist-button {
-    border: none; background: var(--navy); color: #fff;
-    font-family: var(--sans); font-weight: 600; font-size: 0.85rem;
-    padding: 0.7rem 1.5rem; border-radius: 999px;
-    cursor: pointer; transition: background 0.15s ease, transform 0.15s ease;
-    white-space: nowrap;
-  }
-  .waitlist-button:hover { background: #1F2937; }
-  .waitlist-button:active { transform: scale(0.98); }
-  .waitlist-button:disabled { opacity: 0.55; cursor: default; }
-  .waitlist-microcopy {
+  .appstore-btn:hover { background: #1F2937; transform: translateY(-1px); }
+  .appstore-btn:active { transform: translateY(0); }
+  .appstore-btn svg { width: 22px; height: 22px; flex-shrink: 0; }
+  .appstore-btn .lines { display: flex; flex-direction: column; line-height: 1.1; }
+  .appstore-btn .lines small { font-size: 0.68rem; font-weight: 500; opacity: 0.75; }
+  .appstore-btn .lines b { font-size: 1rem; font-weight: 600; letter-spacing: -0.01em; }
+  .appstore-btn.light { background: #fff; color: var(--navy); }
+  .appstore-btn.light:hover { background: var(--cloud); }
+  .download-microcopy {
     margin-top: 0.85rem; font-size: 0.78rem;
     color: var(--slate); line-height: 1.5;
   }
-  .waitlist-status {
-    margin-top: 1rem; padding: 0.8rem 1rem;
-    border-radius: 0.6rem; font-size: 0.85rem;
-    line-height: 1.5; border: 1px solid var(--border);
-    background: var(--surface); display: none;
-  }
-  .waitlist-status.success {
-    display: block;
-    border-color: rgba(44, 122, 92, 0.25);
-    background: rgba(44, 122, 92, 0.06);
-    color: var(--sage);
-  }
-  .waitlist-status.error {
-    display: block;
-    border-color: rgba(170, 79, 87, 0.25);
-    background: rgba(170, 79, 87, 0.06);
-    color: var(--rose);
-  }
-  .waitlist-status strong { color: inherit; font-weight: 600; }
 
   .proof {
     margin-top: 2.5rem;
@@ -336,7 +265,6 @@
     border: 1px solid var(--hairline);
   }
 
-  /* PRIMARY: friends' activity feed — mirrors the Home screen */
   .mock-feed {
     top: 20px; left: 0; width: 90%;
     padding: 1.4rem 1.25rem 1.1rem;
@@ -393,7 +321,6 @@
     font-weight: 600; padding: 0.12rem 0.45rem; border-radius: 999px;
   }
 
-  /* SECONDARY: product card with pore score ring — mirrors Product Detail */
   .mock-product {
     top: 372px; right: 0; width: 76%;
     padding: 1rem 1.1rem;
@@ -434,7 +361,6 @@
   .mini-avs span:first-child { margin-left: 0; }
   .mini-avs span.more { background: var(--navy); color: #fff; }
 
-  /* Pore score ring — used in hero + features */
   .score-ring { position: relative; flex-shrink: 0; }
   .score-ring svg { display: block; transform: rotate(-90deg); }
   .score-ring .val {
@@ -539,7 +465,6 @@
     .section-head { grid-template-columns: 1fr; gap: 1.5rem; }
   }
 
-  /* App tab bar — mirrors the bottom nav in the app */
   .tabbar {
     display: flex; gap: 0.5rem; flex-wrap: wrap;
     margin-bottom: 2rem;
@@ -608,7 +533,6 @@
   .feature-card.dark .index { color: rgba(255,255,255,0.5); }
   .feature-card.dark .index .tab { background: rgba(207,232,255,0.15); color: var(--ice); }
 
-  /* Shared inset panel */
   .panel {
     margin-top: 2rem;
     padding: 1.1rem 1.25rem;
@@ -623,7 +547,6 @@
     margin-bottom: 0.7rem;
   }
 
-  /* 01 — friends' activity list */
   .act-row {
     display: flex; align-items: center; gap: 0.65rem;
     padding: 0.45rem 0;
@@ -651,7 +574,6 @@
   .tag.routine { background: rgba(207, 232, 255, 0.6); color: var(--navy); }
   .tag.ask     { background: rgba(170, 79, 87, 0.1); color: var(--rose); }
 
-  /* 02 — Scan methods + gauge */
   .scan-methods { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 1.25rem; }
   .scan-methods span {
     display: inline-flex; align-items: center; gap: 0.4rem;
@@ -680,7 +602,6 @@
   .gauge-caption { margin-top: 1rem; font-size: 0.78rem; color: var(--slate); }
   .gauge-caption strong { color: var(--navy); font-weight: 600; }
 
-  /* 03 — product page */
   .wide-row {
     display: grid; grid-template-columns: 1.2fr 1fr;
     gap: 2.5rem; align-items: center;
@@ -732,7 +653,6 @@
     background: rgba(44,122,92,0.1); padding: 0.2rem 0.55rem; border-radius: 999px;
   }
 
-  /* 04 — Routine + Ralli Ring */
   .ring-wrap { display: flex; align-items: center; gap: 1.5rem; margin-top: 2rem; }
   .ralli-ring { position: relative; width: 132px; height: 132px; flex-shrink: 0; }
   .ralli-ring svg { transform: rotate(-90deg); display: block; }
@@ -765,7 +685,6 @@
     padding: 0.3rem 0.7rem;
   }
 
-  /* 05 — Profile + sharing */
   .thread-title { font-size: 0.9rem; font-weight: 700; color: var(--navy); line-height: 1.3; }
   .thread-meta { font-size: 0.72rem; color: var(--slate); margin-top: 0.1rem; }
   .profile-head { display: flex; align-items: center; gap: 0.75rem; }
@@ -785,7 +704,6 @@
   .bubble.them { background: var(--surface); border: 1px solid var(--border); color: var(--navy); border-bottom-left-radius: 0.3rem; }
   .bubble.me { background: var(--navy); color: #fff; align-self: flex-end; border-bottom-right-radius: 0.3rem; }
 
-  /* 06 — Shop */
   .shop-row {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.85rem;
   }
@@ -940,42 +858,71 @@
     color: rgba(255, 255, 255, 0.7);
     line-height: 1.6; max-width: 28rem; position: relative;
   }
-  .cta-form {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 999px;
-    padding: 0.4rem 0.4rem 0.4rem 1.2rem;
-    display: flex; gap: 0.5rem; position: relative;
-  }
-  .cta-form input {
-    flex: 1; background: transparent; border: none; outline: none;
-    color: #fff; font-family: var(--sans);
-    font-size: 0.95rem; min-width: 0; padding: 0.5rem 0;
-  }
-  .cta-form input::placeholder { color: rgba(255, 255, 255, 0.5); }
-  .cta-form button {
-    background: #fff; color: var(--navy);
-    border: none; border-radius: 999px;
-    padding: 0.7rem 1.4rem;
-    font-family: var(--sans); font-weight: 600; font-size: 0.85rem;
-    cursor: pointer; white-space: nowrap;
-    transition: transform 0.15s ease;
-  }
-  .cta-form button:hover { transform: scale(1.02); }
+  .cta-card .appstore-btn { position: relative; }
   .cta-card .cta-microcopy {
     margin-top: 0.85rem; font-size: 0.78rem;
     color: rgba(255, 255, 255, 0.5); position: relative;
   }
-  .cta-status {
-    margin-top: 1rem; padding: 0.8rem 1rem;
-    border-radius: 0.6rem; font-size: 0.85rem;
-    line-height: 1.5; display: none; color: #fff;
-  }
-  .cta-status.success { display: block; background: rgba(207, 232, 255, 0.1); border: 1px solid rgba(207, 232, 255, 0.2); }
-  .cta-status.error   { display: block; background: rgba(170, 79, 87, 0.15); border: 1px solid rgba(170, 79, 87, 0.3); }
   @media (max-width: 900px) {
     .cta-card { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
     .cta-band { padding: 4rem 1rem; }
+  }
+
+  /* ---------- LAUNCH POPUP ---------- */
+  .launch-overlay {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(17, 24, 39, 0.45);
+    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 1.25rem;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .launch-overlay.open { opacity: 1; pointer-events: auto; }
+  .launch-modal {
+    position: relative;
+    width: 100%; max-width: 400px;
+    background: var(--surface);
+    border-radius: 1.4rem;
+    padding: 2.25rem 1.75rem 1.75rem;
+    text-align: center;
+    box-shadow: 0 30px 80px -20px rgba(17, 24, 39, 0.35);
+    transform: translateY(16px) scale(0.98);
+    transition: transform 0.3s ease;
+  }
+  .launch-overlay.open .launch-modal { transform: translateY(0) scale(1); }
+  .launch-close {
+    position: absolute; top: 0.85rem; right: 0.85rem;
+    width: 32px; height: 32px; border-radius: 999px;
+    border: none; background: var(--cloud); color: var(--mid);
+    font-size: 1.1rem; line-height: 1; cursor: pointer;
+  }
+  .launch-close:hover { color: var(--navy); background: var(--hairline); }
+  .launch-badge {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    font-size: 0.68rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.16em;
+    color: var(--sage); background: rgba(44, 122, 92, 0.08);
+    padding: 0.35rem 0.8rem; border-radius: 999px;
+    margin-bottom: 1.1rem;
+  }
+  .launch-modal h2 {
+    font-size: 1.9rem; font-weight: 800;
+    letter-spacing: -0.035em; line-height: 1.05;
+    color: var(--navy); margin-bottom: 0.7rem;
+  }
+  .launch-modal p {
+    font-size: 0.95rem; color: var(--mid);
+    line-height: 1.55; margin-bottom: 1.5rem;
+  }
+  .launch-later {
+    display: block; margin: 1rem auto 0;
+    background: none; border: none; cursor: pointer;
+    font-family: var(--sans); font-size: 0.8rem; color: var(--slate);
+  }
+  .launch-later:hover { color: var(--navy); }
+  @media (prefers-reduced-motion: reduce) {
+    .launch-overlay, .launch-modal { transition: none; }
   }
 
   /* ---------- FOOTER ---------- */
@@ -1037,7 +984,7 @@
       <a href="https://www.tiktok.com/@the.ralli.app" target="_blank" rel="noopener" class="nav-ig" aria-label="Follow @the.ralli.app on TikTok">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 2h-3.3v13.2a2.9 2.9 0 1 1-2.9-2.9c.3 0 .6 0 .9.1V9.1a6.2 6.2 0 1 0 5.3 6.1V8.6a7.6 7.6 0 0 0 4.4 1.4V6.7a4.4 4.4 0 0 1-4.4-4.4z"/></svg>
       </a>
-      <a href="#join" class="nav-cta">Join waitlist</a>
+      <a href="https://apps.apple.com/us/app/ralli-social-skincare/id6789360681" data-appstore class="nav-cta">Download</a>
     </div>
   </div>
 </nav>
@@ -1047,21 +994,18 @@
      ============================================================ -->
 <section class="hero">
   <div class="hero-left">
-    <div class="hero-eyebrow"><span class="live-dot" aria-hidden="true"></span>iOS app · Coming late fall</div>
+    <div class="hero-eyebrow"><span class="live-dot" aria-hidden="true"></span>iOS app · Out now</div>
     <h1 class="hero-title">Less noise, <em>more answers.</em></h1>
     <p class="hero-lede">See what your circle is actually using, reviewing, and saving. Scan any of 200,000+ products for an honest pore score. Then build an AM/PM routine — and close your Ralli Ring every day.</p>
 
-    <form class="waitlist" id="waitlist-form" novalidate>
-      <div class="waitlist-label" id="join">Join the waitlist</div>
-      <div class="waitlist-form">
-        <input type="email" class="waitlist-input" id="waitlist-email"
-          placeholder="your@email.com" autocomplete="email" required>
-        <button type="submit" class="waitlist-button" id="waitlist-submit">
-          Get early access
-        </button>
-      </div>
-      <div class="waitlist-status" id="waitlist-status"></div>
-    </form>
+    <div class="download" id="join">
+      <div class="download-label">Now on the App Store</div>
+      <a class="appstore-btn" href="https://apps.apple.com/us/app/ralli-social-skincare/id6789360681" data-appstore>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+        <span class="lines"><small>Download on the</small><b>App Store</b></span>
+      </a>
+      <div class="download-microcopy">Available for iPhone.</div>
+    </div>
 
     <div class="proof">
       <div class="proof-avatars" aria-hidden="true">
@@ -1077,7 +1021,6 @@
   <div class="mockup-column" aria-hidden="true">
     <div class="scan-accent"></div>
 
-    <!-- PRIMARY: friends' activity, as it appears on the Home tab -->
     <div class="mock-card mock-feed">
       <div class="feed-head">
         <div class="feed-title">Friends' activity</div>
@@ -1112,7 +1055,6 @@
       </div>
     </div>
 
-    <!-- SECONDARY: product card with pore score, as on Product Detail -->
     <div class="mock-card mock-product">
       <div class="row">
         <div class="score-ring">
@@ -1158,7 +1100,7 @@
 </section>
 
 <!-- ============================================================
-     HOW IT WORKS — follows the app's five tabs
+     HOW IT WORKS
      ============================================================ -->
 <section class="features" id="how">
   <div class="section-head">
@@ -1397,26 +1339,25 @@
       <div class="founder-meta">Co-founders · GoodSisters</div>
     </div>
 
-    <a href="#join" class="founder-cta">Let's go →</a>
+    <a href="https://apps.apple.com/us/app/ralli-social-skincare/id6789360681" data-appstore class="founder-cta">Let's go →</a>
   </div>
 </section>
 
 <!-- ============================================================
-     BOTTOM CTA — waitlist form #2 (ids unchanged)
+     BOTTOM CTA
      ============================================================ -->
 <section class="cta-band">
   <div class="cta-card">
     <div>
       <h2>Find out what your friends are using.</h2>
-      <p>The iOS app lands late fall. Join the waitlist and we'll send one email when it's ready.</p>
+      <p>Ralli is out now on iPhone. Download it, find your friends, and scan your first product.</p>
     </div>
     <div>
-      <form class="cta-form" id="cta-form" novalidate>
-        <input type="email" id="cta-email" placeholder="your@email.com" autocomplete="email" required aria-label="Email address">
-        <button type="submit" id="cta-submit">Join</button>
-      </form>
-      <div class="cta-microcopy">We'll never share your email. Promise.</div>
-      <div class="cta-status" id="cta-status"></div>
+      <a class="appstore-btn light" href="https://apps.apple.com/us/app/ralli-social-skincare/id6789360681" data-appstore>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+        <span class="lines"><small>Download on the</small><b>App Store</b></span>
+      </a>
+      <div class="cta-microcopy">Available for iPhone.</div>
     </div>
   </div>
 </section>
@@ -1432,7 +1373,7 @@
       <ul>
         <li><a href="#how">How it works</a></li>
         <li><a href="#letter">Our story</a></li>
-        <li><a href="#join">Join waitlist</a></li>
+        <li><a href="https://apps.apple.com/us/app/ralli-social-skincare/id6789360681" data-appstore>Download on iOS</a></li>
       </ul>
     </div>
     <div class="foot-col">
@@ -1457,61 +1398,70 @@
   </div>
 </footer>
 
+<!-- ============================================================
+     LAUNCH POPUP — shows once per browser session
+     ============================================================ -->
+<div class="launch-overlay" id="launch-popup" role="dialog" aria-modal="true" aria-labelledby="launch-title" aria-hidden="true">
+  <div class="launch-modal">
+    <button class="launch-close" type="button" aria-label="Close" data-close>&times;</button>
+    <div class="launch-badge"><span class="live-dot" aria-hidden="true"></span>We're live</div>
+    <h2 id="launch-title">Ralli is on the App Store.</h2>
+    <p>The wait's over. Download Ralli, find your friends, and get an honest pore score on your first product.</p>
+    <a class="appstore-btn" href="https://apps.apple.com/us/app/ralli-social-skincare/id6789360681" data-appstore>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+      <span class="lines"><small>Download on the</small><b>App Store</b></span>
+    </a>
+    <button class="launch-later" type="button" data-close>Maybe later</button>
+  </div>
+</div>
+
 <script>
-  function wireWaitlistForm({ formId, emailId, submitId, statusId }) {
-    const form    = document.getElementById(formId);
-    const email   = document.getElementById(emailId);
-    const submit  = document.getElementById(submitId);
-    const status  = document.getElementById(statusId);
-    if (!form || !email || !submit || !status) return;
+  (function () {
+    var popup = document.getElementById("launch-popup");
+    if (!popup) return;
+    var seen = false;
+    try { seen = sessionStorage.getItem("ralli_launch_popup") === "1"; } catch (e) {}
+    if (seen) return;
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      status.className = "waitlist-status";
-      status.textContent = "";
-      const isDark = status.classList.contains("cta-status");
-      if (isDark) status.className = "cta-status";
+    function close() {
+      popup.classList.remove("open");
+      popup.setAttribute("aria-hidden", "true");
+      try { sessionStorage.setItem("ralli_launch_popup", "1"); } catch (e) {}
+      document.removeEventListener("keydown", onKey);
+    }
+    function onKey(e) { if (e.key === "Escape") close(); }
 
-      const originalText = submit.textContent;
-      submit.disabled = true;
-      submit.textContent = "Adding…";
-
-      let tries = 0;
-      while (!window.__ralliWaitlist && tries < 50) {
-        await new Promise(r => setTimeout(r, 100));
-        tries++;
-      }
-      if (!window.__ralliWaitlist) {
-        status.className = (isDark ? "cta-status " : "waitlist-status ") + "error";
-        status.textContent = "Couldn't reach the server. Please refresh and try again.";
-        submit.disabled = false;
-        submit.textContent = originalText;
-        return;
-      }
-
-      const result = await window.__ralliWaitlist(email.value);
-      if (result.ok) {
-        status.className = (isDark ? "cta-status " : "waitlist-status ") + "success";
-        status.textContent = "You're in. We'll email you the moment Ralli is ready.";
-        email.value = "";
-        submit.textContent = "✓ You're in";
-      } else {
-        status.className = (isDark ? "cta-status " : "waitlist-status ") + "error";
-        status.textContent = result.error || "Something went wrong. Try again?";
-        submit.disabled = false;
-        submit.textContent = originalText;
-      }
+    popup.addEventListener("click", function (e) {
+      if (e.target === popup || e.target.hasAttribute("data-close")) close();
     });
-  }
+    popup.querySelector("a[data-appstore]").addEventListener("click", function () {
+      try { sessionStorage.setItem("ralli_launch_popup", "1"); } catch (e) {}
+    });
 
-  wireWaitlistForm({
-    formId: "waitlist-form", emailId: "waitlist-email",
-    submitId: "waitlist-submit", statusId: "waitlist-status",
-  });
-  wireWaitlistForm({
-    formId: "cta-form", emailId: "cta-email",
-    submitId: "cta-submit", statusId: "cta-status",
-  });
+    setTimeout(function () {
+      popup.classList.add("open");
+      popup.setAttribute("aria-hidden", "false");
+      document.addEventListener("keydown", onKey);
+      popup.querySelector(".launch-close").focus();
+    }, 1200);
+  })();
+</script>
+
+<script>
+  // Tag every App Store link with an Apple campaign token (ct) so downloads
+  // can be attributed in App Store Connect. Uses ?src= if present
+  // (e.g. ?src=ig → ct=ig), otherwise ct=website.
+  (function () {
+    try {
+      var src = (new URLSearchParams(location.search).get("src") || "").trim().toLowerCase();
+      var ct = /^[a-z0-9_-]{1,40}$/.test(src) ? src : "website";
+      document.querySelectorAll("a[data-appstore]").forEach(function (a) {
+        var u = new URL(a.href);
+        u.searchParams.set("ct", ct);
+        a.href = u.toString();
+      });
+    } catch (e) {}
+  })();
 </script>
 
 </body>
